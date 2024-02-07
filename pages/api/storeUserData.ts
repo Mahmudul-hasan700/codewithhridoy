@@ -7,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === "POST") {
     const { fullName, email, password } = req.body;
 
-    const userDataFilePath = path.join(process.cwd(), "userData.json");
+    const userDataFilePath = path.join(process.cwd(), "public/userData.json");
 
     try {
       // Read existing user data from the file

@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import "@/styles/tailwind.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next"
@@ -84,6 +85,7 @@ export async function generateMetadata({ params }) {
 export default async function Layout({ children, params }) {
   const settings = await getSettings();
   return (
+    <GoogleOAuthProvider clientId="685077013953-i9i1hjtrg91ap9indvgrn2n32s2p57ei.apps.googleusercontent.com">
     <html
       lang="en"
       suppressHydrationWarning
@@ -98,6 +100,7 @@ export default async function Layout({ children, params }) {
         </Providers>
       </body>
     </html>
+    </GoogleOAuthProvider>
   );
 }
 
