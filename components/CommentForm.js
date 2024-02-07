@@ -3,8 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { Checkbox } from "@nextui-org/react";
-
+import {Checkbox} from "@nextui-org/checkbox";
 export default function CommentForm({ postId }) {
   const {
     register,
@@ -145,7 +144,7 @@ export default function CommentForm({ postId }) {
           id="saveUserInfo"
           checked={saveUserInfo}
           onChange={() => setSaveUserInfo(!saveUserInfo)}
-          color="secondary"
+          color="default"
           className="appearance-none checked:bg-blue-500 border border-gray-300 rounded-md"
           >
           Save my name and email in this browser for the next time I
