@@ -104,6 +104,13 @@ export default function Navbar(props) {
               Contact
             </Link>
           </li>
+          <li>
+            <Link
+              href="/auth/signup"
+              className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${router.pathname === "/auth/signup" ? "bg-slate-300 dark:bg-slate-700" : "hover:bg-slate-200 dark:hover:bg-slate-700"}`}>            
+              Signup
+            </Link>
+          </li>
         </ul>
       </nav>
 
@@ -190,6 +197,13 @@ export default function Navbar(props) {
                   href="/contact"
                   className="hover:bg-gray-100 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500">
                   Contact
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/auth/signup"
+                  className="hover:bg-gray-100 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500">
+                  Signup
                 </Link>
               </li>
             </ul>
