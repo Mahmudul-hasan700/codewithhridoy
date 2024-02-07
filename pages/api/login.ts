@@ -1,29 +1,32 @@
-// pages/api/login.ts
 import { NextApiRequest, NextApiResponse } from 'next';
-import fs from 'fs/promises';
-import path from 'path';
+import dbConnect from '@/utils/dbConnect';
+import User from '@/models/User';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
+    await dbConnect();
     const { email, password } = req.body;
 
-    // Load user data
-    const userDataFilePath = path.join(process.cwd(), 'public', 'userData.json');
     try {
-      const data = await fs.readFile(userDataFilePath, 'utf-8');
-      const userData = JSON.parse(data);
+      const user = await User.findOne({ email });
 
-      // Check if user with provided email and password exists
-      const user = userData.find((user: any) => user.email === email && user.password === password);
-      if (user) {
-        // User found, return success
-        return res.status(200).json({ success: true, message: 'Login successful!' });
-      } else {
-        // User not found, return failure
-        return res.status(400).json({ success: false, message: 'User not found. Please try again.' });
+      if (!user) {
+        return res.status(404).json({ success: false, message: 'User not found.' });
       }
+
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+
+      if (!isPasswordValid) {
+        return res.status(401).json({ success: false, message: 'Invalid password.' });
+      }
+
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+      return res.status(200).json({ success: true, message: 'Login successful.', token });
     } catch (error) {
-      console.error('Error reading user data:', error);
+      console.error('Login error:', error);
       return res.status(500).json({ success: false, message: 'Internal server error.' });
     }
   } else {

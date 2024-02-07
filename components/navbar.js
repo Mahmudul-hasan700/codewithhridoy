@@ -29,7 +29,7 @@ export default function Navbar(props) {
     <div className="flex">
       <nav
         id="sideNav"
-        className={`fixed left-0 top-0 z-50 flex h-full w-72 flex-shrink-0 transform flex-col bg-gray-50 py-6 pl-2 pr-4 text-gray-800 transition-transform duration-300 dark:bg-gray-800 dark:text-slate-200 shadow-md sm:w-80 ${
+        className={`fixed left-0 top-0 z-50 flex h-full w-72 flex-shrink-0 transform flex-col bg-gray-50 py-6 pl-2 pr-4 text-gray-800 shadow-md transition-transform duration-300 dark:bg-gray-800 dark:text-slate-200 sm:w-80 ${
           isNavOpen ? "translate-x-0" : "-translate-x-full"
         }`}>
         <Link href="/" className="w-28 dark:hidden">
@@ -107,7 +107,20 @@ export default function Navbar(props) {
           <li>
             <Link
               href="/auth/signup"
-              className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${router.pathname === "/auth/signup" ? "bg-slate-300 dark:bg-slate-700" : "hover:bg-slate-200 dark:hover:bg-slate-700"}`}>            
+              className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${router.pathname === "/auth/signup" ? "bg-slate-300 dark:bg-slate-700" : "hover:bg-slate-200 dark:hover:bg-slate-700"}`}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="h-5 w-5">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                />
+              </svg>
               Signup
             </Link>
           </li>
@@ -129,7 +142,9 @@ export default function Navbar(props) {
                 <span className="block text-center">Stablo</span>
               )}
             </Link>
-            <Link href="/" className="ml-2 hidden w-28 md:w-36 dark:block">
+            <Link
+              href="/"
+              className="ml-2 hidden w-28 dark:block md:w-36">
               {props.logoalt ? (
                 <Image
                   {...urlForImage(props.logoalt)}
@@ -169,7 +184,7 @@ export default function Navbar(props) {
               </div>
             </button>
           </div>
-          <div className="flex hidden gap-2 md:block pr-3">
+          <div className="flex hidden gap-2 pr-3 md:block">
             <ul className="flex md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 md:dark:bg-gray-900">
               <li>
                 <Link
