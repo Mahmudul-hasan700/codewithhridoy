@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import {Checkbox} from "@nextui-org/checkbox";
+import { Checkbox } from "@nextui-org/checkbox";
 export default function CommentForm({ postId }) {
   const {
     register,
@@ -140,16 +140,19 @@ export default function CommentForm({ postId }) {
         )}
       </div>
       <div className="mt-2 flex items-center">
-        <Checkbox
+        <input
+          type="checkbox"
           id="saveUserInfo"
           checked={saveUserInfo}
           onChange={() => setSaveUserInfo(!saveUserInfo)}
-          color="default"
-          className="appearance-none checked:bg-blue-500 border border-gray-300 rounded-md"
-          >
+          className="mr-2 rounded border-gray-300 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
+        />
+        <label
+          htmlFor="saveUserInfo"
+          className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
           Save my name and email in this browser for the next time I
           comment.
-        </Checkbox>
+        </label>
       </div>
       <div className="mt-6">
         <button
