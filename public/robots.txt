@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: http://codewithhridoy.vercel.app
+
+# Sitemaps
+Sitemap: http://codewithhridoy.vercel.app/sitemap.xml
