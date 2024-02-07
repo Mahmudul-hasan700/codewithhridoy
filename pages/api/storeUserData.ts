@@ -19,6 +19,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.error("Error reading user data file:", error);
       }
 
+      // Check if the email already exists
+      const existingUser = userData.find(user => user.email === email);
+      if (existingUser) {
+        return res.status(400).json({ success: false, message: "User already exists." });
+      }
+
       // Add new user data
       userData.push({ fullName, email, password });
 
