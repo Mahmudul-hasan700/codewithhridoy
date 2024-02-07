@@ -146,6 +146,7 @@ export default function CommentForm({ postId }) {
           checked={saveUserInfo}
           onChange={() => setSaveUserInfo(!saveUserInfo)}
           color="secondary"
+          className="appearance-none checked:bg-blue-500 border border-gray-300 rounded-md"
           >
           Save my name and email in this browser for the next time I
           comment.
