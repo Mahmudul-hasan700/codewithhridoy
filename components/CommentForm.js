@@ -33,7 +33,7 @@ export default function CommentForm({ postId }) {
 
     try {
       const response = await axios.post(
-        "http://codewithhridoy.vercel.app/api/comments",
+        "https://codewithhridoy.vercel.app/api/comments",
         {
           postId: postId,
           name: data.name,
@@ -94,7 +94,7 @@ export default function CommentForm({ postId }) {
             {...register("name", { required: true })}
             className={`mb-2 block w-full rounded-md border ${
               errors.name ? "border-red-500" : "border-gray-300 dark:border-gray-600"
-            } px-4 py-2 focus:border-blue-500 focus:outline-none dark:bg-gray-800 dark:text-white`}
+            } px-4 py-2 focus:border-blue-500 focus:invalid:border-red-500 focus:outline-none dark:bg-gray-800 dark:text-white`}
           />
           {errors.name && (
             <span className="text-red-500">Name is required</span>
@@ -112,7 +112,7 @@ export default function CommentForm({ postId }) {
             {...register("email", { required: true })}
             className={`mb-2 block w-full rounded-md border ${
               errors.email ? "border-red-500" : "border-gray-300"
-            } px-4 py-2 focus:border-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white`}
+            } px-4 py-2 focus:border-blue-500 focus:invalid:border-red-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white`}
           />
           {errors.email && (
             <span className="text-red-500">Email is required</span>
@@ -130,7 +130,7 @@ export default function CommentForm({ postId }) {
           {...register("comment", { required: true })}
           className={`mb-4 block w-full rounded-md border ${
               errors.comment ? "border-red-500" : "border-gray-300 dark:border-gray-600"
-            } px-4 py-2 focus:border-blue-500 focus:outline-none dark:bg-gray-800 dark:text-white`}></textarea>
+            } px-4 py-2 focus:border-blue-500 focus:invalid:border-red-500 focus:outline-none dark:bg-gray-800 dark:text-white`}></textarea>
         {errors.comment && (
           <span className="text-red-500">Comment is required</span>
         )}
@@ -146,7 +146,7 @@ export default function CommentForm({ postId }) {
         <label
           htmlFor="saveUserInfo"
           className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-          Save my name, email, and website in this browser for the
+          Save my name and email in this browser for the
           next time I comment.
         </label>
       </div>

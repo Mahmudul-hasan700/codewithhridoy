@@ -18,6 +18,7 @@ export default function Post(props) {
   const router = useRouter();
   const currentUrl =
     typeof window !== "undefined" ? window.location.href : null;
+
   const renderedComments = () => {
     if (comments && comments.length > 0) {
       const approvedComments = comments.filter(
@@ -41,9 +42,19 @@ export default function Post(props) {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <p className="tracing-wide text-lg font-bold text-gray-800 dark:text-gray-400">
-                    {comment.name}
-                  </p>
+                  <div className="font-medium text-gray-900 dark:text-gray-100">
+                    <p className="tracing-wide text-lg font-bold text-gray-800 dark:text-gray-400">
+                      {comment.name}
+                    </p>
+                    {"-"}
+                    <p className="text-sm text-gray-500">
+                      Created:{" "}
+                      {format(
+                        parseISO(comment._createdAt),
+                        "MMMM dd, yyyy h:mm a"
+                      )}
+                    </p>
+                  </div>
                   <p className="text-gray-800 dark:text-gray-400">
                     {comment.comment}
                   </p>
