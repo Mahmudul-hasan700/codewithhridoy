@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { Checkbox } from "@nextui-org/react";
 
 export default function CommentForm({ postId }) {
   const {
@@ -93,8 +94,10 @@ export default function CommentForm({ postId }) {
             id="name"
             {...register("name", { required: true })}
             className={`mb-2 block w-full rounded-md border ${
-              errors.name ? "border-red-500" : "border-gray-300 dark:border-gray-600"
-            } px-4 py-2 focus:border-blue-500 focus:invalid:border-red-500 focus:outline-none dark:bg-gray-800 dark:text-white`}
+              errors.name
+                ? "border-red-500"
+                : "border-gray-300 dark:border-gray-600"
+            } px-4 py-2 focus:border-blue-500 focus:outline-none focus:invalid:border-red-500 dark:bg-gray-800 dark:text-white`}
           />
           {errors.name && (
             <span className="text-red-500">Name is required</span>
@@ -112,7 +115,7 @@ export default function CommentForm({ postId }) {
             {...register("email", { required: true })}
             className={`mb-2 block w-full rounded-md border ${
               errors.email ? "border-red-500" : "border-gray-300"
-            } px-4 py-2 focus:border-blue-500 focus:invalid:border-red-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white`}
+            } px-4 py-2 focus:border-blue-500 focus:outline-none focus:invalid:border-red-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white`}
           />
           {errors.email && (
             <span className="text-red-500">Email is required</span>
@@ -129,26 +132,24 @@ export default function CommentForm({ postId }) {
           id="comment"
           {...register("comment", { required: true })}
           className={`mb-4 block w-full rounded-md border ${
-              errors.comment ? "border-red-500" : "border-gray-300 dark:border-gray-600"
-            } px-4 py-2 focus:border-blue-500 focus:invalid:border-red-500 focus:outline-none dark:bg-gray-800 dark:text-white`}></textarea>
+            errors.comment
+              ? "border-red-500"
+              : "border-gray-300 dark:border-gray-600"
+          } px-4 py-2 focus:border-blue-500 focus:outline-none focus:invalid:border-red-500 dark:bg-gray-800 dark:text-white`}></textarea>
         {errors.comment && (
           <span className="text-red-500">Comment is required</span>
         )}
       </div>
       <div className="mt-2 flex items-center">
-        <input
-          type="checkbox"
+        <Checkbox
           id="saveUserInfo"
           checked={saveUserInfo}
           onChange={() => setSaveUserInfo(!saveUserInfo)}
-          className="mr-2 rounded border-gray-300 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
-        />
-        <label
-          htmlFor="saveUserInfo"
-          className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-          Save my name and email in this browser for the
-          next time I comment.
-        </label>
+          color="secondary"
+          >
+          Save my name and email in this browser for the next time I
+          comment.
+        </Checkbox>
       </div>
       <div className="mt-6">
         <button
