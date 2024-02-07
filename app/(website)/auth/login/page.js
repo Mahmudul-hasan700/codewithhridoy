@@ -14,7 +14,6 @@ const Login = () => {
       const response = await axios.post('/api/login', { email, password });
       if (response.data.success) {
         setMessage('Login successful!');
-        // Redirect to dashboard or another page
       } else {
         setMessage(response.data.message);
       }
@@ -25,20 +24,20 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Email:</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+      <div className="max-w-md w-full px-6 py-8 bg-white dark:bg-gray-800 shadow-md rounded-md">
+        <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
+        <form onSubmit={handleLogin}>
+          <div className="mb-4">
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="Email" />
+          </div>
+          <div className="mb-4">
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="Password" />
+          </div>
+          <button type="submit" className="w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600 transition duration-300">Login</button>
+        </form>
+        {message && <p className="mt-4 text-red-500">{message}</p>}
+      </div>
     </div>
   );
 };
