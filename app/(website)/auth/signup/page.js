@@ -14,6 +14,7 @@ const Signup = () => {
   } = useForm();
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [loading, setLoading] = useState(false); // Add loading state
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -33,6 +34,7 @@ const Signup = () => {
   };
 
   const onSubmit = async data => {
+    setLoading(true); // Set loading state to true when submitting form
     try {
       const response = await axios.post("/api/register", data);
       if (response.data.success) {
@@ -47,6 +49,8 @@ const Signup = () => {
       console.error("Signup error:", error);
       setErrorMessage("An error occurred. Please try again.");
       setSuccessMessage("");
+    } finally {
+      setLoading(false); // Set loading state to false when response is received
     }
   };
 
@@ -166,7 +170,7 @@ const Signup = () => {
                     onClick={() => login()}
                     className="group flex h-12 w-full select-none items-center justify-center gap-2 rounded-lg border border-gray-300 border-gray-300 bg-white px-6 text-gray-800 transition duration-300 hover:border-blue-400 hover:bg-blue-50 focus:border-blue-500 focus:bg-blue-50 active:bg-blue-100 dark:border-slate-600 dark:bg-gray-800 dark:text-slate-200 dark:hover:border-blue-400 dark:focus:border-blue-400 dark:focus:bg-gray-700">
                     <GoogleIcon />
-                    Sign up with Google
+                    Continue with Google
                   </button>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -231,8 +235,15 @@ const Signup = () => {
                     <div className="mb-2 w-full">
                       <button
                         type="submit"
-                        className="w-full rounded-md bg-blue-500 py-2 text-white transition duration-300 hover:bg-blue-600">
-                        Sign up
+                        className="w-full rounded-md bg-black py-3 text-white transition duration-300 dark:bg-white dark:text-black"
+                        disabled={loading}>
+                        {loading ? (
+                          <div className="flex items-center justify-center">
+                            <div className="h-5 w-5 animate-spin rounded-full border-3 border-solid border-blue-500  border-t-transparent"></div>
+                          </div>
+                        ) : (
+                          "Sign up"
+                        )}
                       </button>
                     </div>
                     <div className="mr-2 mt-2 flex items-center justify-center fill-current">
