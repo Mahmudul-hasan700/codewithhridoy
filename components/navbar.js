@@ -124,6 +124,26 @@ export default function Navbar(props) {
               Signup
             </Link>
           </li>
+          <li>
+            <Link
+              href="/auth/login"
+              className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${router.pathname === "/auth/login" ? "bg-slate-300 dark:bg-slate-700" : "hover:bg-slate-200 dark:hover:bg-slate-700"}`}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="h-5 w-5">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                />
+              </svg>
+              login
+            </Link>
+          </li>
         </ul>
       </nav>
 

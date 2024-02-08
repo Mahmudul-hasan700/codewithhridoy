@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     await dbConnect();
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
 
     try {
       const existingUser = await User.findOne({ email });
@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = new User({ email, password: hashedPassword });
+      const newUser = new User({ name, email, password: hashedPassword });
       await newUser.save();
 
       return res.status(201).json({ success: true, message: 'User registered successfully.' });
