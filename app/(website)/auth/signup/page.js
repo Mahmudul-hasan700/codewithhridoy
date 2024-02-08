@@ -33,8 +33,8 @@ const Signup = () => {
     setSuccessMessage("");
   };
 
-  const onSubmit = async data => {
-    setLoading(true); // Set loading state to true when submitting form
+  const onSubmit = async (data) => {
+    setLoading(true);
     try {
       const response = await axios.post("/api/register", data);
       if (response.data.success) {
@@ -42,7 +42,11 @@ const Signup = () => {
         setErrorMessage("");
         reset();
       } else {
-        setErrorMessage(response.data.message);
+        if (response.data.message === 'User already exists.') {
+          setErrorMessage('User already exists. Please use a different email.');
+        } else {
+          setErrorMessage(response.data.message);
+        }
         setSuccessMessage("");
       }
     } catch (error) {
@@ -50,7 +54,7 @@ const Signup = () => {
       setErrorMessage("An error occurred. Please try again.");
       setSuccessMessage("");
     } finally {
-      setLoading(false); // Set loading state to false when response is received
+      setLoading(false); 
     }
   };
 
@@ -239,7 +243,7 @@ const Signup = () => {
                         disabled={loading}>
                         {loading ? (
                           <div className="flex items-center justify-center">
-                            <div className="h-5 w-5 animate-spin rounded-full border-3 border-solid border-blue-500  border-t-transparent"></div>
+                            <div className="h-5 w-5 animate-spin rounded-full border-4 border-solid border-blue-500  border-t-transparent"></div>
                           </div>
                         ) : (
                           "Sign up"
