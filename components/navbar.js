@@ -1,18 +1,18 @@
 // components/Navbar.js
 
 "use client";
-
-  import React, { useState, useEffect } from "react";
-  import { useRouter } from "next/navigation";
-  import Link from "next/link";
-  import Image from "next/image";
-  import { urlForImage } from "@/lib/sanity/image";
-  import {
-    InformationCircleIcon,
-    HomeIcon,
-    MagnifyingGlassIcon,
-  } from "@heroicons/react/24/outline";
-import axios from "axios"; 
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { urlForImage } from "@/lib/sanity/image";
+import {
+  InformationCircleIcon,
+  HomeIcon,
+  MagnifyingGlassIcon
+} from "@heroicons/react/24/outline";
+import axios from "axios";
+import { Avatar, AvatarIcon } from "@nextui-org/react";
 
 export default function Navbar(props) {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -24,7 +24,6 @@ export default function Navbar(props) {
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
-      // Fetch user data here
       fetchUserData(token);
     } else {
       setIsLoggedIn(false);
@@ -32,12 +31,12 @@ export default function Navbar(props) {
     }
   }, []);
 
-  const fetchUserData = async (token) => {
+  const fetchUserData = async token => {
     try {
       const response = await axios.get("/api/user", {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       setUserData(response.data);
     } catch (error) {
@@ -52,7 +51,6 @@ export default function Navbar(props) {
   const handleSearchClick = () => {
     router.push("/search");
   };
-
 
   return (
     <div className="flex">
@@ -133,37 +131,36 @@ export default function Navbar(props) {
               Contact
             </Link>
           </li>
+        </ul>
+        <div className="mt-auto">
           {!isLoggedIn && (
             <>
-              <li>
-                <Link href="/auth/signup">Signup</Link>
-              </li>
-              <li>
-                <Link href="/auth/login">Login</Link>
-              </li>
+              <Link
+                href="/auth/signup"
+                className="w-full rounded-md mx-2 bg-blue-700 px-4 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                Signup
+              </Link>
             </>
           )}
           {isLoggedIn && userData && (
-            <li className="flex items-center gap-2">
-              {/* User profile */}
-              {/* Profile image */}
-              <div className="h-8 w-8 rounded-full overflow-hidden">
-                {/* Default profile image or user uploaded image */}
-                <Image
-                  src="/default-profile-image.jpg"
-                  alt="Profile image"
-                  width={32}
-                  height={32}
+            <div className="flex flex-col items-center gap-2">
+              <div className="h-12 w-12 overflow-hidden rounded-full">
+                <Avatar
+                  icon={<AvatarIcon />}
+                  classNames={{
+                    base: "bg-gray-100 w-full h-full object-cover",
+                    icon: "text-gray"
+                  }}
                 />
               </div>
-              <div className="text-gray-800 dark:text-white">
+              <div className="flex flex-row text-gray-800 dark:text-white">
                 {/* User name and email */}
                 <span>{userData.name}</span>
                 <span className="text-xs">{userData.email}</span>
               </div>
-            </li>
+            </div>
           )}
-        </ul>
+        </div>
       </nav>
 
       <div className="flex flex-1 flex-col overflow-hidden">
@@ -253,13 +250,33 @@ export default function Navbar(props) {
                   Contact
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/auth/signup"
-                  className="hover:bg-gray-100 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500">
-                  Signup
-                </Link>
-              </li>
+              {!isLoggedIn && (
+                <li>
+                  <Link
+                    href="/auth/signup"
+                    className="rounded-lg bg-blue-700 px-4 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Signup
+                  </Link>
+                </li>
+              )}
+              {isLoggedIn && userData && (
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="h-12 w-12 overflow-hidden rounded-full">
+                    <Avatar
+                      icon={<AvatarIcon />}
+                      classNames={{
+                        base: "bg-gray-100 w-full h-full object-cover",
+                        icon: "text-gray"
+                      }}
+                    />
+                  </div>
+                  <div className="flex flex-row text-gray-800 dark:text-white">
+                    {/* User name and email */}
+                    <span>{userData.name}</span>
+                    <span className="text-xs">{userData.email}</span>
+                  </div>
+                </div>
+              )}
             </ul>
           </div>
         </header>

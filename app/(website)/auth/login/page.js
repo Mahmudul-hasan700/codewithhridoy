@@ -32,6 +32,14 @@ export default function Login() {
     return () => clearTimeout(timer);
   }, [errorMessage, successMessage]);
 
+  const handleCloseError = () => {
+    setErrorMessage("");
+  };
+
+  const handleCloseSuccess = () => {
+    setSuccessMessage("");
+  };
+
   const onSubmit = async data => {
     setLoading(true);
     try {
