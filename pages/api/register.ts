@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/utils/dbConnect";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken"; 
 
 export default async function handler(
   req: NextApiRequest,
@@ -28,11 +29,15 @@ export default async function handler(
       });
       await newUser.save();
 
+      // Create token
+      const token = jwt.sign({ userId: newUser._id }, "2ad448d412fb8f1ed348c1cbe4a96ed39ee15c8e6182fe9c02e69d2ab9b6de86);
+
       return res
         .status(201)
         .json({
           success: true,
-          message: "User registered successfully."
+          message: "User registered successfully.",
+          token: token // Send token to frontend
         });
     } catch (error) {
       console.error("Registration error:", error);
