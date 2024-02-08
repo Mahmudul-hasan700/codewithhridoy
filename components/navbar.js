@@ -2,21 +2,49 @@
 
 "use client";
 
-import React, { useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
-import { urlForImage } from "@/lib/sanity/image";
-import {
-  InformationCircleIcon,
-  HomeIcon,
-  MagnifyingGlassIcon
-} from "@heroicons/react/24/outline";
+  import React, { useState, useEffect } from "react";
+  import { useRouter } from "next/navigation";
+  import Link from "next/link";
+  import Image from "next/image";
+  import { urlForImage } from "@/lib/sanity/image";
+  import {
+    InformationCircleIcon,
+    HomeIcon,
+    MagnifyingGlassIcon,
+  } from "@heroicons/react/24/outline";
+import axios from "axios"; 
 
 export default function Navbar(props) {
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState(null);
   const router = useRouter();
-  const pathname = usePathname();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+      // Fetch user data here
+      fetchUserData(token);
+    } else {
+      setIsLoggedIn(false);
+      setUserData(null);
+    }
+  }, []);
+
+  const fetchUserData = async (token) => {
+    try {
+      const response = await axios.get("/api/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUserData(response.data);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
   };
@@ -24,6 +52,7 @@ export default function Navbar(props) {
   const handleSearchClick = () => {
     router.push("/search");
   };
+
 
   return (
     <div className="flex">
@@ -104,46 +133,36 @@ export default function Navbar(props) {
               Contact
             </Link>
           </li>
-          <li>
-            <Link
-              href="/auth/signup"
-              className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${router.pathname === "/auth/signup" ? "bg-slate-300 dark:bg-slate-700" : "hover:bg-slate-200 dark:hover:bg-slate-700"}`}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="h-5 w-5">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+          {!isLoggedIn && (
+            <>
+              <li>
+                <Link href="/auth/signup">Signup</Link>
+              </li>
+              <li>
+                <Link href="/auth/login">Login</Link>
+              </li>
+            </>
+          )}
+          {isLoggedIn && userData && (
+            <li className="flex items-center gap-2">
+              {/* User profile */}
+              {/* Profile image */}
+              <div className="h-8 w-8 rounded-full overflow-hidden">
+                {/* Default profile image or user uploaded image */}
+                <Image
+                  src="/default-profile-image.jpg"
+                  alt="Profile image"
+                  width={32}
+                  height={32}
                 />
-              </svg>
-              Signup
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/auth/login"
-              className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${router.pathname === "/auth/login" ? "bg-slate-300 dark:bg-slate-700" : "hover:bg-slate-200 dark:hover:bg-slate-700"}`}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="h-5 w-5">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-                />
-              </svg>
-              login
-            </Link>
-          </li>
+              </div>
+              <div className="text-gray-800 dark:text-white">
+                {/* User name and email */}
+                <span>{userData.name}</span>
+                <span className="text-xs">{userData.email}</span>
+              </div>
+            </li>
+          )}
         </ul>
       </nav>
 
