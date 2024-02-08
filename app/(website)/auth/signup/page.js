@@ -17,7 +17,14 @@ export default function Signup() {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.push("/");
+    }
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -41,13 +48,11 @@ export default function Signup() {
     try {
       const response = await axios.post("/api/register", data);
       if (response.data.success) {
-        // Store token in local storage
         localStorage.setItem("token", response.data.token);
         setSuccessMessage("Signup successful!");
         setErrorMessage("");
         reset();
         setLoading(false);
-        // Redirect to home page after signup
         router.push("/");
       } else {
         if (response.data.message === "User already exists.") {

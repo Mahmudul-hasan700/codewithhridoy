@@ -30,8 +30,6 @@ export default async function handler(
         password: hashedPassword
       });
       await newUser.save();
-
-      // Create token using JWT_SECRET from environment variables
       const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET);
 
       return res
@@ -39,7 +37,7 @@ export default async function handler(
         .json({
           success: true,
           message: "User registered successfully.",
-          token: token // Send token to frontend
+          token: token
         });
     } catch (error) {
       console.error("Registration error:", error);
