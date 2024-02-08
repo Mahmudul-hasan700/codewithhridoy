@@ -3,6 +3,8 @@ import dbConnect from "@/utils/dbConnect";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"; 
+import { config } from "dotenv"; 
+config();
 
 export default async function handler(
   req: NextApiRequest,
@@ -29,8 +31,8 @@ export default async function handler(
       });
       await newUser.save();
 
-      // Create token
-      const token = jwt.sign({ userId: newUser._id }, "2ad448d412fb8f1ed348c1cbe4a96ed39ee15c8e6182fe9c02e69d2ab9b6de86);
+      // Create token using JWT_SECRET from environment variables
+      const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET);
 
       return res
         .status(201)

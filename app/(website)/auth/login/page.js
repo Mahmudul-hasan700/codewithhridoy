@@ -1,13 +1,11 @@
 // app/auth/login/page.js
-
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
-export default function Signup() {
+export default function Login() {
   const {
     register,
     handleSubmit,
@@ -16,7 +14,14 @@ export default function Signup() {
   } = useForm();
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      window.location.href = "/"; // Redirect to home page
+    }
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -27,22 +32,16 @@ export default function Signup() {
     return () => clearTimeout(timer);
   }, [errorMessage, successMessage]);
 
-  const handleCloseError = () => {
-    setErrorMessage("");
-  };
-
-  const handleCloseSuccess = () => {
-    setSuccessMessage("");
-  };
-
   const onSubmit = async data => {
     setLoading(true);
     try {
       const response = await axios.post("/api/login", data);
       if (response.data.success) {
-        setSuccessMessage("Login successful!");
+        localStorage.setItem("token", response.data.token);
         setErrorMessage("");
+        setSuccessMessage("Login successful!");
         reset();
+        window.location.href = "/";
       } else {
         setErrorMessage(response.data.message);
         setSuccessMessage("");
@@ -55,6 +54,7 @@ export default function Signup() {
       setLoading(false);
     }
   };
+
   return (
     <>
       {errorMessage && (
