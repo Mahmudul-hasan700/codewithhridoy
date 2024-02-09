@@ -36,8 +36,8 @@ export default function Post(props) {
                   <Avatar
                     icon={<AvatarIcon />}
                     classNames={{
-                      base: "bg-gradient-to-br from-[#FFB457] to-[#FF705B] w-full h-full object-cover",
-                      icon: "text-black/80"
+                      base: "bg-gray-100 dark:bg-gray-700 w-full h-full object-cover",
+                      icon: "text-black/80 dark:text-slate-300"
                     }}
                   />
                 </div>

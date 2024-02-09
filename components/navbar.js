@@ -18,6 +18,7 @@ export default function Navbar(props) {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(null);
+  const [isUserCardOpen, setIsUserCardOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -51,6 +52,16 @@ export default function Navbar(props) {
   const handleSearchClick = () => {
     router.push("/search");
   };
+
+  const toggleUserCard = () => {
+    setIsUserCardOpen(!isUserCardOpen);
+  };
+
+  // Function to handle signout
+  const handleSignout = () => {
+    // Implement your signout logic here
+  };
+
 
   return (
     <div className="flex">
@@ -137,13 +148,13 @@ export default function Navbar(props) {
             <>
               <Link
                 href="/auth/signup"
-                className="w-full rounded-md mx-2 bg-blue-700 px-4 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                className="mx-2 w-full rounded-md bg-blue-700 px-4 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 Signup
               </Link>
             </>
           )}
           {isLoggedIn && userData && (
-            <div className="flex flex-col items-center gap-2">
+            <div className="grid grid-cols-2 items-center gap-2">
               <div className="h-12 w-12 overflow-hidden rounded-full">
                 <Avatar
                   icon={<AvatarIcon />}
@@ -153,10 +164,9 @@ export default function Navbar(props) {
                   }}
                 />
               </div>
-              <div className="flex flex-row text-gray-800 dark:text-white">
-                {/* User name and email */}
-                <span>{userData.name}</span>
-                <span className="text-xs">{userData.email}</span>
+              <div className="flex flex-col text-gray-800 dark:text-white">
+                <span className="font-semibold">{userData.name}</span>
+                <span className="text-md">{userData.email}</span>
               </div>
             </div>
           )}
