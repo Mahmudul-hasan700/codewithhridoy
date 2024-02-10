@@ -1,16 +1,5 @@
 # Stablo Pro - Next.js & Sanity CMS Blog Template
 
-Thank you for purchasing Stablo Pro. The advanced Pro version of Stablo Blog Template. Stablo is a JAMStack Blog Template built with Next.js, Tailwind CSS & Sanity CMS by [Web3Templates](https://web3templates.com/).
-
-**[Click here to see live demo →](https://stablo-pro.web3templates.com/)**
-
-#### Template Preview
-
-[![Next.js Front-end Preview](https://user-images.githubusercontent.com/1884712/169838344-e32b7426-621a-45a4-aba8-afedf3377e1f.jpeg)](https://stablo-template.vercel.app/)
-
-#### Sanity CMS Preview
-
-[![Backend Sanity CMS Preview](https://user-images.githubusercontent.com/1884712/170030678-c6e32d47-0b92-42b7-ac2d-f3cf800c0969.png)](https://stablo-template.vercel.app/studio)
 
 # Installation
 

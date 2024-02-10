@@ -1,5 +1,7 @@
 import HomePage from "./home";
-import { getAllPosts } from "@/lib/sanity/client";
+import { getAllPosts, getPaginatedPosts } from "@/lib/sanity/client";
+
+const POSTS_PER_PAGE = 6;
 
 export default async function IndexPage() {
   const posts = await getAllPosts();

@@ -1,8 +1,9 @@
 // components/Navbar.js
 
 "use client";
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+
+import React, { useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { urlForImage } from "@/lib/sanity/image";
@@ -11,40 +12,11 @@ import {
   HomeIcon,
   MagnifyingGlassIcon
 } from "@heroicons/react/24/outline";
-import axios from "axios";
-import { Avatar, AvatarIcon } from "@nextui-org/react";
 
 export default function Navbar(props) {
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userData, setUserData] = useState(null);
-  const [isUserCardOpen, setIsUserCardOpen] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true);
-      fetchUserData(token);
-    } else {
-      setIsLoggedIn(false);
-      setUserData(null);
-    }
-  }, []);
-
-  const fetchUserData = async token => {
-    try {
-      const response = await axios.get("/api/user", {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      setUserData(response.data);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-
+  const pathname = usePathname();
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
   };
@@ -52,16 +24,6 @@ export default function Navbar(props) {
   const handleSearchClick = () => {
     router.push("/search");
   };
-
-  const toggleUserCard = () => {
-    setIsUserCardOpen(!isUserCardOpen);
-  };
-
-  // Function to handle signout
-  const handleSignout = () => {
-    // Implement your signout logic here
-  };
-
 
   return (
     <div className="flex">
@@ -142,35 +104,47 @@ export default function Navbar(props) {
               Contact
             </Link>
           </li>
-        </ul>
-        <div className="mt-auto">
-          {!isLoggedIn && (
-            <>
-              <Link
-                href="/auth/signup"
-                className="mx-2 w-full rounded-md bg-blue-700 px-4 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                Signup
-              </Link>
-            </>
-          )}
-          {isLoggedIn && userData && (
-            <div className="grid grid-cols-2 items-center gap-2">
-              <div className="h-12 w-12 overflow-hidden rounded-full">
-                <Avatar
-                  icon={<AvatarIcon />}
-                  classNames={{
-                    base: "bg-gray-100 w-full h-full object-cover",
-                    icon: "text-gray"
-                  }}
+          <li>
+            <Link
+              href="/auth/signup"
+              className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${router.pathname === "/auth/signup" ? "bg-slate-300 dark:bg-slate-700" : "hover:bg-slate-200 dark:hover:bg-slate-700"}`}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="h-5 w-5">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
                 />
-              </div>
-              <div className="flex flex-col text-gray-800 dark:text-white">
-                <span className="font-semibold">{userData.name}</span>
-                <span className="text-md">{userData.email}</span>
-              </div>
-            </div>
-          )}
-        </div>
+              </svg>
+              Signup
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/auth/login"
+              className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${router.pathname === "/auth/login" ? "bg-slate-300 dark:bg-slate-700" : "hover:bg-slate-200 dark:hover:bg-slate-700"}`}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="h-5 w-5">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                />
+              </svg>
+              login
+            </Link>
+          </li>
+        </ul>
       </nav>
 
       <div className="flex flex-1 flex-col overflow-hidden">
@@ -260,33 +234,13 @@ export default function Navbar(props) {
                   Contact
                 </Link>
               </li>
-              {!isLoggedIn && (
-                <li>
-                  <Link
-                    href="/auth/signup"
-                    className="rounded-sm bg-blue-700 px-4 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Signup
-                  </Link>
-                </li>
-              )}
-              {isLoggedIn && userData && (
-                <div className="flex flex-wrap items-center gap-2">
-                  <div className="h-12 w-12 overflow-hidden rounded-full">
-                    <Avatar
-                      icon={<AvatarIcon />}
-                      classNames={{
-                        base: "bg-gray-100 w-full h-full object-cover",
-                        icon: "text-gray"
-                      }}
-                    />
-                  </div>
-                  <div className="flex flex-row text-gray-800 dark:text-white">
-                    {/* User name and email */}
-                    <span>{userData.name}</span>
-                    <span className="text-xs">{userData.email}</span>
-                  </div>
-                </div>
-              )}
+              <li>
+                <Link
+                  href="/auth/signup"
+                  className="hover:bg-gray-100 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500">
+                  Signup
+                </Link>
+              </li>
             </ul>
           </div>
         </header>

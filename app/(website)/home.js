@@ -1,42 +1,68 @@
+"use client";
 import Link from "next/link";
-import { Suspense } from "react";
+import { useState } from "react";
 import Container from "@/components/container";
 import PostList from "@/components/postlist";
 import Loading from "./loading";
 
-export default function Post({ posts }) {
+export default function HomePage({ posts }) {
+  const postsPerPage = 3;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPosts = posts.length;
+  const totalPages = Math.ceil(totalPosts / postsPerPage);
+
+  const paginate = pageNumber => setCurrentPage(pageNumber);
+
+  const renderPageNumbers = () => {
+    const visiblePages = 3; // Number of page numbers to show
+    const pageNumbers = [];
+
+    // Calculate the range of page numbers to display
+    let startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + visiblePages - 1);
+
+    // Adjust startPage and endPage if necessary
+    if (totalPages - endPage < Math.floor(visiblePages / 2)) {
+      startPage = Math.max(1, endPage - visiblePages + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(
+        <button
+          key={i}
+          onClick={() => paginate(i)}
+          className={`inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-3 py-2 mr-2 ${currentPage === i ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={currentPage === i}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    return pageNumbers;
+  };
+
+  // Logic to display posts for the current page
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
   return (
-    <Suspense fallback={<Loading />}>
-      {posts && (
-        <Container>
-          <div className="grid gap-10 md:grid-cols-2 lg:gap-10 ">
-            {posts.slice(0, 2).map(post => (
-              <PostList
-                key={post._id}
-                post={post}
-                aspect="landscape"
-                preloadImage={true}
-              />
-            ))}
-          </div>
-          <div className="mt-10 grid gap-10 md:grid-cols-2 lg:gap-10 xl:grid-cols-3 ">
-            {posts.slice(2, 14).map(post => (
-              <PostList
-                key={post._id}
-                post={post}
-                aspect="landscape"
-              />
-            ))}
-          </div>
-          <div className="mt-10 flex justify-center">
-            <Link
-              href="/archive"
-              className="relative inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-2 pl-4 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 disabled:pointer-events-none disabled:opacity-40 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300">
-              <span>View all Posts</span>
-            </Link>
-          </div>
-        </Container>
-      )}
-    </Suspense>
+    <Container>
+      <div className="grid gap-10 md:grid-cols-2 lg:gap-10 ">
+        {currentPosts.map(post => (
+          <PostList
+            key={post._id}
+            post={post}
+            aspect="landscape"
+            preloadImage={true}
+          />
+        ))}
+      </div>
+      <div className="mt-10 flex justify-center">
+        {renderPageNumbers()}
+      </div>
+    </Container>
   );
 }
