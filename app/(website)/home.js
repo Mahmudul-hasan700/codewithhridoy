@@ -1,9 +1,13 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Container from "@/components/container";
 import PostList from "@/components/postlist";
 import Loading from "./loading";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon
+} from "@heroicons/react/24/outline";
 
 export default function HomePage({ posts }) {
   const postsPerPage = 10;
@@ -17,6 +21,18 @@ export default function HomePage({ posts }) {
   const renderPageNumbers = () => {
     const pageNumbers = [];
 
+    // Previous button
+    pageNumbers.push(
+      <button
+        key="prev"
+        onClick={() => paginate(currentPage - 1)}
+        disabled={currentPage === 1}
+        className="relative inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 disabled:pointer-events-none disabled:opacity-40 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300">
+        <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+        <span>Previous</span>
+      </button>
+    );
+
     // First page is always displayed
     pageNumbers.push(renderPageButton(1));
 
@@ -24,7 +40,7 @@ export default function HomePage({ posts }) {
       pageNumbers.push(
         <span
           key="ellipsis1"
-          className="mr-2 inline-flex items-center justify-center rounded-md bg-transparent text-black dark:text-slate-200 px-3 py-2">
+          className="mr-2 inline-flex hidden items-center justify-center rounded-md bg-transparent px-3 py-2 text-black dark:text-slate-200 md:block">
           ...
         </span>
       );
@@ -46,7 +62,7 @@ export default function HomePage({ posts }) {
       pageNumbers.push(
         <span
           key="ellipsis2"
-          className="mr-2 inline-flex items-center justify-center rounded-md bg-transparent text-black dark:text-slate-200 px-3 py-2">
+          className="mx-1 inline-flex hidden items-center justify-center rounded-md bg-transparent px-3 py-2 text-black dark:text-slate-200 md:block">
           ...
         </span>
       );
@@ -57,6 +73,18 @@ export default function HomePage({ posts }) {
       pageNumbers.push(renderPageButton(totalPages));
     }
 
+    // Next button
+    pageNumbers.push(
+      <button
+        key="next"
+        onClick={() => paginate(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className="relative mx-1 inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-2 pl-4 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 disabled:pointer-events-none disabled:opacity-40 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300">
+        <span>Next</span>
+        <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+      </button>
+    );
+
     return pageNumbers;
   };
 
@@ -65,7 +93,7 @@ export default function HomePage({ posts }) {
       <button
         key={pageNumber}
         onClick={() => paginate(pageNumber)}
-        className={`relative inline-flex items-center rounded-md px-3.5 py-2 mr-2 text-sm font-medium focus:z-20 disabled:pointer-events-none ${currentPage === pageNumber ? "cursor-not-allowed bg-blue-500 text-white" : "text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 dark:border-gray-500 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600"}`}
+        className={`relative mx-1 inline-flex hidden items-center rounded-md px-4 py-2 text-sm font-medium focus:z-20 disabled:pointer-events-none sm:block md:block ${currentPage === pageNumber ? "cursor-not-allowed bg-blue-500 text-white" : "border border-gray-300 bg-white text-gray-700 dark:border-gray-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"}`}
         disabled={currentPage === pageNumber}>
         {pageNumber}
       </button>
@@ -78,6 +106,7 @@ export default function HomePage({ posts }) {
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
   return (
+    <Suspense fallback={<Loading />}>
     <Container>
       <div className="grid gap-10 md:grid-cols-2 lg:gap-10 ">
         {currentPosts.map(post => (
@@ -89,9 +118,10 @@ export default function HomePage({ posts }) {
           />
         ))}
       </div>
-      <div className="mt-10 flex justify-center">
+      <div className="mt-10 flex items-center justify-center">
         {renderPageNumbers()}
       </div>
     </Container>
+    </Suspense>
   );
 }
