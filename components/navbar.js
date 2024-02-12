@@ -63,8 +63,8 @@ export default function Navbar(props) {
               href="/"
               className={`mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${
                 currentPath === "/"
-                  ? "bg-[#5182b8] text-white"
-                  : "hover:bg-slate-200 dark:hover:bg-slate-700"
+                ? "bg-slate-300 dark:bg-slate-700 pl-2"
+                : "hover:bg-slate-200 dark:hover:bg-slate-700 hover:pl-3 duration-300"
               }`}>
               <HomeIcon className="h-6 w-6" />
               Home
@@ -74,10 +74,10 @@ export default function Navbar(props) {
           <li>
             <Link
               href="/about"
-              className={`mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black hover:pl-2 duration-300 dark:text-white ${
+              className={`mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black duration-300 hover:pl-2 dark:text-white ${
                 currentPath === "/about"
-                  ? "bg-slate-300 dark:bg-slate-700"
-                  : "hover:bg-slate-200 dark:hover:bg-slate-700"
+                  ? "bg-slate-300 pl-2 dark:bg-slate-700"
+                  : "duration-300 hover:bg-slate-200 hover:pl-3 dark:hover:bg-slate-700"
               }`}>
               <InformationCircleIcon className="h-6 w-6" />
               About
@@ -87,7 +87,11 @@ export default function Navbar(props) {
           <li>
             <Link
               href="/contact"
-              className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${currentPath === "/contact" ? "bg-slate-300 dark:bg-slate-700" : "hover:bg-slate-200 dark:hover:bg-slate-700"}`}>
+              className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${
+                currentPath === "/contact"
+                  ? "bg-slate-300 pl-2 dark:bg-slate-700"
+                  : "duration-300 hover:bg-slate-200 hover:pl-3 dark:hover:bg-slate-700"
+              }`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -107,7 +111,11 @@ export default function Navbar(props) {
           <li>
             <Link
               href="/auth/signup"
-              className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${currentPath === "/auth/signup" ? "bg-slate-300 dark:bg-slate-700" : "hover:bg-slate-200 dark:hover:bg-slate-700"}`}>
+              className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${
+                currentPath === "/auth/signup"
+                  ? "bg-slate-300 pl-2 dark:bg-slate-700"
+                  : "duration-300 hover:bg-slate-200 hover:pl-3 dark:hover:bg-slate-700"
+              }`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
