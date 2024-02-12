@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import "@/styles/tailwind.css";
 import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "./providers";
 import { cx } from "@/utils/all";
 import { Inter, Lora } from "next/font/google";
@@ -10,6 +10,7 @@ import { getSettings } from "@/lib/sanity/client";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { urlForImage } from "@/lib/sanity/image";
+import Head from 'next/head';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -84,22 +85,55 @@ export async function generateMetadata({ params }) {
 
 export default async function Layout({ children, params }) {
   const settings = await getSettings();
+
+  const websiteSchema = {
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Codewithhridoy",
+    "url": settings?.url || "https://www.codewithhridoy.com/",
+    "description": "Creative Coding Blog - HTML CSS & JavaScript.",
+    "author": {
+      "@type": "Person",
+      "name": "Hridoy"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Codewithhridoy",
+      "logo": {
+        "@type": "ImageObject",
+        "url": urlForImage(settings?.logo)?.src || "URL_TO_YOUR_LOGO",
+        "width": 600,
+        "height": 60
+      }
+    },
+    "sameAs": [
+      "https://twitter.com/Codewithhridoy"
+    ]
+  };
+
   return (
     <GoogleOAuthProvider clientId="685077013953-i9i1hjtrg91ap9indvgrn2n32s2p57ei.apps.googleusercontent.com">
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={cx(inter.variable, lora.variable, "scroll-smooth")}>
-      <body className="max-w-screen-lg mx-auto text-gray-800 antialiased bg-white dark:bg-gray-900 dark:text-slate-300">
-        <Providers>
-          <Navbar {...settings}/>
-          {children}
-          <Analytics />
-          <SpeedInsights/>
-          <Footer {...settings} />
-        </Providers>
-      </body>
-    </html>
+      <html
+        lang="en"
+        suppressHydrationWarning
+        className={cx(inter.variable, lora.variable, "scroll-smooth")}
+      >  
+        <Head>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+          />
+        </Head>
+        <body className="max-w-screen-lg mx-auto text-gray-800 antialiased bg-white dark:bg-gray-900 dark:text-slate-300">
+          <Providers>
+            <Navbar {...settings} />
+            {children}
+            <Analytics />
+            <SpeedInsights />
+            <Footer {...settings} />
+          </Providers>
+        </body>
+      </html>
     </GoogleOAuthProvider>
   );
 }

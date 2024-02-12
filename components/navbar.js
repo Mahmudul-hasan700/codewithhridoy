@@ -3,7 +3,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { urlForImage } from "@/lib/sanity/image";
@@ -16,6 +16,7 @@ import {
 export default function Navbar(props) {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const router = useRouter();
+  const currentPath = usePathname();
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
   };
@@ -61,8 +62,8 @@ export default function Navbar(props) {
             <Link
               href="/"
               className={`mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${
-                router.pathname == "/"
-                  ? "bg-slate-300 dark:bg-slate-700"
+                currentPath === "/"
+                  ? "bg-[#5182b8] text-white"
                   : "hover:bg-slate-200 dark:hover:bg-slate-700"
               }`}>
               <HomeIcon className="h-6 w-6" />
@@ -73,8 +74,8 @@ export default function Navbar(props) {
           <li>
             <Link
               href="/about"
-              className={`mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${
-                router.pathname == "/about"
+              className={`mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black hover:pl-2 duration-300 dark:text-white ${
+                currentPath === "/about"
                   ? "bg-slate-300 dark:bg-slate-700"
                   : "hover:bg-slate-200 dark:hover:bg-slate-700"
               }`}>
@@ -86,7 +87,7 @@ export default function Navbar(props) {
           <li>
             <Link
               href="/contact"
-              className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${router.pathname == "/contact" ? "bg-slate-300 dark:bg-slate-700" : "hover:bg-slate-200 dark:hover:bg-slate-700"}`}>
+              className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${currentPath === "/contact" ? "bg-slate-300 dark:bg-slate-700" : "hover:bg-slate-200 dark:hover:bg-slate-700"}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -106,7 +107,7 @@ export default function Navbar(props) {
           <li>
             <Link
               href="/auth/signup"
-              className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${router.pathname == "/auth/signup" ? "bg-slate-300 dark:bg-slate-700" : "hover:bg-slate-200 dark:hover:bg-slate-700"}`}>
+              className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${currentPath === "/auth/signup" ? "bg-slate-300 dark:bg-slate-700" : "hover:bg-slate-200 dark:hover:bg-slate-700"}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -188,28 +189,44 @@ export default function Navbar(props) {
               <li>
                 <Link
                   href="/"
-                  className="hover:bg-gray-100 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500">
+                  className={`hover:bg-gray-100 md:p-0 ${
+                    currentPath === "/"
+                      ? "text-blue-700"
+                      : "text-black dark:text-slate-200"
+                  } md:hover:bg-transparent md:dark:hover:bg-transparent md:dark:hover:text-blue-500`}>
                   Home
                 </Link>
               </li>
               <li>
                 <Link
                   href="/about"
-                  className="hover:bg-gray-100 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500">
+                  className={`hover:bg-gray-100 md:p-0 ${
+                    currentPath === "/about"
+                      ? "text-blue-700"
+                      : "text-black dark:text-slate-200"
+                  } md:hover:bg-transparent md:dark:hover:bg-transparent md:dark:hover:text-blue-500`}>
                   About
                 </Link>
               </li>
               <li>
                 <Link
                   href="/search"
-                  className="hover:bg-gray-100 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500">
+                  className={`hover:bg-gray-100 md:p-0 ${
+                    currentPath === "/search"
+                      ? "text-blue-700"
+                      : "text-black dark:text-slate-200"
+                  } md:hover:bg-transparent md:dark:hover:bg-transparent md:dark:hover:text-blue-500`}>
                   Search
                 </Link>
               </li>
               <li>
                 <Link
                   href="/contact"
-                  className="hover:bg-gray-100 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500">
+                  className={`hover:bg-gray-100 md:p-0 ${
+                    currentPath === "/contact"
+                      ? "text-blue-700"
+                      : "text-black dark:text-slate-200"
+                  } md:hover:bg-transparent md:dark:hover:bg-transparent md:dark:hover:text-blue-500`}>
                   Contact
                 </Link>
               </li>
