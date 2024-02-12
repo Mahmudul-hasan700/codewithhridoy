@@ -107,21 +107,21 @@ export default function HomePage({ posts }) {
 
   return (
     <Suspense fallback={<Loading />}>
-    <Container>
-      <div className="grid gap-10 md:grid-cols-2 lg:gap-10 ">
-        {currentPosts.map(post => (
-          <PostList
-            key={post._id}
-            post={post}
-            aspect="landscape"
-            preloadImage={true}
-          />
-        ))}
-      </div>
-      <div className="mt-10 flex items-center justify-center">
-        {renderPageNumbers()}
-      </div>
-    </Container>
+      <Container>
+        <div className="grid gap-10 md:grid-cols-2 lg:gap-10 ">
+          {currentPosts.map(post => (
+            <PostList
+              key={post._id}
+              post={post}
+              aspect="landscape"
+              preloadImage={true}
+            />
+          ))}
+        </div>
+        <div className="mt-10 flex items-center justify-center">
+          {renderPageNumbers()}
+        </div>
+      </Container>
     </Suspense>
   );
 }

@@ -78,6 +78,8 @@ function SearchContent({ initialData }) {
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             <SkeletonLoader />
             <SkeletonLoader />
+            <SkeletonLoader />
+            <SkeletonLoader />
           </div>
         )}
         {error && (
