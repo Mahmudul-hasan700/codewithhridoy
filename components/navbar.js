@@ -193,15 +193,15 @@ export default function Navbar(props) {
             </button>
           </div>
           <div className="flex hidden gap-2 pr-3 md:block">
-            <ul className="flex md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 md:dark:bg-gray-900">
+            <ul className="flex mt-0 flex-row space-x-8 border-0 bg-white p-0 dark:bg-gray-900">
               <li>
                 <Link
                   href="/"
-                  className={`hover:bg-gray-100 md:p-0 ${
+                  className={`p-0 ${
                     currentPath === "/"
                       ? "text-blue-700"
                       : "text-black dark:text-slate-200"
-                  } md:hover:bg-transparent md:dark:hover:bg-transparent md:dark:hover:text-blue-500`}>
+                  } hover:bg-transparent dark:hover:bg-transparent dark:hover:text-blue-500`}>
                   Home
                 </Link>
               </li>
