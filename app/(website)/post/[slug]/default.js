@@ -10,6 +10,8 @@ import Sidebar from "@/components/sidebar";
 import ShareButton from "@/components/ShareButton";
 import CommentForm from "@/components/CommentForm";
 import { Avatar, AvatarIcon } from "@nextui-org/react";
+import Breadcrumb from '@/components/Breadcrumb';
+
 
 export default function Post(props) {
   const { loading, post, categories, comments } = props;
