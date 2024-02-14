@@ -81,6 +81,7 @@ export default function Post(props) {
   };
 
   const slug = post?.slug;
+  const title = post?.title || "";
 
   if (!loading && !slug) {
     notFound();
@@ -96,7 +97,7 @@ export default function Post(props) {
   return (
     <>
       <div className="mt-5 md:mt-14">
-        <Breadcrumb />
+        <Breadcrumb title={title}/>
         <div className="mx-auto flex max-w-screen-xl flex-col gap-5 px-5 md:flex-row">
           <article className="flex-1 md:w-3/5">
             <h1 className="mb-3 mt-2 text-center text-3xl font-semibold tracking-tight dark:text-white lg:text-4xl lg:leading-snug">
