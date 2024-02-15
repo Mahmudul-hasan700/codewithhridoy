@@ -11,9 +11,11 @@ const Breadcrumb = ({ title }) => {
     : [];
 
   return (
-    <nav className="flex items-center" aria-label="breadcrumb">
-      <ol className="breadcrumb inline-flex items-center space-x-1 text-wrap bg-white p-4 dark:bg-gray-900 md:space-x-2 rtl:space-x-reverse">
-        <li className="breadcrumb-item mr-2 inline-flex items-center">
+    <nav
+      className="w-full text-ellipsis whitespace-normal"
+      aria-label="breadcrumb">
+      <ol className="breadcrumb flex w-full flex-wrap items-center bg-transparent px-4 py-2">
+        <li className="breadcrumb-item text-blue-gray-900 hover:text-light-blue-500 flex cursor-pointer items-center font-sans text-sm font-normal leading-normal antialiased transition-colors duration-300">
           <Link
             href="/"
             className="flex items-center gap-2 text-blue-500 dark:text-blue-400">
@@ -27,9 +29,9 @@ const Breadcrumb = ({ title }) => {
           return (
             <li
               key={routeTo}
-              className={`breadcrumb-item ${isLast ? "active" : ""} mr-2 text-wrap`}>
+              className={`breadcrumb-item ${isLast ? "active" : ""} flex items-center font-sans text-sm font-normal leading-normal antialiased`}>
               {isLast ? (
-                <span className="gap-2 text-wrap text-gray-500 dark:text-gray-400">
+                <span className="gap-2 overflow-hidden text-ellipsis whitespace-normal text-wrap text-gray-500 dark:text-gray-400">
                   {title || path}
                 </span>
               ) : (

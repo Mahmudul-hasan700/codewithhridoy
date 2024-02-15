@@ -10,8 +10,7 @@ import Sidebar from "@/components/sidebar";
 import ShareButton from "@/components/ShareButton";
 import CommentForm from "@/components/CommentForm";
 import { Avatar, AvatarIcon } from "@nextui-org/react";
-import Breadcrumb from '@/components/Breadcrumb';
-
+import Breadcrumb from "@/components/Breadcrumb";
 
 export default function Post(props) {
   const { loading, post, categories, comments } = props;
@@ -98,7 +97,7 @@ export default function Post(props) {
   return (
     <>
       <div className="mt-5 md:mt-14">
-        <Breadcrumb title={title}/>
+        <Breadcrumb title={title} />
         <div className="mx-auto flex max-w-screen-xl flex-col gap-5 px-5 md:flex-row">
           <article className="flex-1 md:w-3/5">
             <h1 className="mb-3 mt-2 text-center text-3xl font-semibold tracking-tight dark:text-white lg:text-4xl lg:leading-snug">
