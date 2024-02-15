@@ -23,7 +23,7 @@ pre[class*=language-] {
   overflow:auto
 }
 :not(pre)>code[class*=language-],pre[class*=language-] {
-  background:#2d2d2d
+  background:#0d0d0d
 }
 :not(pre)>code[class*=language-] {
   padding:.1em;

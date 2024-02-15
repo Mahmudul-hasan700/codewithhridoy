@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { Checkbox } from "@nextui-org/checkbox";
+
 export default function CommentForm({ postId }) {
   const {
     register,
@@ -33,7 +33,7 @@ export default function CommentForm({ postId }) {
 
     try {
       const response = await axios.post(
-        "https://codewithhridoy.vercel.app/api/comments",
+        "/api/comments",
         {
           postId: postId,
           name: data.name,
@@ -77,8 +77,7 @@ export default function CommentForm({ postId }) {
       )}
       {submissionSuccess && (
         <div className="mb-2 text-center text-green-500">
-          Comment submitted successfully! Your comment will show after
-          admin approval.
+          Comment submitted successfully!
         </div>
       )}
       <div className="mx-auto grid grid-cols-1 gap-6 sm:grid-cols-2">
