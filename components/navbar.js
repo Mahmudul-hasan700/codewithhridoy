@@ -2,7 +2,7 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -17,6 +17,8 @@ export default function Navbar(props) {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const router = useRouter();
   const currentPath = usePathname();
+  const navigationRef = useRef(null);
+
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
   };
@@ -25,46 +27,43 @@ export default function Navbar(props) {
     router.push("/search");
   };
 
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        navigationRef.current &&
+        !navigationRef.current.contains(event.target)
+      ) {
+        setIsNavOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="flex">
-      <nav
+    <div className="relative flex">
+      {isNavOpen && (
+        <div
+          className="fixed inset-0 z-50 w-full bg-black opacity-75"
+          onClick={toggleNav}></div>
+      )}
+      <div
+        ref={navigationRef}
         id="sideNav"
-        className={`fixed left-0 top-0 z-50 flex h-full w-72 flex-shrink-0 transform flex-col bg-gray-50 py-6 pl-2 pr-4 text-gray-800 shadow-md transition-transform duration-300 dark:bg-gray-800 dark:text-slate-200 sm:w-80 ${
+        className={`fixed left-0 top-0 z-50 h-full w-72 flex-shrink-0 transform flex-col bg-gray-50 py-6 pl-2 pr-4 text-gray-800 shadow-md transition-transform duration-300 dark:bg-gray-800 dark:text-slate-200 sm:w-80 ${
           isNavOpen ? "translate-x-0" : "-translate-x-full"
         }`}>
-        <Link href="/" className="w-28 dark:hidden">
-          {props.logo ? (
-            <Image
-              {...urlForImage(props.logo)}
-              alt="Logo"
-              priority={true}
-              sizes="(max-width: 640px) 100vw, 200px"
-            />
-          ) : (
-            <span className="block text-center">Stablo</span>
-          )}
-        </Link>
-        <Link href="/" className="hidden h-10 w-28 dark:block">
-          {props.logoalt ? (
-            <Image
-              {...urlForImage(props.logoalt)}
-              alt="Logo"
-              priority={true}
-              sizes="(max-width: 640px) 100vw, 200px"
-            />
-          ) : (
-            <span className="block text-center">Stablo</span>
-          )}
-        </Link>
-
         <ul className="mt-4">
           <li>
             <Link
               href="/"
               className={`mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${
                 currentPath === "/"
-                ? "bg-slate-300 dark:bg-slate-700 pl-2"
-                : "hover:bg-slate-200 dark:hover:bg-slate-700 hover:pl-3 duration-300"
+                  ? "bg-slate-300 pl-2 dark:bg-slate-700"
+                  : "duration-300 hover:bg-slate-200 hover:pl-3 dark:hover:bg-slate-700"
               }`}>
               <HomeIcon className="h-6 w-6" />
               Home
@@ -133,10 +132,28 @@ export default function Navbar(props) {
             </Link>
           </li>
         </ul>
-      </nav>
+      </div>
 
       <div className="flex flex-1 flex-col overflow-hidden">
         <header className="flex h-20 items-center justify-between bg-white p-4 shadow-md dark:bg-gray-900">
+          <button
+            id="menuToggle"
+            className={`menu hamburger inline-flex items-center justify-center rounded-lg p-2 text-sm text-gray-800 focus:outline-none dark:text-slate-200 md:hidden ${
+              isNavOpen ? "active" : ""
+            }`}
+            aria-label="Menu"
+            onClick={toggleNav}>
+            <div>
+              <svg
+                className="h-5 w-5 fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24">
+                <rect y="4" width="24" height="2" rx="1" />
+                <rect y="11" width="24" height="2" rx="1" />
+                <rect y="18" width="24" height="2" rx="1" />
+              </svg>
+            </div>
+          </button>
           <div className="flex items-center justify-center">
             <Link href="/" className="ml-2 w-28 dark:hidden">
               {props.logo ? (
@@ -173,27 +190,9 @@ export default function Navbar(props) {
               onClick={handleSearchClick}>
               <MagnifyingGlassIcon className="h-5 w-5 text-gray-800 dark:text-slate-200" />
             </button>
-            <button
-              id="menuToggle"
-              className={`menu hamburger inline-flex items-center justify-center rounded-lg p-2 text-sm text-gray-800 focus:outline-none dark:text-slate-200 ${
-                isNavOpen ? "active" : ""
-              }`}
-              aria-label="Menu"
-              onClick={toggleNav}>
-              <div>
-                <svg
-                  className="h-5 w-5 fill-current"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24">
-                  <rect y="4" width="24" height="2" rx="1" />
-                  <rect y="11" width="24" height="2" rx="1" />
-                  <rect y="18" width="24" height="2" rx="1" />
-                </svg>
-              </div>
-            </button>
           </div>
-          <div className="flex hidden gap-2 pr-3 md:block">
-            <ul className="flex mt-0 flex-row space-x-8 border-0 bg-white p-0 dark:bg-gray-900">
+          <div className="flex hidden items-center justify-between gap-2 pr-3 md:block">
+            <ul className="mt-0 flex items-center space-x-8 border-0 bg-white p-0 dark:bg-gray-900">
               <li>
                 <Link
                   href="/"
@@ -218,17 +217,6 @@ export default function Navbar(props) {
               </li>
               <li>
                 <Link
-                  href="/search"
-                  className={`hover:bg-gray-100 md:p-0 ${
-                    currentPath === "/search"
-                      ? "text-blue-700"
-                      : "text-black dark:text-slate-200"
-                  } md:hover:bg-transparent md:dark:hover:bg-transparent md:dark:hover:text-blue-500`}>
-                  Search
-                </Link>
-              </li>
-              <li>
-                <Link
                   href="/contact"
                   className={`hover:bg-gray-100 md:p-0 ${
                     currentPath === "/contact"
@@ -238,6 +226,13 @@ export default function Navbar(props) {
                   Contact
                 </Link>
               </li>
+              <button
+                className="mr-[3px] inline-flex items-center justify-center rounded-lg p-2 p-2 text-sm text-gray-800 focus:outline-none dark:text-slate-200"
+                id="search"
+                aria-label="Search"
+                onClick={handleSearchClick}>
+                <MagnifyingGlassIcon className="h-5 w-5 text-gray-800 dark:text-slate-200" />
+              </button>
             </ul>
           </div>
         </header>

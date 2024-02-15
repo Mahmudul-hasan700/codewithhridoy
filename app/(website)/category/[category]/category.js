@@ -4,6 +4,7 @@ import { urlForImage } from "@/lib/sanity/image";
 import PostList from "@/components/postlist";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import Breadcrumb from "@/components/Breadcrumb";
 
 export default function Author(props) {
   const { loading, posts, title } = props;
@@ -14,6 +15,7 @@ export default function Author(props) {
 
   return (
     <Container>
+      <Breadcrumb title={title} />
       <div className="flex flex-col items-center justify-center">
         <h1 className="text-3xl font-semibold tracking-tight lg:leading-tight text-brand-primary lg:text-5xl dark:text-white">
           {title}

@@ -1,9 +1,11 @@
 import Container from "@/components/container";
 import Link from "next/link";
+import Breadcrumb from "@/components/Breadcrumb";
 
 export default function About() {
   return (
     <Container>
+      <Breadcrumb title="About" />
       <h1 className="text-brand-primary mb-3 mt-2 text-center text-3xl font-semibold tracking-tight dark:text-white lg:text-4xl lg:leading-snug">
         Codewithhridoy
       </h1>

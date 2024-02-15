@@ -37,7 +37,10 @@ export const fetcher = async ([query, params]) => {
 // Export the comment query
 export async function getCommentsByPostId(postId) {
   if (client) {
-    return (await client.fetch(commentsByPostIdQuery, { postId })) || [];
+    return await client.fetch(commentsByPostIdQuery, {
+      postId,
+      approved: true
+    });
   }
   return [];
 }

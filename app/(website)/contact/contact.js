@@ -9,6 +9,7 @@ import {
   EnvelopeIcon,
   PhoneIcon
 } from "@heroicons/react/24/outline";
+import Breadcrumb from "@/components/Breadcrumb";
 export default function Contact({ settings }) {
   const {
     register,
@@ -45,6 +46,9 @@ export default function Contact({ settings }) {
 
   return (
     <Container>
+      <Breadcrumb
+        title="Contact"
+      />
       <h1 className="mt-2 mb-3 text-3xl font-semibold tracking-tight text-center lg:leading-snug text-brand-primary lg:text-4xl dark:text-white">
         Contact
       </h1>

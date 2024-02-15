@@ -21,7 +21,8 @@ export default async function handler(req, res) {
         },
         name,
         email,
-        comment
+        comment,
+        _createdAt: new Date().toISOString()
       };
 
       const result = await client.create(newComment);

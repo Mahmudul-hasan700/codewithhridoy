@@ -43,17 +43,18 @@ export default function Post(props) {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <div className="font-medium text-gray-900 dark:text-gray-100">
-                    <p className="tracing-wide text-lg font-bold text-gray-800 dark:text-gray-400">
+                  <div className="flex items-center gap-1 font-medium text-gray-900 dark:text-gray-100">
+                    <p className="text-md font-semibold text-gray-800 dark:text-gray-300">
                       {comment.name}
                     </p>
                     {"-"}
-                    <p className="text-sm text-gray-500">
-                      Created:{" "}
-                      {format(
-                        parseISO(comment._createdAt),
-                        "MMMM dd, yyyy h:mm a"
-                      )}
+                    <p className="text-[10px] text-gray-800 dark:text-gray-300">
+                      {comment._createdAt
+                        ? format(
+                            parseISO(comment._createdAt),
+                            "MMMM dd, yyyy h:mm a"
+                          )
+                        : "Unknown"}
                     </p>
                   </div>
                   <p className="text-gray-800 dark:text-gray-400">
