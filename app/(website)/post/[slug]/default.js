@@ -20,57 +20,49 @@ export default function Post(props) {
     typeof window !== "undefined" ? window.location.href : null;
 
   const renderedComments = () => {
-    if (comments && comments.length > 0) {
-      const approvedComments = comments.filter(
-        comment => comment.approved
-      );
+    const approvedComments = comments.filter(
+      comment => comment.approved
+    );
 
-      if (approvedComments.length > 0) {
-        return (
-          <div className="mx-auto grid grid-cols-1 gap-4">
-            {approvedComments.map(comment => (
-              <div
-                key={comment._id}
-                className="flex items-center gap-3 border border-t border-gray-300 py-3 dark:border-gray-600">
-                <div className="h-12 w-12 overflow-hidden rounded-full">
-                  <Avatar
-                    icon={<AvatarIcon />}
-                    classNames={{
-                      base: "bg-gray-100 dark:bg-gray-700 w-full h-full object-cover",
-                      icon: "text-black/80 dark:text-slate-300"
-                    }}
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <div className="flex items-center gap-1 font-medium text-gray-900 dark:text-gray-100">
-                    <p className="text-md font-semibold text-gray-800 dark:text-gray-300">
-                      {comment.name}
-                    </p>
-                    {"-"}
-                    <p className="text-[10px] text-gray-800 dark:text-gray-300">
-                      {comment._createdAt
-                        ? format(
-                            parseISO(comment._createdAt),
-                            "MMMM dd, yyyy h:mm a"
-                          )
-                        : "Unknown"}
-                    </p>
-                  </div>
-                  <p className="text-gray-800 dark:text-gray-400">
-                    {comment.comment}
+    if (approvedComments.length > 0) {
+      return (
+        <div className="mx-auto grid grid-cols-1 gap-4">
+          {approvedComments.map(comment => (
+            <div
+              key={comment._id}
+              className="flex items-center gap-3 border-b border-gray-300 py-4 dark:border-gray-600">
+              <div className="h-12 w-12 overflow-hidden rounded-full">
+                <Avatar
+                  icon={<AvatarIcon />}
+                  classNames={{
+                    base: "bg-gray-200 dark:bg-gray-800 w-full h-full object-cover",
+                    icon: "text-gray-800 dark:text-gray-200"
+                  }}
+                />
+              </div>
+              <div className="flex flex-col">
+                <div className="flex items-center gap-1 font-medium text-gray-900 dark:text-gray-100">
+                  <p className="text-md font-semibold text-gray-800 dark:text-gray-300">
+                    {comment.name}
+                  </p>
+                  {"-"}
+                  <p className="text-[10px] text-gray-800 dark:text-gray-300">
+                    {comment._createdAt
+                      ? format(
+                          parseISO(comment._createdAt),
+                          "MMMM dd, yyyy h:mm a"
+                        )
+                      : "Unknown"}
                   </p>
                 </div>
+                <p className="text-gray-800 dark:text-gray-400">
+                  {comment.comment}
+                </p>
               </div>
-            ))}
-          </div>
-        );
-      } else {
-        return (
-          <p className="text-center dark:text-gray-300">
-            No approved comments available yet
-          </p>
-        );
-      }
+            </div>
+          ))}
+        </div>
+      );
     } else {
       return (
         <p className="text-center dark:text-gray-300">
@@ -161,27 +153,6 @@ export default function Post(props) {
 
             <div className="prose prose-lg mx-auto my-3 text-base dark:prose-invert prose-a:text-blue-500 md:text-xl">
               {post.body && <PortableText value={post.body} />}
-            </div>
-
-            <div className="mb-7 mt-7 flex justify-center">
-              <Link
-                href="/"
-                className="flex items-center rounded-full px-5 py-2 text-sm text-blue-600 dark:text-blue-500 md:text-lg ">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="h-5 w-5">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
-                  />
-                </svg>
-                View all posts
-              </Link>
             </div>
 
             <div className="my-5 flex w-full flex-wrap items-center justify-center gap-[10px]">
