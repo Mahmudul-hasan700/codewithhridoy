@@ -66,7 +66,7 @@ export default function Post(props) {
     } else {
       return (
         <p className="text-center dark:text-gray-300">
-          No comments available yet
+          No approved comments available yet
         </p>
       );
     }
