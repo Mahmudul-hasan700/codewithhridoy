@@ -13,7 +13,7 @@ export default function Footer(props) {
           <ul className="mb-6 mt-4 flex items-center justify-center text-sm font-medium text-gray-800 dark:text-white">
             <li>
               <Link
-                href="/privacy"
+                href="/privacy-policy"
                 className="me-4 hover:underline md:me-6">
                 Privacy
               </Link>
