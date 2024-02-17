@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import "@/styles/tailwind.css";
 import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "./providers";
 import { cx } from "@/utils/all";
 import { Inter, Lora } from "next/font/google";
@@ -10,6 +10,8 @@ import { getSettings } from "@/lib/sanity/client";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { urlForImage } from "@/lib/sanity/image";
+import Head from "next/head";
+import Script from "next/script";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -86,20 +88,41 @@ export default async function Layout({ children, params }) {
   const settings = await getSettings();
   return (
     <GoogleOAuthProvider clientId="685077013953-i9i1hjtrg91ap9indvgrn2n32s2p57ei.apps.googleusercontent.com">
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={cx(inter.variable, lora.variable, "scroll-smooth")}>
-      <body className="max-w-screen-lg mx-auto text-gray-800 antialiased bg-white dark:bg-gray-900 dark:text-slate-300">
-        <Providers>
-          <Navbar {...settings}/>
-          {children}
-          <Analytics />
-          <SpeedInsights/>
-          <Footer {...settings} />
-        </Providers>
-      </body>
-    </html>
+      <html
+        lang="en"
+        suppressHydrationWarning
+        className={cx(
+          inter.variable,
+          lora.variable,
+          "scroll-smooth"
+        )}>
+        <Head>
+          <meta
+            name="google-adsense-account"
+            content="ca-pub-3227806848574176"
+          />
+          <Script
+            id="adsbygoogle-init"
+            strategy="afterInteractive"
+            crossOrigin="anonymous"
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
+          />
+          <Script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+            strategy="afterInteractive"
+          />
+        </Head>
+        <body className="mx-auto max-w-screen-lg bg-white text-gray-800 antialiased dark:bg-gray-900 dark:text-slate-300">
+          <Providers>
+            <Navbar {...settings} />
+            {children}
+            <Analytics />
+            <SpeedInsights />
+            <Footer {...settings} />
+          </Providers>
+        </body>
+      </html>
     </GoogleOAuthProvider>
   );
 }

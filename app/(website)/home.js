@@ -1,6 +1,5 @@
 "use client";
-import Link from "next/link";
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import Container from "@/components/container";
 import PostList from "@/components/postlist";
 import Loading from "./loading";
@@ -8,10 +7,20 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon
 } from "@heroicons/react/24/outline";
+import { Adsense } from "@ctrl/react-adsense";
 
 export default function HomePage({ posts }) {
   const postsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    let ads = document.getElementsByClassName('adsbygoogle').length;
+    for (let i = 0; i < ads; i++) {
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (e) {}
+    }
+  }, []);
 
   const totalPosts = posts.length;
   const totalPages = Math.ceil(totalPosts / postsPerPage);
@@ -27,9 +36,9 @@ export default function HomePage({ posts }) {
         key="prev"
         onClick={() => paginate(currentPage - 1)}
         disabled={currentPage === 1}
-        className="relative inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 disabled:pointer-events-none disabled:select-none disabled:opacity-40 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300">
+        className="relative inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 disabled:pointer-events-none disabled:opacity-40 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300 disabled:select-none disabled:hidden">
         <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-        <span>Previous</span>
+        <span className="hidden md:block">Previous</span>
       </button>
     );
 
@@ -40,7 +49,7 @@ export default function HomePage({ posts }) {
       pageNumbers.push(
         <span
           key="ellipsis1"
-          className="mr-2 inline-flex hidden items-center justify-center rounded-md bg-transparent px-3 py-2 text-black dark:text-slate-200 md:block">
+          className="mr-2 inline-flex hidden items-center justify-center rounded-md bg-transparent px-4 py-2 text-black dark:text-slate-200 md:block">
           ...
         </span>
       );
@@ -62,7 +71,7 @@ export default function HomePage({ posts }) {
       pageNumbers.push(
         <span
           key="ellipsis2"
-          className="mx-1 inline-flex hidden items-center justify-center rounded-md bg-transparent px-3 py-2 text-black dark:text-slate-200 md:block">
+          className="mx-1 inline-flex hidden items-center justify-center rounded-md bg-transparent px-4 py-2 text-black dark:text-slate-200 md:block">
           ...
         </span>
       );
@@ -79,8 +88,8 @@ export default function HomePage({ posts }) {
         key="next"
         onClick={() => paginate(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="relative mx-1 inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-2 pl-4 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 disabled:pointer-events-none disabled:select-none disabled:opacity-40 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300">
-        <span>Next</span>
+        className="relative mx-1 inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 disabled:pointer-events-none disabled:opacity-40 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300 disabled:select-none disabled:hidden">
+        <span className="hidden md:block">Next</span>
         <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
       </button>
     );
@@ -93,7 +102,7 @@ export default function HomePage({ posts }) {
       <button
         key={pageNumber}
         onClick={() => paginate(pageNumber)}
-        className={`relative mx-1 inline-flex hidden items-center rounded-md px-4 py-2 text-sm font-medium focus:z-20 disabled:pointer-events-none sm:block md:block ${currentPage === pageNumber ? "cursor-not-allowed select-none bg-blue-500 text-white" : "border border-gray-300 bg-white text-gray-700 dark:border-gray-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"}`}
+        className={`relative mx-1 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium focus:z-20 disabled:pointer-events-none sm:block md:block ${currentPage === pageNumber ? "cursor-not-allowed bg-blue-500 text-white select-none px-4 py-2 border border-blue-500" : "border border-gray-300 bg-white text-gray-700 dark:border-gray-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 disabled:select-none"}`}
         disabled={currentPage === pageNumber}>
         {pageNumber}
       </button>
@@ -108,7 +117,16 @@ export default function HomePage({ posts }) {
   return (
     <Suspense fallback={<Loading />}>
       <Container>
-        <div className="grid gap-10 md:grid-cols-2 lg:gap-10 ">
+        <div className="text-center adsbygoogle my-3">
+          <Adsense
+            client="ca-pub-3227806848574176"
+            slot="3063566126"
+            style={{ display: "block" }}
+            layout="in-article"
+            format="fluid"
+          />
+        </div>
+        <div className="grid gap-10 md:grid-cols-2 lg:gap-10 mt-5">
           {currentPosts.map(post => (
             <PostList
               key={post._id}
