@@ -8,7 +8,7 @@ export default function PostGrid({ data, query }) {
   const firstTenResults = data.slice(0, 10);
 
   return (
-    <div className="mt-10 flex flex-col gap-4">
+    <div className="relative inset-0 mt-10 grid w-full grid-cols-1 gap-4 md:max-w-[600px]">
       {firstTenResults.map(post => {
         const imageProps = post.mainImage
           ? urlForImage(post.mainImage)
@@ -17,8 +17,8 @@ export default function PostGrid({ data, query }) {
         return (
           <div
             key={post._id}
-            className="mx-auto w-full bg-transparent p-2 text-gray-800 dark:text-slate-200">
-            <div className="flex grid cursor-pointer grid-cols-[150px,1fr] gap-2">
+            className="mx-auto bg-transparent p-2 text-gray-800 dark:text-slate-200">
+            <div className="grid w-96 cursor-pointer grid-cols-[150px,1fr] gap-2">
               <div className="flex h-[90px] w-[150px] items-center justify-center overflow-hidden">
                 {imageProps ? (
                   <Image

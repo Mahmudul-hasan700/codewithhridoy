@@ -11,6 +11,7 @@ import useSWR from "swr";
 import { fetcher } from "@/lib/sanity/client";
 import SkeletonLoader from "@/components/SkeletonLoader";
 import Breadcrumb from "@/components/Breadcrumb";
+import Loding from "../loading";
 
 export async function getStaticProps(context) {
   const searchParams = new URLSearchParams(context.query);
@@ -27,7 +28,7 @@ export async function getStaticProps(context) {
 
 export default function Search({ initialData }) {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loding />}>
       <SearchContent initialData={initialData} />
     </Suspense>
   );

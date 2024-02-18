@@ -271,8 +271,7 @@ export default function Navbar(props) {
               leave="transform transition ease-in-out duration-500 sm:duration-700"
               leaveFrom="translate-x-0"
               leaveTo="translate-x-full">
-              <div className="rightsideNav fixed right-0 top-0 z-50 h-full w-screen flex-shrink-0 transform flex-col overflow-y-auto overflow-x-hidden bg-gray-50 py-6 text-gray-800 shadow-md transition duration-500 ease-in-out dark:bg-gray-800 dark:text-slate-200 sm:duration-700">
-                {/* Sidebar content */}
+              <div className="rightsideNav fixed right-0 top-0 z-50 h-screen w-screen flex-shrink-0 flex-col overflow-y-auto bg-gray-50 py-6 text-gray-800 shadow-md dark:bg-gray-800 dark:text-slate-200">
                 <div className="block">
                   <button
                     className="ml-6 mt-5 text-gray-500 dark:text-gray-400"
@@ -281,9 +280,9 @@ export default function Navbar(props) {
                   </button>
                 </div>
                 <>
-                  <div>
+                  <div className="block">
                     <div className="flex items-center justify-center p-4">
-                      <h1 className="text-brand-primary text-center text-xl font-semibold tracking-tight dark:text-white lg:text-3xl lg:leading-tight">
+                      <h1 className="text-center text-lg font-semibold dark:text-white lg:text-3xl lg:leading-tight">
                         Search
                       </h1>
                     </div>
