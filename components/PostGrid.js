@@ -19,7 +19,7 @@ export default function PostGrid({ data, query }) {
             key={post._id}
             className="mx-2 rounded-lg bg-transparent p-2 text-gray-800 dark:text-slate-200">
             <div className="flex grid cursor-pointer grid-cols-[150px,1fr] gap-2">
-              <div className="flex h-[90px] w-[150px] items-center justify-center overflow-hidden rounded-md">
+              <div className="flex h-[90px] w-[150px] items-center justify-center overflow-hidden">
                 {imageProps ? (
                   <Image
                     src={imageProps.src}

@@ -96,28 +96,6 @@ export default async function Layout({ children, params }) {
           lora.variable,
           "scroll-smooth"
         )}>
-        <Head>
-          <meta
-            name="google-adsense-account"
-            content="ca-pub-3227806848574176"
-          />
-          <script
-            id="adsbygoogle-init"
-            strategy="afterInteractive"
-            crossOrigin="anonymous"
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
-          />
-          <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-            strategy="afterInteractive"
-          />
-          <script
-            data-ad-client="ca-pub-3227806848574176"
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-          />
-        </Head>
         <body className="mx-auto max-w-screen-lg bg-white text-gray-800 antialiased dark:bg-gray-900 dark:text-slate-300">
           <Providers>
             <Navbar {...settings} />
@@ -127,6 +105,22 @@ export default async function Layout({ children, params }) {
             <Footer {...settings} />
           </Providers>
         </body>
+        <Script
+          id="adsbygoogle-init"
+          strategy="afterInteractive"
+          crossOrigin="anonymous"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
+        />
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+          strategy="afterInteractive"
+        />
+        <Script
+          data-ad-client="ca-pub-3227806848574176"
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+        />
       </html>
     </GoogleOAuthProvider>
   );
