@@ -17,8 +17,8 @@ export default function PostGrid({ data, query }) {
         return (
           <div
             key={post._id}
-            className="mx-auto bg-transparent p-2 text-gray-800 dark:text-slate-200">
-            <div className="grid w-96 cursor-pointer grid-cols-[150px,1fr] gap-2">
+            className="mx-auto block w-full bg-transparent p-2 text-gray-800 dark:text-slate-200">
+            <div className="grid cursor-pointer grid-cols-[150px,1fr] gap-2">
               <div className="flex h-[90px] w-[150px] items-center justify-center overflow-hidden">
                 {imageProps ? (
                   <Image
@@ -39,7 +39,7 @@ export default function PostGrid({ data, query }) {
                   </span>
                 )}
               </div>
-              <div className="flex-1">
+              <div>
                 <a
                   href={`post/${post.slug?.current}`}
                   className="line-clamp-2 text-ellipsis text-lg font-semibold hover:underline md:line-clamp-3">
