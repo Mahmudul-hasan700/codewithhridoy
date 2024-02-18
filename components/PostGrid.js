@@ -72,10 +72,10 @@ export default function PostGrid({ data, query }) {
       })}
 
       {firstTenResults.length === 10 && (
-        <div className="m-4 flex justify-center">
+        <div className="m-4 flex justify-center items-center">
           <a
             href={`/search?q=${query}`}
-            className="w-full bg-black text-gray-200 dark:bg-white dark:text-black">
+            className="w-full bg-black text-gray-200 dark:bg-white dark:text-black py-2 rounded-md text-center font-semibold hover:opacity-75">
             View More
           </a>
         </div>

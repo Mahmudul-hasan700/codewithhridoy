@@ -260,15 +260,16 @@ export default function Navbar(props) {
             </button>
           </div>
           {isRightSidebarOpen && (
-            <div
-              className={`rightsideNav fixed right-0 top-0 z-50 h-full w-full flex-shrink-0 transform flex-col overflow-y-auto overflow-x-hidden bg-gray-50 py-6 text-gray-800 shadow-md duration-300 ease-in-out dark:bg-gray-800 dark:text-slate-200`}
-              style={{
-                transitionProperty: "transform",
-                transitionDuration: "300ms",
-                transform: isRightSidebarOpen
-                  ? "translateX(0)"
-                  : "translateX(-100%)"
-              }}>
+              <div
+                className={`
+                  rightsideNav fixed right-0 top-0 z-50 h-full w-full flex-shrink-0 flex-col overflow-y-auto overflow-x-hidden bg-gray-50 py-6 text-gray-800 shadow-md dark:bg-gray-800 dark:text-slate-200
+                  ${
+                    isRightSidebarOpen
+                      ? "transform translate-x-0 transition ease-in-out duration-500 sm:duration-700"
+                      : "transform translate-x-full transition ease-in-out duration-500 sm:duration-700"
+                  }
+                `}
+              >
               <div className="block">
                 <button
                   className="ml-6 mt-5 text-gray-500 dark:text-gray-400"
