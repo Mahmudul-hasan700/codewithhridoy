@@ -105,26 +105,30 @@ export default function HomePage({ posts }) {
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
   return (
-    <Container>
-      <div className="adsbygoogle my-3 text-center">
+    <>
+      <div className="my-3 bg-transparent text-center">
+        <span className="text-center">Advertisement</span>
         <AdSense adSlot="3063566126" />
       </div>
-      <div className="mt-5 grid gap-10 md:grid-cols-2 lg:gap-10">
-        {currentPosts.map(post => (
-          <PostList
-            key={post._id}
-            post={post}
-            aspect="landscape"
-            preloadImage={true}
-          />
-        ))}
-      </div>
-      <div className="mt-10 flex items-center justify-center">
-        {renderPageNumbers()}
-      </div>
-      <div className="adsbygoogle my-3 text-center">
+      <Container>
+        <div className="mt-5 grid gap-10 md:grid-cols-2 lg:gap-10">
+          {currentPosts.map(post => (
+            <PostList
+              key={post._id}
+              post={post}
+              aspect="landscape"
+              preloadImage={true}
+            />
+          ))}
+        </div>
+        <div className="mt-10 flex items-center justify-center">
+          {renderPageNumbers()}
+        </div>
+      </Container>
+      <div className="my-3 bg-transparent text-center">
+        <span className="text-center">Advertisement</span>
         <AdSense adSlot="3063566126" />
       </div>
-    </Container>
+    </>
   );
 }
