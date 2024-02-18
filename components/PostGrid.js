@@ -8,7 +8,7 @@ export default function PostGrid({ data, query }) {
   const firstTenResults = data.slice(0, 10);
 
   return (
-    <div className="mt-10 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+    <div className="mt-10 flex flex-col gap-4">
       {firstTenResults.map(post => {
         const imageProps = post.mainImage
           ? urlForImage(post.mainImage)
@@ -17,7 +17,7 @@ export default function PostGrid({ data, query }) {
         return (
           <div
             key={post._id}
-            className="mx-2 rounded-lg bg-transparent p-2 text-gray-800 dark:text-slate-200">
+            className="mx-auto w-full bg-transparent p-2 text-gray-800 dark:text-slate-200">
             <div className="flex grid cursor-pointer grid-cols-[150px,1fr] gap-2">
               <div className="flex h-[90px] w-[150px] items-center justify-center overflow-hidden">
                 {imageProps ? (
@@ -28,7 +28,7 @@ export default function PostGrid({ data, query }) {
                       blurDataURL: post.mainImage.blurDataURL
                     })}
                     alt={post.mainImage?.alt || "Thumbnail"}
-                    className="object-cover transition-all w-full h-auto"
+                    className="h-auto w-full object-cover transition-all"
                     layout="responsive"
                     width={150}
                     height={150}
@@ -72,10 +72,10 @@ export default function PostGrid({ data, query }) {
       })}
 
       {firstTenResults.length === 10 && (
-        <div className="m-4 flex justify-center items-center">
+        <div className="m-4 flex items-center justify-center">
           <a
             href={`/search?q=${query}`}
-            className="w-full bg-black text-gray-200 dark:bg-white dark:text-black py-2 rounded-md text-center font-semibold hover:opacity-75">
+            className="w-full rounded-md bg-black py-2 text-center font-semibold text-white hover:opacity-75 dark:bg-white dark:text-black">
             View More
           </a>
         </div>
