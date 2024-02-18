@@ -10,6 +10,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "@/lib/sanity/client";
 import SkeletonLoader from "@/components/SkeletonLoader";
+import Breadcrumb from "@/components/Breadcrumb";
 
 export async function getStaticProps(context) {
   const searchParams = new URLSearchParams(context.query);
@@ -59,6 +60,7 @@ function SearchContent({ initialData }) {
   return (
     <>
       <div>
+        <Breadcrumb title="Search" />
         <div className="mt-8 flex items-center justify-center p-4 md:mt-14">
           <h1 className="text-brand-primary text-center text-xl font-semibold tracking-tight dark:text-white lg:text-3xl lg:leading-tight">
             {query ? `Search results for "${query}"` : "Search"}
