@@ -108,8 +108,8 @@ export default async function Layout({ children, params }) {
         <Script
           id="adsbygoogle-init"
           strategy="afterInteractive"
-          crossorigin="anonymous"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
+          crossOrigin="anonymous"
         />
         <Script
           async
@@ -120,7 +120,7 @@ export default async function Layout({ children, params }) {
           data-ad-client="ca-pub-3227806848574176"
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-          crossorigin="anonymous"
+          crossOrigin="anonymous"
         />
       </html>
     </GoogleOAuthProvider>

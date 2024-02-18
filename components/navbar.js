@@ -166,7 +166,11 @@ export default function Navbar(props) {
               onClick={toggleDropdown}
               className="flex w-full items-center justify-between gap-2 rounded-md bg-transparent px-2 py-2 pl-2 font-semibold text-black text-gray-800 duration-300 dark:text-slate-300">
               <span>HTML & CSS</span>
-              <ChevronDownIcon className="h-6 w-6" />
+              <ChevronDownIcon
+                className={`h-6 w-6 transition-transform ${
+                  isDropdownOpen ? 'transform rotate-0' : ' transform rotate-[-90deg]'
+                }`}
+              />
             </button>
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 rounded-md bg-white py-2 shadow-lg dark:bg-gray-700">
