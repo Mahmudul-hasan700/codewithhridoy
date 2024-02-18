@@ -101,22 +101,27 @@ export default async function Layout({ children, params }) {
             name="google-adsense-account"
             content="ca-pub-3227806848574176"
           />
-          <Script
+          <script
             id="adsbygoogle-init"
             strategy="afterInteractive"
             crossOrigin="anonymous"
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
           />
-          <Script
+          <script
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
             strategy="afterInteractive"
+          />
+          <script
+            data-ad-client="ca-pub-3227806848574176"
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
           />
         </Head>
         <body className="mx-auto max-w-screen-lg bg-white text-gray-800 antialiased dark:bg-gray-900 dark:text-slate-300">
           <Providers>
             <Navbar {...settings} />
-            {children}
+            <div className="mt-24">{children}</div>
             <Analytics />
             <SpeedInsights />
             <Footer {...settings} />

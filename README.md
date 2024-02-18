@@ -1,14 +1,3 @@
-# Stablo Pro - Next.js & Sanity CMS Blog Template
-
-
-# Installation
-
-Follow the installation guide to setup the stablo template.
-
-## Step 1. Clone the Repo
-
-Unzip the downloaded zip or clone the github repo to your local machine. Then open the project fodler in your favorite code editor. We prefer VSCode.
-
 ## Step 2. Setup `.env` Variables.
 
 Open the project folder and rename `.env.local.example` placed in the root folder into `.env.local` and add your sanity project ID. You can create a new project by visiting this link: https://www.sanity.io/get-started/create-project

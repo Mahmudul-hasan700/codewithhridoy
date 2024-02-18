@@ -1,26 +1,16 @@
 "use client";
-import { Suspense, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Container from "@/components/container";
 import PostList from "@/components/postlist";
-import Loading from "./loading";
 import {
   ChevronLeftIcon,
   ChevronRightIcon
 } from "@heroicons/react/24/outline";
-import { Adsense } from "@ctrl/react-adsense";
+import AdSense from "@/components/AdSense";
 
 export default function HomePage({ posts }) {
   const postsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {
-    let ads = document.getElementsByClassName('adsbygoogle').length;
-    for (let i = 0; i < ads; i++) {
-      try {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-      } catch (e) {}
-    }
-  }, []);
 
   const totalPosts = posts.length;
   const totalPages = Math.ceil(totalPosts / postsPerPage);
@@ -36,7 +26,7 @@ export default function HomePage({ posts }) {
         key="prev"
         onClick={() => paginate(currentPage - 1)}
         disabled={currentPage === 1}
-        className="relative inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 disabled:pointer-events-none disabled:opacity-40 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300 disabled:select-none disabled:hidden">
+        className="relative inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 disabled:pointer-events-none disabled:hidden disabled:select-none disabled:opacity-40 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300">
         <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
         <span className="hidden md:block">Previous</span>
       </button>
@@ -88,7 +78,7 @@ export default function HomePage({ posts }) {
         key="next"
         onClick={() => paginate(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="relative mx-1 inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 disabled:pointer-events-none disabled:opacity-40 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300 disabled:select-none disabled:hidden">
+        className="relative mx-1 inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 disabled:pointer-events-none disabled:hidden disabled:select-none disabled:opacity-40 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300">
         <span className="hidden md:block">Next</span>
         <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
       </button>
@@ -102,7 +92,7 @@ export default function HomePage({ posts }) {
       <button
         key={pageNumber}
         onClick={() => paginate(pageNumber)}
-        className={`relative mx-1 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium focus:z-20 disabled:pointer-events-none sm:block md:block ${currentPage === pageNumber ? "cursor-not-allowed bg-blue-500 text-white select-none px-4 py-2 border border-blue-500" : "border border-gray-300 bg-white text-gray-700 dark:border-gray-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 disabled:select-none"}`}
+        className={`relative mx-1 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium focus:z-20 disabled:pointer-events-none sm:block md:block ${currentPage === pageNumber ? "cursor-not-allowed select-none border border-blue-500 bg-blue-500 px-4 py-2 text-white" : "border border-gray-300 bg-white text-gray-700 disabled:select-none dark:border-gray-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"}`}
         disabled={currentPage === pageNumber}>
         {pageNumber}
       </button>
@@ -115,31 +105,26 @@ export default function HomePage({ posts }) {
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
   return (
-    <Suspense fallback={<Loading />}>
-      <Container>
-        <div className="text-center adsbygoogle my-3">
-          <Adsense
-            client="ca-pub-3227806848574176"
-            slot="3063566126"
-            style={{ display: "block" }}
-            layout="in-article"
-            format="fluid"
+    <Container>
+      <div className="adsbygoogle my-3 text-center">
+        <AdSense adSlot="3063566126" />
+      </div>
+      <div className="mt-5 grid gap-10 md:grid-cols-2 lg:gap-10">
+        {currentPosts.map(post => (
+          <PostList
+            key={post._id}
+            post={post}
+            aspect="landscape"
+            preloadImage={true}
           />
-        </div>
-        <div className="grid gap-10 md:grid-cols-2 lg:gap-10 mt-5">
-          {currentPosts.map(post => (
-            <PostList
-              key={post._id}
-              post={post}
-              aspect="landscape"
-              preloadImage={true}
-            />
-          ))}
-        </div>
-        <div className="mt-10 flex items-center justify-center">
-          {renderPageNumbers()}
-        </div>
-      </Container>
-    </Suspense>
+        ))}
+      </div>
+      <div className="mt-10 flex items-center justify-center">
+        {renderPageNumbers()}
+      </div>
+      <div className="adsbygoogle my-3 text-center">
+        <AdSense adSlot="3063566126" />
+      </div>
+    </Container>
   );
 }

@@ -1,20 +1,33 @@
 // components/Navbar.js
 
 "use client";
-
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import Link from "next/link";
+import useSWR from "swr";
+import { searchquery } from "@/lib/sanity/groq";
+import { fetcher } from "@/lib/sanity/client";
+import PostGrid from "./PostGrid";
 import Image from "next/image";
 import { urlForImage } from "@/lib/sanity/image";
 import {
   InformationCircleIcon,
   HomeIcon,
-  MagnifyingGlassIcon
+  MagnifyingGlassIcon,
+  ChevronDownIcon,
+  XMarkIcon
 } from "@heroicons/react/24/outline";
 
 export default function Navbar(props) {
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const [query, setQuery] = useState("");
+  const { data, error } = useSWR(
+    query ? [searchquery, { query }] : null,
+    fetcher
+  );
+  const isLoading = !data && !error;
   const router = useRouter();
   const currentPath = usePathname();
   const navigationRef = useRef(null);
@@ -23,8 +36,22 @@ export default function Navbar(props) {
     setIsNavOpen(!isNavOpen);
   };
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleSearch = e => {
+    const searchTerm = e.target.value;
+    setQuery(searchTerm);
+    setIsSearching(!!searchTerm);
+  };
+
   const handleSearchClick = () => {
     router.push("/search");
+  };
+
+  const toggleRightSidebar = () => {
+    setIsRightSidebarOpen(!isRightSidebarOpen);
   };
 
   useEffect(() => {
@@ -42,9 +69,8 @@ export default function Navbar(props) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
   return (
-    <div className="relative flex">
+    <div>
       {isNavOpen && (
         <div
           className="fixed inset-0 z-50 w-full bg-black opacity-75"
@@ -58,7 +84,7 @@ export default function Navbar(props) {
         }`}>
         <ul className="mt-4">
           <li>
-            <Link
+            <a
               href="/"
               className={`mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${
                 currentPath === "/"
@@ -67,11 +93,11 @@ export default function Navbar(props) {
               }`}>
               <HomeIcon className="h-6 w-6" />
               Home
-            </Link>
+            </a>
           </li>
 
           <li>
-            <Link
+            <a
               href="/about"
               className={`mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black duration-300 hover:pl-2 dark:text-white ${
                 currentPath === "/about"
@@ -80,11 +106,11 @@ export default function Navbar(props) {
               }`}>
               <InformationCircleIcon className="h-6 w-6" />
               About
-            </Link>
+            </a>
           </li>
 
           <li>
-            <Link
+            <a
               href="/contact"
               className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${
                 currentPath === "/contact"
@@ -105,10 +131,10 @@ export default function Navbar(props) {
                 />
               </svg>
               Contact
-            </Link>
+            </a>
           </li>
           <li>
-            <Link
+            <a
               href="/auth/signup"
               className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${
                 currentPath === "/auth/signup"
@@ -129,13 +155,55 @@ export default function Navbar(props) {
                 />
               </svg>
               Signup
-            </Link>
+            </a>
           </li>
         </ul>
+        <div className="relative">
+          <button
+            onClick={toggleDropdown}
+            className="flex w-full items-center justify-between gap-2 rounded-md bg-transparent px-2 py-2 pl-2 font-semibold text-black text-gray-800 duration-300 dark:text-slate-300">
+            <span>HTML & CSS</span>
+            <ChevronDownIcon className="h-6 w-6" />
+          </button>
+          {isDropdownOpen && (
+            <div className="absolute right-0 mt-2 w-48 rounded-md bg-white py-2 shadow-lg dark:bg-gray-700">
+              <a
+                href="/category/login-forms"
+                className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
+                Login Forms
+              </a>
+              <a
+                href="/category/tailwindcss"
+                className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
+                Tailwindcss
+              </a>
+              <a
+                href="/category/website-deesigns"
+                className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
+                Website Designs
+              </a>
+              <a
+                href="/category/navigation-bars"
+                className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
+                Navigation Bars
+              </a>
+              <a
+                href="/category/sidebar-menu"
+                className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
+                Sidebar Menu
+              </a>
+              <a
+                href="/category/card-designs"
+                className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
+                Card Designs
+              </a>
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <header className="flex h-20 items-center justify-between bg-white p-4 shadow-md dark:bg-gray-900">
+      <div className="fixed top-0 z-40 w-full bg-white shadow-sm dark:bg-gray-800">
+        <header className="flex h-20 items-center justify-between bg-white p-4 dark:bg-gray-900">
           <button
             id="menuToggle"
             className={`menu hamburger inline-flex items-center justify-center rounded-lg p-2 text-sm text-gray-800 focus:outline-none dark:text-slate-200 md:hidden ${
@@ -155,7 +223,7 @@ export default function Navbar(props) {
             </div>
           </button>
           <div className="flex items-center justify-center">
-            <Link href="/" className="ml-2 w-28 dark:hidden">
+            <a href="/" className="ml-2 w-28 dark:hidden">
               {props.logo ? (
                 <Image
                   {...urlForImage(props.logo)}
@@ -166,8 +234,8 @@ export default function Navbar(props) {
               ) : (
                 <span className="block text-center">Stablo</span>
               )}
-            </Link>
-            <Link
+            </a>
+            <a
               href="/"
               className="ml-2 hidden w-28 dark:block md:w-36">
               {props.logoalt ? (
@@ -180,58 +248,169 @@ export default function Navbar(props) {
               ) : (
                 <span className="block text-center">Stablo</span>
               )}
-            </Link>
+            </a>
           </div>
           <div className="gap-3 md:hidden">
             <button
               className="mr-[3px] inline-flex items-center justify-center rounded-lg p-2 p-2 text-sm text-gray-800 focus:outline-none dark:text-slate-200"
-              id="search"
-              aria-label="Search"
-              onClick={handleSearchClick}>
-              <MagnifyingGlassIcon className="h-5 w-5 text-gray-800 dark:text-slate-200" />
+              id="toggleRightSidebar"
+              onClick={toggleRightSidebar}
+              aria-label="Search">
+              <MagnifyingGlassIcon className="h-6 w-6 text-gray-800 dark:text-slate-200" />
             </button>
           </div>
+          {isRightSidebarOpen && (
+            <div
+              className={`rightsideNav fixed right-0 top-0 z-50 h-full w-full flex-shrink-0 transform flex-col overflow-y-auto overflow-x-hidden bg-gray-50 py-6 text-gray-800 shadow-md duration-300 ease-in-out dark:bg-gray-800 dark:text-slate-200`}
+              style={{
+                transitionProperty: "transform",
+                transitionDuration: "300ms",
+                transform: isRightSidebarOpen
+                  ? "translateX(0)"
+                  : "translateX(-100%)"
+              }}>
+              <div className="block">
+                <button
+                  className="ml-6 mt-5 text-gray-500 dark:text-gray-400"
+                  onClick={toggleRightSidebar}>
+                  <XMarkIcon className="h-6 w-6" />
+                </button>
+              </div>
+              <>
+                <div>
+                  <div className="flex items-center justify-center p-4">
+                    <h1 className="text-brand-primary text-center text-xl font-semibold tracking-tight dark:text-white lg:text-3xl lg:leading-tight">
+                      Search
+                    </h1>
+                  </div>
+
+                  <div className="mx-4 mt-5">
+                    <div className="relative flex items-center justify-center">
+                      <div className="relative w-full md:max-w-[600px]">
+                        <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
+                          <MagnifyingGlassIcon className="h-4 w-4 text-gray-400" />
+                        </div>
+                        <input
+                          type="text"
+                          value={query}
+                          onChange={handleSearch}
+                          placeholder="Search..."
+                          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 ps-10 text-sm text-gray-900 outline-none focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  {isSearching && isLoading && (
+                    <div className="mt-8 flex items-center justify-center">
+                      <div className="h-16 w-16 animate-spin rounded-full border-4 border-solid border-blue-500  border-t-transparent"></div>
+                    </div>
+                  )}
+                  {error && (
+                    <div className="flex h-40 items-center justify-center">
+                      <span className="text-lg text-gray-500">
+                        Error fetching data. Please try again.
+                      </span>
+                    </div>
+                  )}
+                  {data && data.length === 0 && isSearching && (
+                    <div className="flex h-40 items-center justify-center">
+                      <span className="text-lg text-gray-500">
+                        No results found.
+                      </span>
+                    </div>
+                  )}
+                  {data && <PostGrid data={data} />}
+                </div>
+              </>
+            </div>
+          )}
           <div className="flex hidden items-center justify-between gap-2 pr-3 md:block">
             <ul className="mt-0 flex items-center space-x-8 border-0 bg-white p-0 dark:bg-gray-900">
               <li>
-                <Link
+                <a
                   href="/"
-                  className={`p-0 ${
+                  className={`tracing-wide p-0 font-semibold ${
                     currentPath === "/"
                       ? "text-blue-700"
                       : "text-black dark:text-slate-200"
                   } hover:bg-transparent dark:hover:bg-transparent dark:hover:text-blue-500`}>
                   Home
-                </Link>
+                </a>
               </li>
               <li>
-                <Link
+                <a
                   href="/about"
-                  className={`hover:bg-gray-100 md:p-0 ${
+                  className={`font-semibold hover:bg-gray-100 md:p-0 ${
                     currentPath === "/about"
                       ? "text-blue-700"
                       : "text-black dark:text-slate-200"
                   } md:hover:bg-transparent md:dark:hover:bg-transparent md:dark:hover:text-blue-500`}>
                   About
-                </Link>
+                </a>
               </li>
               <li>
-                <Link
+                <a
                   href="/contact"
-                  className={`hover:bg-gray-100 md:p-0 ${
+                  className={`font-semibold hover:bg-gray-100 md:p-0 ${
                     currentPath === "/contact"
                       ? "text-blue-700"
                       : "text-black dark:text-slate-200"
                   } md:hover:bg-transparent md:dark:hover:bg-transparent md:dark:hover:text-blue-500`}>
                   Contact
-                </Link>
+                </a>
               </li>
+              <div className="relative">
+                <button
+                  onClick={toggleDropdown}
+                  className="flex items-center gap-2 rounded-md bg-transparent px-2 py-2 pl-2 font-semibold text-black dark:text-gray-200">
+                  <span>HTML & CSS</span>
+                  <ChevronDownIcon className="h-6 w-6" />
+                </button>
+                {isDropdownOpen && (
+                  <div
+                    className="absolute right-0 mt-2 w-48 rounded-md bg-white py-2 shadow-lg dark:bg-gray-700"
+                    style={{ zIndex: 1000 }}>
+                    <a
+                      href="/category/login-forms"
+                      className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
+                      Login Forms
+                    </a>
+                    <a
+                      href="/category/tailwindcss"
+                      className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
+                      Tailwindcss
+                    </a>
+                    <a
+                      href="/category/website-deesigns"
+                      className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
+                      Website Designs
+                    </a>
+                    <a
+                      href="/category/navigation-bars"
+                      className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
+                      Navigation Bars
+                    </a>
+                    <a
+                      href="/category/sidebar-menu"
+                      className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
+                      Sidebar Menu
+                    </a>
+                    <a
+                      href="/category/card-designs"
+                      className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
+                      Card Designs
+                    </a>
+                  </div>
+                )}
+              </div>
               <button
-                className="mr-[3px] inline-flex items-center justify-center rounded-lg p-2 p-2 text-sm text-gray-800 focus:outline-none dark:text-slate-200"
+                className="mr-[3px] inline-flex items-center justify-center rounded-lg p-2 p-2 text-sm font-semibold text-gray-800 focus:outline-none dark:text-slate-200"
                 id="search"
                 aria-label="Search"
                 onClick={handleSearchClick}>
-                <MagnifyingGlassIcon className="h-5 w-5 text-gray-800 dark:text-slate-200" />
+                <MagnifyingGlassIcon className="h-6 w-6 text-gray-800 dark:text-slate-200" />
               </button>
             </ul>
           </div>

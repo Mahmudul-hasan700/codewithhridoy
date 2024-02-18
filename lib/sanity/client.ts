@@ -13,7 +13,8 @@ import {
   catpathquery,
   catquery,
   searchquery,
-  commentsByPostIdQuery
+  commentsByPostIdQuery,
+  tagquery
 } from "./groq";
 import { createClient } from "next-sanity";
 
@@ -130,4 +131,12 @@ export async function getPaginatedPosts(limit) {
     );
   }
   return {};
+}
+
+// Get all Tags
+export async function getAllTags() {
+  if (client) {
+    return (await client.fetch(tagquery)) || [];
+  }
+  return [];
 }
