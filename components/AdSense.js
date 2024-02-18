@@ -3,7 +3,7 @@ import { useEffect } from "react";
 
 const AdSense = ({ adSlot }) => {
   useEffect(() => {
-    if (window) {
+    if (window && !document.querySelector('.adsbygoogle')) {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     }
   }, []);
