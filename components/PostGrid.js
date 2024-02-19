@@ -40,10 +40,19 @@ export default function PostGrid({ data, query }) {
                 )}
               </div>
               <div>
-                <a
-                  href={`post/${post.slug?.current}`}
-                  className="line-clamp-2 text-ellipsis text-lg font-semibold hover:underline md:line-clamp-3">
-                  {post.title}
+                <a href={`post/${post.slug?.current}`}>
+                  <span
+                    className="
+                    line-clamp-2 text-ellipsis bg-gradient-to-r from-green-200
+                    to-green-100 bg-[length:0px_10px] bg-left-bottom bg-no-repeat text-lg
+                  font-medium
+                  transition-[background-size]
+                  duration-500
+                  hover:bg-[length:100%_3px]
+                  group-hover:bg-[length:100%_10px]
+                  dark:from-purple-800 dark:to-purple-900">
+                    {post.title}
+                  </span>
                 </a>
                 <div className="mb-2 flex items-center gap-1">
                   <a href={`/author/${post.author?.slug?.current}`}>
