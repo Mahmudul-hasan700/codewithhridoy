@@ -87,7 +87,6 @@ export async function generateMetadata({ params }) {
 export default async function Layout({ children, params }) {
   const settings = await getSettings();
   return (
-    <GoogleOAuthProvider clientId="685077013953-i9i1hjtrg91ap9indvgrn2n32s2p57ei.apps.googleusercontent.com">
       <html
         lang="en"
         suppressHydrationWarning
@@ -123,7 +122,6 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
           crossOrigin="anonymous"
         />
       </html>
-    </GoogleOAuthProvider>
   );
 }
 

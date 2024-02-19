@@ -112,8 +112,10 @@ export default function CommentForm({ postId }) {
             id="email"
             {...register("email", { required: true })}
             className={`mb-2 block w-full rounded-md border ${
-              errors.email ? "border-red-500" : "border-gray-300"
-            } px-4 py-2 focus:border-blue-500 focus:outline-none focus:invalid:border-red-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white`}
+              errors.email
+                ? "border-red-500"
+                : "border-gray-300 dark:border-gray-600"
+            } px-4 py-2 focus:border-blue-500 focus:outline-none focus:invalid:border-red-500 dark:bg-gray-800 dark:text-white`}
           />
           {errors.email && (
             <span className="text-red-500">Email is required</span>
