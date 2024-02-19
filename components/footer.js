@@ -15,14 +15,14 @@ export default function Footer(props) {
               <Link
                 href="/privacy-policy"
                 className="me-4 hover:underline md:me-6">
-                Privacy
+                Privacy Policy
               </Link>
             </li>
             <li>
               <Link
-                href="/terms"
+                href="/terms-condition"
                 className="me-4 hover:underline md:me-6">
-                Terms
+                Terms & Conditions
               </Link>
             </li>
             <li>
