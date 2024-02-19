@@ -43,7 +43,7 @@ export default function PostGrid({ data, query }) {
                 <a href={`post/${post.slug?.current}`}>
                   <span
                     className="
-                    line-clamp-2 text-ellipsis bg-gradient-to-r from-green-200
+                  bg-gradient-to-r from-green-200
                     to-green-100 bg-[length:0px_10px] bg-left-bottom bg-no-repeat text-lg
                   font-medium
                   transition-[background-size]
