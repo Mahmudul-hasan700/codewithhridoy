@@ -1,13 +1,12 @@
 // pages/terms.js
 
 import Head from "next/head";
+import Breadcrumb from "@/components/Breadcrumb";
 
 export default function Terms() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <Head>
-        <title>Terms & Conditions - CodewithHridoy</title>
-      </Head>
+      <BreadCrumb title="Terms and Conditions" />
 
       <h1 className="mb-6 text-3xl font-bold">Terms & Conditions</h1>
 
@@ -108,9 +107,11 @@ export default function Terms() {
       <p className="mb-4">
         By accessing and using CodingNepal, you acknowledge and accept
         these terms and conditions. If you have any questions or
-        concerns, please <a
-          href="/contact"
-          className="text-blue-500 hover:underline">contact us</a>.
+        concerns, please{" "}
+        <a href="/contact" className="text-blue-500 hover:underline">
+          contact us
+        </a>
+        .
       </p>
     </div>
   );
