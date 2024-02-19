@@ -168,7 +168,9 @@ export default function Navbar(props) {
               <span>HTML & CSS</span>
               <ChevronDownIcon
                 className={`h-6 w-6 transition-transform ${
-                  isDropdownOpen ? 'transform rotate-0' : ' transform rotate-[-90deg]'
+                  isDropdownOpen
+                    ? "rotate-0 transform"
+                    : " rotate-[-90deg] transform"
                 }`}
               />
             </button>
@@ -276,9 +278,9 @@ export default function Navbar(props) {
               leaveFrom="translate-x-0"
               leaveTo="translate-x-full">
               <div className="rightsideNav fixed right-0 top-0 z-50 h-screen w-screen flex-shrink-0 flex-col overflow-y-auto bg-gray-50 py-6 text-gray-800 shadow-md dark:bg-gray-800 dark:text-slate-200">
-                <div className="block">
+                <div className="mr-5 block flex items-center justify-end">
                   <button
-                    className="ml-6 mt-5 text-gray-500 dark:text-gray-400"
+                    className="text-gray-500 dark:text-gray-400"
                     onClick={toggleRightSidebar}>
                     <XMarkIcon className="h-6 w-6" />
                   </button>
@@ -294,15 +296,13 @@ export default function Navbar(props) {
                     <div className="mx-4 mt-5">
                       <div className="relative flex items-center justify-center">
                         <div className="relative w-full md:max-w-[600px]">
-                          <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
-                            <MagnifyingGlassIcon className="h-4 w-4 text-gray-400" />
-                          </div>
                           <input
                             type="text"
                             value={query}
                             onChange={handleSearch}
                             placeholder="Search..."
-                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 ps-10 text-sm text-gray-900 outline-none focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500"
+                            id="search"
+                            className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500"
                           />
                         </div>
                       </div>
