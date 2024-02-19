@@ -6,7 +6,7 @@ import Breadcrumb from "@/components/Breadcrumb";
 export default function Terms() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <BreadCrumb title="Terms and Conditions" />
+      <Breadcrumb title="Terms and Conditions" />
 
       <h1 className="mb-6 text-3xl font-bold">Terms & Conditions</h1>
 
