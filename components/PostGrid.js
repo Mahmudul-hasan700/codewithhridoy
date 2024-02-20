@@ -30,6 +30,7 @@ export default function PostGrid({ data, query }) {
                     alt={post.mainImage?.alt || "Thumbnail"}
                     className="h-auto w-full object-cover transition-all"
                     layout="responsive"
+                    fill
                     width={150}
                     height={150}
                   />

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Container from "@/components/container";
 import PostList from "@/components/postlist";
 import {
@@ -9,6 +9,7 @@ import {
 import AdSense from "@/components/AdSense";
 
 export default function HomePage({ posts }) {
+  const featuredPost = posts.filter(item => item.featured) || [];
   const postsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -106,11 +107,40 @@ export default function HomePage({ posts }) {
 
   return (
     <>
-      <div className="my-3 bg-transparent text-center">
+      {featuredPost.length > 0 && (
+        <>
+          <div className="mt-10 flex items-center justify-center">
+            <h2 className="text-2xl">
+              <strong>Featured</strong> Post
+            </h2>
+          </div>
+          <Container large>
+            <div className="mb-20 mt-10 grid gap-10 md:grid-cols-3 lg:grid-cols-4 lg:gap-10">
+              {featuredPost.map((post, index) => (
+                <div
+                  key={post._id}
+                  className={`md:col-span-${index === 0 ? "2" : "1"} md:row-span-${index === 0 ? "2" : "1"}`}>
+                  <PostList
+                    post={post}
+                    preloadImage={true}
+                    fontSize="large"
+                    aspect="landscape"
+                    fontWeight="normal"
+                  />
+                </div>
+              ))}
+            </div>
+          </Container>
+        </>
+      )}
+      <div className="my-3 bg-transparent text-center">       
         <span className="text-center">Advertisement</span>
         <AdSense adSlot="3063566126" />
       </div>
       <Container>
+        <h2 className="text-2xl text-center">
+          <strong>Latest</strong> Post
+        </h2>
         <div className="mt-5 grid gap-10 md:grid-cols-2 lg:gap-10">
           {currentPosts.map(post => (
             <PostList

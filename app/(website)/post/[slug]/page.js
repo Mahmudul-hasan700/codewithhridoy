@@ -9,15 +9,18 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const post = await getPostBySlug(params.slug);
-  return { 
-    title: post.title,
-    metaTitle: post.seo.metaTitle,
-    metaDescription: post.seo.metaDescription,
-    metaKeywords: post.seo.metaKeywords,
-    canonicalUrl: post.seo.canonicalUrl,
-    ogImage: post.mainImage?.src,
-    noIndex: post.seo.noIndex,
-    noFollow: post.seo.noFollow
+  const seo = post?.seo || {};
+  return {
+    title: post?.title,
+    metaTitle: seo.metaTitle || "",
+    metaDescription: seo.metaDescription || "",
+    metaKeywords: seo.metaKeywords || [],
+    canonicalUrl: seo.canonicalUrl || "",
+    noIndex: seo.noIndex || false,
+    noFollow: seo.noFollow || false,
+    ogTitle: seo.ogTitle || "",
+    ogDescription: seo.ogDescription || "",
+    ogImage: seo?.ogImage?.src || null
   };
 }
 
@@ -26,7 +29,7 @@ export default async function PostDefault({ params }) {
   const categories = await getTopCategories();
   const comments = await getCommentsByPostId(post._id);
 
-  return <PostPage post={post} categories={categories} comments={comments} />; 
+  return <PostPage post={post} categories={categories} comments={comments} />;
 }
 
 export const revalidate = 60;
