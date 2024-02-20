@@ -333,7 +333,7 @@ export default function Navbar(props) {
                 </>
               </div>
             </Transition>
-            <div className="flex hidden items-center justify-between gap-2 pr-3 md:block">
+            <div className="flex hidden max-w-lg items-center justify-between gap-2 pr-3 md:ml-auto md:block lg:mx-auto">
               <ul className="mt-0 flex items-center space-x-8 border-0 bg-white p-0 dark:bg-gray-900">
                 <li>
                   <a
