@@ -119,7 +119,7 @@ export default function HomePage({ posts }) {
               {featuredPost.map((post, index) => (
                 <div
                   key={post._id}
-                  className={`md:col-span-${index === 0 ? "2" : "1"} md:row-span-${index === 0 ? "2" : "1"}`}>
+                  >
                   <PostList
                     post={post}
                     preloadImage={true}

@@ -23,30 +23,30 @@ const lora = Lora({
   variable: "--font-lora"
 });
 
-  const websiteSchema = {
-    "@context": "http://schema.org",
-    "@type": "WebSite",
+const websiteSchema = {
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "name": "Codewithhridoy",
+  "url": "https://codewithhridoy.vercel.app/",
+  "description": "Creative Coding Blog - HTML CSS & JavaScript.",
+  "author": {
+    "@type": "Person",
+    "name": "Hridoy"
+  },
+  "publisher": {
+    "@type": "Organization",
     "name": "Codewithhridoy",
-    "url": "https://codewithhridoy.vercel.app/",
-    "description": "Creative Coding Blog - HTML CSS & JavaScript.",
-    "author": {
-      "@type": "Person",
-      "name": "Hridoy"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Codewithhridoy",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "/favicon.ico",
-        "width": 600,
-        "height": 60
-      }
-    },
-    "sameAs": [
-      "https://twitter.com/Codewithhridoy"
-    ]
-  };
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/favicon.ico",
+      "width": 600,
+      "height": 60
+    }
+  },
+  "sameAs": [
+    "https://twitter.com/Codewithhridoy"
+  ]
+};
 
 export async function sharedMetaData(params) {
   const settings = await getSettings();

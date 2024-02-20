@@ -286,14 +286,14 @@ export default function Navbar(props) {
                   </button>
                 </div>
                 <>
-                  <div className="block">
+                  <div className="block my-5">
                     <div className="flex items-center justify-center p-4">
                       <h1 className="text-center text-lg font-semibold dark:text-white lg:text-3xl lg:leading-tight">
                         Search
                       </h1>
                     </div>
 
-                    <div className="mx-4 mt-5">
+                    <div className="mx-4 my-5">
                       <div className="relative flex items-center justify-center">
                         <div className="relative w-full md:max-w-[600px]">
                           <input
