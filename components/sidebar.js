@@ -48,9 +48,9 @@ function RelatedPosts({ related, pathPrefix }) {
           return (
             <Link
               key={index}
-              href={`/post/${pathPrefix ? `${pathPrefix}/` : ""}${
+              href={`/post/${
                 item.slug.current
-              }`}>
+              }`} className="group">
               <div className="flex gap-5">
                 <div className="relative w-24 h-20 overflow-hidden rounded-md shrink-0">
                   <Image
@@ -63,7 +63,7 @@ function RelatedPosts({ related, pathPrefix }) {
                   />
                 </div>
                 <div>
-                  <h3 className="font-medium dark:text-white md:line-clamp-2 md:text-ellipsis">
+                  <h3 className="font-medium dark:text-white md:line-clamp-2 md:text-ellipsis group-hover:underline">
                     {item.title}
                   </h3>
                   <p className="mt-2 text-sm text-gray-500">
@@ -90,8 +90,8 @@ function Categories({ categories }) {
           <li key={item._id}>
             <Link
               href={`/category/${item.slug.current}`}
-              className="flex items-center justify-between py-2">
-              <h4 className="text-gray-800 dark:text-gray-400">
+              className="flex items-center justify-between py-2 group">
+              <h4 className="text-gray-800 dark:text-gray-400 group-hover:text-blue-500 group-hover:underline">
                 {item.title}
               </h4>
               <Label pill={true} color={item.color}>

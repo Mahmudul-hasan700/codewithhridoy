@@ -23,6 +23,31 @@ const lora = Lora({
   variable: "--font-lora"
 });
 
+  const websiteSchema = {
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Codewithhridoy",
+    "url": "https://codewithhridoy.vercel.app/",
+    "description": "Creative Coding Blog - HTML CSS & JavaScript.",
+    "author": {
+      "@type": "Person",
+      "name": "Hridoy"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Codewithhridoy",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "/favicon.ico",
+        "width": 600,
+        "height": 60
+      }
+    },
+    "sameAs": [
+      "https://twitter.com/Codewithhridoy"
+    ]
+  };
+
 export async function sharedMetaData(params) {
   const settings = await getSettings();
 
@@ -87,41 +112,43 @@ export async function generateMetadata({ params }) {
 export default async function Layout({ children, params }) {
   const settings = await getSettings();
   return (
-      <html
-        lang="en"
-        suppressHydrationWarning
-        className={cx(
-          inter.variable,
-          lora.variable,
-          "scroll-smooth"
-        )}>
-        <body className="mx-auto max-w-screen-lg bg-white text-gray-800 antialiased dark:bg-gray-900 dark:text-slate-300">
-          <Providers>
-            <Navbar {...settings} />
-            <div className="mt-24">{children}</div>
-            <Analytics />
-            <SpeedInsights />
-            <Footer {...settings} />
-          </Providers>
-        </body>
-        <Script
-          id="adsbygoogle-init"
-          strategy="afterInteractive"
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
-          crossOrigin="anonymous"
-        />
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-          strategy="afterInteractive"
-        />
-        <Script
-          data-ad-client="ca-pub-3227806848574176"
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-          crossOrigin="anonymous"
-        />
-      </html>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cx(inter.variable, lora.variable, "scroll-smooth")}>
+      <body className="mx-auto max-w-screen-lg bg-white text-gray-800 antialiased dark:bg-gray-900 dark:text-slate-300">
+        <Providers>
+          <Navbar {...settings} />
+          <div className="mt-24">{children}</div>
+          <Analytics />
+          <SpeedInsights />
+          <Footer {...settings} />
+        </Providers>
+      </body>
+      <Script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(websiteSchema)
+        }}
+      />
+      <Script
+        id="adsbygoogle-init"
+        strategy="afterInteractive"
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
+        crossOrigin="anonymous"
+      />
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+        strategy="afterInteractive"
+      />
+      <Script
+        data-ad-client="ca-pub-3227806848574176"
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+        crossOrigin="anonymous"
+      />
+    </html>
   );
 }
 
