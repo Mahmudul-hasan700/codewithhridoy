@@ -13,7 +13,7 @@ const AdSense = ({ adSlot }) => {
       className="adsbygoogle"
       style={{ display: "block" }}
       data-ad-client="ca-pub-3227806848574176"
-      data-ad-slot={adSlot}
+      data-ad-slot="3063566126"
       data-ad-format="auto"
       data-full-width-responsive="true"
     ></ins>

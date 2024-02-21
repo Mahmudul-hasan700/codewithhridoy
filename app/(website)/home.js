@@ -1,15 +1,18 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Container from "@/components/container";
 import PostList from "@/components/postlist";
 import {
   ChevronLeftIcon,
   ChevronRightIcon
 } from "@heroicons/react/24/outline";
-import AdSense from "@/components/AdSense";
 
 export default function HomePage({ posts }) {
-  const featuredPost = posts.filter(item => item.featured) || [];
+  useEffect(() => {
+    if (window && !document.querySelector('.adsbygoogle')) {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    }
+  }, []);
   const postsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -107,35 +110,15 @@ export default function HomePage({ posts }) {
 
   return (
     <>
-      {featuredPost.length > 0 && (
-        <>
-          <div className="mt-10 flex items-center justify-center">
-            <h2 className="text-2xl">
-              <strong>Featured</strong> Post
-            </h2>
-          </div>
-          <Container large>
-            <div className="mb-20 mt-10 grid gap-10 md:grid-cols-3 lg:grid-cols-4 lg:gap-10">
-              {featuredPost.map((post, index) => (
-                <div
-                  key={post._id}
-                  >
-                  <PostList
-                    post={post}
-                    preloadImage={true}
-                    fontSize="large"
-                    aspect="landscape"
-                    fontWeight="normal"
-                  />
-                </div>
-              ))}
-            </div>
-          </Container>
-        </>
-      )}
       <div className="my-3 bg-transparent text-center">       
-        <span className="text-center">Advertisement</span>
-        <AdSense adSlot="3063566126" />
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-client="ca-pub-3227806848574176"
+          data-ad-slot="3063566126"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        ></ins>
       </div>
       <Container>
         <h2 className="text-2xl text-center">
@@ -156,8 +139,14 @@ export default function HomePage({ posts }) {
         </div>
       </Container>
       <div className="my-3 bg-transparent text-center">
-        <span className="text-center">Advertisement</span>
-        <AdSense adSlot="3063566126" />
+        <ins
+      className="adsbygoogle"
+      style={{ display: "block" }}
+      data-ad-client="ca-pub-3227806848574176"
+      data-ad-slot="3063566126"
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    ></ins>
       </div>
     </>
   );
