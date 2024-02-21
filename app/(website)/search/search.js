@@ -133,7 +133,7 @@ function SearchContent({ initialData }) {
             <button
               onClick={() => setCurrentPage(currentPage - 1)}
               disabled={currentPage === 1}
-              className="mx-1 rounded-md bg-gray-300 px-3 py-1 text-gray-700">
+              className="relative mx-1 inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 disabled:pointer-events-none disabled:select-none disabled:opacity-40 disabled:opacity-75 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300">
               <ChevronLeftIcon className="h-5 w-5" />
             </button>
             {Array.from({
@@ -142,11 +142,11 @@ function SearchContent({ initialData }) {
               <button
                 key={index}
                 onClick={() => paginate(index + 1)}
-                className={`mx-1 rounded-md px-3 py-1 ${
+                className={`relative mx-1 inline-flex items-center gap-1 rounded-md border border-gray-300 px-4 py-2 text-sm font-medium ${
                   currentPage === index + 1
                     ? "bg-blue-500 text-white"
-                    : "bg-gray-300 text-gray-700"
-                }`}>
+                    : "bg-white text-gray-700 dark:bg-gray-800 dark:text-gray-300"
+                } focus:z-20 disabled:pointer-events-none disabled:select-none disabled:opacity-75 dark:border-gray-500`}>
                 {index + 1}
               </button>
             ))}
@@ -155,7 +155,7 @@ function SearchContent({ initialData }) {
               disabled={
                 currentPage === Math.ceil(data.length / postsPerPage)
               }
-              className="mx-1 rounded-md bg-gray-300 px-3 py-1 text-gray-700">
+              className="relative mx-1 inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 disabled:pointer-events-none disabled:select-none disabled:opacity-40 disabled:opacity-75 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300">
               <ChevronRightIcon className="h-5 w-5" />
             </button>
           </div>
