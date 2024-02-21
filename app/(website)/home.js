@@ -9,10 +9,11 @@ import {
 
 export default function HomePage({ posts }) {
   useEffect(() => {
-    if (window && !document.querySelector('.adsbygoogle')) {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    if (typeof window !== "undefined" && !window.adsbygoogle) {
+      window.adsbygoogle = window.adsbygoogle || [];
     }
   }, []);
+
   const postsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -110,18 +111,17 @@ export default function HomePage({ posts }) {
 
   return (
     <>
-      <div className="my-3 bg-transparent text-center">       
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-client="ca-pub-3227806848574176"
-          data-ad-slot="3063566126"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        ></ins>
-      </div>
       <Container>
-        <h2 className="text-2xl text-center">
+        <div className="my-3 bg-transparent text-center">
+          <ins
+            className="adsbygoogle"
+            style={{ display: "block" }}
+            data-ad-client="ca-pub-3227806848574176"
+            data-ad-slot="3063566126"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        </div>
+        <h2 className="text-center text-2xl">
           <strong>Latest</strong> Post
         </h2>
         <div className="mt-5 grid gap-10 md:grid-cols-2 lg:gap-10">
@@ -137,17 +137,16 @@ export default function HomePage({ posts }) {
         <div className="mt-10 flex items-center justify-center">
           {renderPageNumbers()}
         </div>
+        <div className="text-center">
+          <ins
+            className="adsbygoogle"
+            style={{ display: "block" }}
+            data-ad-client="ca-pub-3227806848574176"
+            data-ad-slot="3063566126"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        </div>
       </Container>
-      <div className="my-3 bg-transparent text-center">
-        <ins
-      className="adsbygoogle"
-      style={{ display: "block" }}
-      data-ad-client="ca-pub-3227806848574176"
-      data-ad-slot="3063566126"
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    ></ins>
-      </div>
     </>
   );
 }

@@ -12,6 +12,10 @@ import { fetcher } from "@/lib/sanity/client";
 import SkeletonLoader from "@/components/SkeletonLoader";
 import Breadcrumb from "@/components/Breadcrumb";
 import Loding from "../loading";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon
+} from "@heroicons/react/24/outline";
 
 export async function getStaticProps(context) {
   const searchParams = new URLSearchParams(context.query);
@@ -35,6 +39,8 @@ export default function Search({ initialData }) {
 }
 
 function SearchContent({ initialData }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 10;
   const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || null;
@@ -57,6 +63,13 @@ function SearchContent({ initialData }) {
   useEffect(() => {
     return () => clearTimeout(timer);
   }, [timer]);
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = data
+    ? data.slice(indexOfFirstPost, indexOfLastPost)
+    : [];
+  const paginate = pageNumber => setCurrentPage(pageNumber);
 
   return (
     <>
@@ -104,16 +117,47 @@ function SearchContent({ initialData }) {
             </span>
           </div>
         )}
-
         {query && data && (
           <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-            {data.map((post, index) => (
+            {currentPosts.map((post, index) => (
               <PostList
                 key={post._id}
                 post={post}
                 aspect="landscape"
               />
             ))}
+          </div>
+        )}
+        {query && data && (
+          <div className="mt-8 flex justify-center">
+            <button
+              onClick={() => setCurrentPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="mx-1 rounded-md bg-gray-300 px-3 py-1 text-gray-700">
+              <ChevronLeftIcon className="h-5 w-5" />
+            </button>
+            {Array.from({
+              length: Math.ceil(data.length / postsPerPage)
+            }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => paginate(index + 1)}
+                className={`mx-1 rounded-md px-3 py-1 ${
+                  currentPage === index + 1
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-300 text-gray-700"
+                }`}>
+                {index + 1}
+              </button>
+            ))}
+            <button
+              onClick={() => setCurrentPage(currentPage + 1)}
+              disabled={
+                currentPage === Math.ceil(data.length / postsPerPage)
+              }
+              className="mx-1 rounded-md bg-gray-300 px-3 py-1 text-gray-700">
+              <ChevronRightIcon className="h-5 w-5" />
+            </button>
           </div>
         )}
       </Container>

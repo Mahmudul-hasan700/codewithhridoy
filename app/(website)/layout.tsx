@@ -26,26 +26,24 @@ const lora = Lora({
 const websiteSchema = {
   "@context": "http://schema.org",
   "@type": "WebSite",
-  "name": "Codewithhridoy",
-  "url": "https://codewithhridoy.vercel.app/",
-  "description": "Creative Coding Blog - HTML CSS & JavaScript.",
-  "author": {
+  name: "Codewithhridoy",
+  url: "https://codewithhridoy.vercel.app/",
+  description: "Creative Coding Blog - HTML CSS & JavaScript.",
+  author: {
     "@type": "Person",
-    "name": "Hridoy"
+    name: "Hridoy"
   },
-  "publisher": {
+  publisher: {
     "@type": "Organization",
-    "name": "Codewithhridoy",
-    "logo": {
+    name: "Codewithhridoy",
+    logo: {
       "@type": "ImageObject",
-      "url": "/favicon.ico",
-      "width": 600,
-      "height": 60
+      url: "/favicon.ico",
+      width: 600,
+      height: 60
     }
   },
-  "sameAs": [
-    "https://twitter.com/Codewithhridoy"
-  ]
+  sameAs: ["https://twitter.com/Codewithhridoy"]
 };
 
 export async function sharedMetaData(params) {
@@ -131,6 +129,7 @@ export default async function Layout({ children, params }) {
           __html: JSON.stringify(websiteSchema)
         }}
       />
+      
       <Script
         id="adsbygoogle-init"
         strategy="afterInteractive"
