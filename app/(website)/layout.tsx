@@ -114,39 +114,44 @@ export default async function Layout({ children, params }) {
       lang="en"
       suppressHydrationWarning
       className={cx(inter.variable, lora.variable, "scroll-smooth")}>
+        <Script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteSchema)
+          }}
+        />
+
+        <Script
+          id="adsbygoogle-init"
+          strategy="afterInteractive"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
+          crossOrigin="anonymous"
+          data-test="script"
+        />
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+          strategy="afterInteractive"
+          data-test="script"
+        />
+        <Script
+          data-ad-client="ca-pub-3227806848574176"
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+          crossOrigin="anonymous"
+          data-test="script"
+        />
       <body className="mx-auto max-w-screen-lg bg-white text-gray-800 antialiased dark:bg-gray-900 dark:text-slate-300">
         <Providers>
           <Navbar {...settings} />
-          <div className="mt-24">{children}</div>
+          <div className="mt-24">
+            {children}
+          </div>
           <Analytics />
           <SpeedInsights />
           <Footer {...settings} />
         </Providers>
       </body>
-      <Script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(websiteSchema)
-        }}
-      />
-      
-      <Script
-        id="adsbygoogle-init"
-        strategy="afterInteractive"
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
-        crossOrigin="anonymous"
-      />
-      <Script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-        strategy="afterInteractive"
-      />
-      <Script
-        data-ad-client="ca-pub-3227806848574176"
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-        crossOrigin="anonymous"
-      />
     </html>
   );
 }
