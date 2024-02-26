@@ -171,7 +171,6 @@ export default function Post(props) {
             </div>
           </article>
           <aside className="sticky top-0 self-start md:w-2/5">
-            {" "}
             <Sidebar
               categories={categories}
               related={post.related.filter(

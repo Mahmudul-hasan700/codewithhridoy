@@ -16,7 +16,7 @@ import {
   ChevronDownIcon,
   XMarkIcon
 } from "@heroicons/react/24/outline";
-import { Dialog, Transition } from "@headlessui/react";
+import { Transition } from "@headlessui/react";
 
 export default function Navbar(props) {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -82,9 +82,14 @@ export default function Navbar(props) {
         <div
           ref={navigationRef}
           id="sideNav"
-          className={`fixed left-0 top-0 z-50 h-full w-72 flex-shrink-0 transform flex-col bg-gray-50 py-6 pl-2 pr-4 text-gray-800 shadow-md transition-transform duration-300 dark:bg-gray-800 dark:text-slate-200 sm:w-80 ${
+          className={`fixed left-0 top-0 z-50 h-full w-full flex-shrink-0 transform flex-col bg-gray-50 py-6 pl-2 pr-4 text-gray-800 shadow-md transition-transform duration-500 dark:bg-gray-800 dark:text-slate-200 sm:w-1/2 ${
             isNavOpen ? "translate-x-0" : "-translate-x-full"
           }`}>
+          <div className="my-3 mr-5 block flex items-center justify-end">
+            <button onClick={toggleNav}>
+              <XMarkIcon className="h-6 w-6 text-black dark:text-white" />
+            </button>
+          </div>
           <ul className="mt-4">
             <li>
               <a
@@ -164,13 +169,13 @@ export default function Navbar(props) {
           <div className="relative">
             <button
               onClick={toggleDropdown}
-              className="flex w-full items-center justify-between gap-2 rounded-md bg-transparent px-2 py-2 pl-2 font-semibold text-black text-gray-800 duration-300 dark:text-slate-300">
+              className="flex w-full items-center justify-between rounded-md bg-transparent py-2 pl-5 font-semibold text-black text-gray-800 duration-500 dark:text-white">
               <span>HTML & CSS</span>
               <ChevronDownIcon
                 className={`h-6 w-6 transition-transform ${
                   isDropdownOpen
                     ? "rotate-0 transform"
-                    : " rotate-[-90deg] transform"
+                    : "rotate-[-90deg] transform"
                 }`}
               />
             </button>
@@ -286,7 +291,7 @@ export default function Navbar(props) {
                   </button>
                 </div>
                 <>
-                  <div className="block my-5">
+                  <div className="my-5 block">
                     <div className="flex items-center justify-center p-4">
                       <h1 className="text-center text-lg font-semibold dark:text-white lg:text-3xl lg:leading-tight">
                         Search

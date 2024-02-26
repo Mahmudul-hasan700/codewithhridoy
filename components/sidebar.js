@@ -36,11 +36,13 @@ function Searchbar() {
   );
 }
 
-function RelatedPosts({ related, pathPrefix }) {
+function RelatedPosts({ related }) {
   return (
     <div className="mt-10">
-      <h3 className="text-2xl font-bold dark:text-white">Related</h3>
-      <div className="grid gap-6 mt-6">
+      <h3 className="text-2xl font-bold dark:text-white text-center">
+        RELATED ARTICLES
+      </h3>
+      <div className="mt-6 grid gap-6">
         {related.slice(0, 5).map((item, index) => {
           const imageProps = item?.image
             ? urlForImage(item?.image)
@@ -48,11 +50,10 @@ function RelatedPosts({ related, pathPrefix }) {
           return (
             <Link
               key={index}
-              href={`/post/${
-                item.slug.current
-              }`} className="group">
+              href={`/post/${item.slug.current}`}
+              className="group">
               <div className="flex gap-5">
-                <div className="relative w-24 h-20 overflow-hidden rounded-md shrink-0">
+                <div className="relative h-20 w-24 shrink-0 overflow-hidden rounded-md">
                   <Image
                     src={imageProps.src}
                     loader={imageProps.loader}
@@ -63,7 +64,7 @@ function RelatedPosts({ related, pathPrefix }) {
                   />
                 </div>
                 <div>
-                  <h3 className="font-medium dark:text-white md:line-clamp-2 md:text-ellipsis group-hover:underline">
+                  <h3 className="font-medium group-hover:underline dark:text-white md:line-clamp-2 md:text-ellipsis">
                     {item.title}
                   </h3>
                   <p className="mt-2 text-sm text-gray-500">
@@ -85,13 +86,13 @@ function Categories({ categories }) {
       <h3 className="text-2xl font-bold dark:text-white">
         Categories
       </h3>
-      <ul className="grid mt-4">
+      <ul className="mt-4 grid">
         {categories.map((item, index) => (
           <li key={item._id}>
             <Link
               href={`/category/${item.slug.current}`}
-              className="flex items-center justify-between py-2 group">
-              <h4 className="text-gray-800 dark:text-gray-400 group-hover:text-blue-500 group-hover:underline">
+              className="group flex items-center justify-between py-2">
+              <h4 className="text-gray-800 group-hover:text-blue-500 group-hover:underline dark:text-gray-400">
                 {item.title}
               </h4>
               <Label pill={true} color={item.color}>
