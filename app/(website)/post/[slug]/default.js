@@ -92,7 +92,7 @@ export default function Post(props) {
         <Breadcrumb title={title} />
         <div className="mx-auto flex max-w-screen-xl flex-col gap-5 px-5 md:flex-row">
           <article className="flex-1 md:w-3/5">
-            <h1 className="mb-3 mt-2 text-center text-3xl font-semibold tracking-tight dark:text-white lg:text-4xl lg:leading-snug">
+            <h1 className="mb-3 mt-2 text-left text-2xl font-semibold tracking-tight dark:text-white lg:text-4xl lg:leading-snug">
               {post.title}
             </h1>
 
