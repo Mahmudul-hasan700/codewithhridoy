@@ -21,6 +21,14 @@ body {
   z-index: 999;
 }
 
+#toast-danger{
+  z-index: 9999;
+}
+
+#toast-success{
+  z-index: 9999;
+}
+
 #sideNav {
   transition: transform 0.5s ease-in-out;
   z-index: 999;

@@ -1,3 +1,4 @@
+// pages/api/protectRoute.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
 

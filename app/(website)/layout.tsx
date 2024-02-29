@@ -142,6 +142,7 @@ export default async function Layout({ children, params }) {
           data-test="script"
         />
       <body className="mx-auto max-w-screen-lg bg-white text-gray-800 antialiased dark:bg-gray-900 dark:text-slate-300">
+        <GoogleOAuthProvider clientId="394811475866-24gg5m7tk15sljh9cat135vjk7m287qh.apps.googleusercontent.com">
         <Providers>
           <Navbar {...settings} />
           <div className="mt-24">
@@ -151,6 +152,7 @@ export default async function Layout({ children, params }) {
           <SpeedInsights />
           <Footer {...settings} />
         </Providers>
+        </GoogleOAuthProvider>
       </body>
     </html>
   );

@@ -1,13 +1,11 @@
-// app/auth/signup/page.js
-
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 
-export default function Signup() {
+const Signup = () => {
   const {
     register,
     handleSubmit,
@@ -16,15 +14,7 @@ export default function Signup() {
   } = useForm();
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      router.push("/");
-    }
-  }, []);
+  const [loading, setLoading] = useState(false); 
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -48,12 +38,9 @@ export default function Signup() {
     try {
       const response = await axios.post("/api/register", data);
       if (response.data.success) {
-        localStorage.setItem("token", response.data.token);
         setSuccessMessage("Signup successful!");
         setErrorMessage("");
         reset();
-        setLoading(false);
-        router.push("/");
       } else {
         if (response.data.message === "User already exists.") {
           setErrorMessage(
@@ -68,16 +55,44 @@ export default function Signup() {
       console.error("Signup error:", error);
       setErrorMessage("An error occurred. Please try again.");
       setSuccessMessage("");
+    } finally {
       setLoading(false);
     }
   };
 
+ const handleGoogleSignup = async (googleUserData) => {
+      try {
+        const { name, email, imageUrl } = googleUserData;
+        const requestData = { name, email, profileUrl: imageUrl };
+        const response = await axios.post("/api/googleSignup", requestData);
+
+        if (response.data.success) {
+          setSuccessMessage("Google signup successful!");
+          setErrorMessage("");
+          console.log("User registered successfully:", response.data.message);
+        } else {
+          setErrorMessage("Google signup failed. Please try again.");
+          setSuccessMessage("");
+          console.error("Google signup error:", response.data.message);
+        }
+      } catch (error) {
+        setErrorMessage("An error occurred during Google signup. Please try again.");
+        setSuccessMessage("");
+        console.error("Google signup error:", error);
+      }
+    };
+
+    const login = useGoogleLogin({
+      clientId: "394811475866-24gg5m7tk15sljh9cat135vjk7m287qh.apps.googleusercontent.com",
+      onSuccess: handleGoogleSignup,
+      onFailure: (error) => console.error("Google login failure:", error)
+    });
   return (
     <>
       {errorMessage && (
         <div
           id="toast-danger"
-          className="fixed right-5 top-5 z-50 flex w-full max-w-xs items-center rounded-lg bg-white p-4 text-gray-500 shadow dark:bg-gray-800 dark:text-gray-400"
+          className="fixed right-5 top-5 flex w-full max-w-xs items-center rounded-lg bg-white p-4 text-gray-500 shadow dark:bg-gray-800 dark:text-gray-400"
           role="alert">
           <div className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
             <svg
@@ -176,8 +191,16 @@ export default function Signup() {
                     Start your journey with us
                   </span>
                 </div>
+                <div className="mx-auto my-4 max-w-sm">
+                  <button
+                    onClick={() => login()}
+                    className="group flex h-12 w-full select-none items-center justify-center gap-2 rounded-lg border border-gray-300 border-gray-300 bg-white px-6 text-gray-800 transition duration-300 hover:border-blue-400 hover:bg-blue-50 focus:border-blue-500 focus:bg-blue-50 active:bg-blue-100 dark:border-slate-600 dark:bg-gray-800 dark:text-slate-200 dark:hover:border-blue-400 dark:focus:border-blue-400 dark:focus:bg-gray-700">
+                    <GoogleIcon />
+                    Continue with Google
+                  </button>
+                </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                  <div className="my-10 space-y-4">
+                  <div className="space-y-4">
                     <div className="mb-4">
                       <label
                         htmlFor="name"
@@ -189,7 +212,11 @@ export default function Signup() {
                         id="name"
                         {...register("name", { required: true })}
                         placeholder="Enter your full name"
-                        className={`block w-full rounded-lg border border-gray-300 border-gray-300 bg-gray-50 bg-white p-4 text-sm text-gray-800 text-gray-900 outline-none focus:border-blue-500 focus:border-indigo-500 focus:ring-indigo-500 dark:border-slate-600 dark:bg-gray-900 dark:text-slate-200 dark:focus:border-slate-300`}
+                        className={`block w-full rounded-lg border border-gray-300 border-gray-300 bg-gray-50 bg-white p-4 text-sm text-gray-800 text-gray-900 ${
+              errors.name
+                ? "border-red-500"
+                : "border-gray-300 dark:border-gray-600"
+                        } outline-none focus:border-blue-500 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-slate-200 dark:focus:border-slate-300`}
                       />
                       {errors.name && (
                         <p className="mt-1 text-red-500">
@@ -208,7 +235,11 @@ export default function Signup() {
                         id="email"
                         {...register("email", { required: true })}
                         placeholder="Enter your email"
-                        className={`block w-full rounded-lg border border-gray-300 border-gray-300 bg-gray-50 bg-white p-4 text-sm text-gray-800 text-gray-900 outline-none focus:border-blue-500 focus:border-indigo-500 focus:ring-indigo-500 dark:border-slate-600 dark:bg-gray-900 dark:text-slate-200 dark:focus:border-slate-300`}
+                        className={`block w-full rounded-lg border border-gray-300 border-gray-300 bg-gray-50 bg-white p-4 text-sm text-gray-800 text-gray-900 ${
+                          errors.email
+                            ? "border-red-500"
+                            : "border-gray-300 dark:border-gray-600"
+                                    } outline-none focus:border-blue-500 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-slate-200 dark:focus:border-slate-300`}
                       />
                       {errors.email && (
                         <p className="mt-1 text-red-500">
@@ -227,7 +258,11 @@ export default function Signup() {
                         id="password"
                         {...register("password", { required: true })}
                         placeholder="Enter your password"
-                        className={`block w-full rounded-lg border border-gray-300 border-gray-300 bg-gray-50 bg-white p-4 text-sm text-gray-800 text-gray-900 outline-none focus:border-blue-500 focus:border-indigo-500 focus:ring-indigo-500 dark:border-slate-600 dark:bg-gray-900 dark:text-slate-200 dark:focus:border-slate-300`}
+                        className={`block w-full rounded-lg border border-gray-300 border-gray-300 bg-gray-50 bg-white p-4 text-sm text-gray-800 text-gray-900 ${
+                          errors.password
+                            ? "border-red-500"
+                            : "border-gray-300 dark:border-gray-600"
+                                    } outline-none focus:border-blue-500 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-slate-200 dark:focus:border-slate-300`}
                       />
                       {errors.password && (
                         <p className="mt-1 text-red-500">
@@ -238,7 +273,7 @@ export default function Signup() {
                     <div className="mb-2 w-full">
                       <button
                         type="submit"
-                        className="w-full rounded-md bg-black py-3 text-white transition duration-300 dark:bg-white dark:text-black"
+                        className="tracing-wide w-full rounded-md bg-black py-3 font-semibold text-white transition duration-300 dark:bg-white dark:text-black"
                         disabled={loading}>
                         {loading ? (
                           <div className="flex items-center justify-center">
@@ -267,4 +302,30 @@ export default function Signup() {
       </div>
     </>
   );
-}
+};
+
+const GoogleIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      x="0px"
+      y="0px"
+      className="h-7 w-7"
+      viewBox="0 0 48 48">
+      <path
+        fill="#FFC107"
+        d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
+      <path
+        fill="#FF3D00"
+        d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
+      <path
+        fill="#4CAF50"
+        d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path>
+      <path
+        fill="#1976D2"
+        d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
+    </svg>
+  );
+};
+
+export default Signup;
