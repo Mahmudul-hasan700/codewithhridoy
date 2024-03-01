@@ -6,6 +6,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon
 } from "@heroicons/react/24/outline";
+import PostAlt from "@/components/postalt";
 
 export default function HomePage({ posts }) {
   useEffect(() => {
@@ -111,7 +112,7 @@ export default function HomePage({ posts }) {
 
   return (
     <>
-      <Container>
+      <div>
         <div className="my-3 bg-transparent text-center">
           <ins
             className="adsbygoogle"
@@ -121,17 +122,9 @@ export default function HomePage({ posts }) {
             data-ad-format="auto"
             data-full-width-responsive="true"></ins>
         </div>
-        <h2 className="text-center text-2xl">
-          <strong>Latest</strong> Post
-        </h2>
-        <div className="mt-5 grid gap-10 md:grid-cols-2 lg:gap-10">
+        <div className="mt-5 grid gap-3 md:grid-cols-2 lg:gap-10">
           {currentPosts.map(post => (
-            <PostList
-              key={post._id}
-              post={post}
-              aspect="landscape"
-              preloadImage={true}
-            />
+            <PostAlt key={post._id} post={post} />
           ))}
         </div>
         <div className="mt-10 flex items-center justify-center">
@@ -146,7 +139,7 @@ export default function HomePage({ posts }) {
             data-ad-format="auto"
             data-full-width-responsive="true"></ins>
         </div>
-      </Container>
+      </div>
     </>
   );
 }

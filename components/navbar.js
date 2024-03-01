@@ -71,7 +71,7 @@ export default function Navbar(props) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <div>
@@ -171,7 +171,7 @@ export default function Navbar(props) {
             <button
               onClick={toggleDropdown}
               className="flex w-full items-center justify-between rounded-md bg-transparent py-2 pl-5 font-semibold text-black text-gray-800 duration-500 dark:text-white">
-              <span>HTML & CSS</span>
+              <span>Category</span>
               <ChevronDownIcon
                 className={`h-6 w-6 transition-transform ${
                   isDropdownOpen
@@ -182,6 +182,11 @@ export default function Navbar(props) {
             </button>
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 rounded-md bg-white py-2 shadow-lg dark:bg-gray-700">
+                <a
+                  href="/category/html-and-css"
+                  className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
+                  HTML & CSS
+                </a>
                 <a
                   href="/category/login-forms"
                   className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
@@ -378,13 +383,19 @@ export default function Navbar(props) {
                   <button
                     onClick={toggleDropdown}
                     className="flex items-center gap-2 rounded-md bg-transparent px-2 py-2 pl-2 font-semibold text-black dark:text-gray-200">
-                    <span>HTML & CSS</span>
+                    <span>Category</span>
                     <ChevronDownIcon className="h-6 w-6" />
                   </button>
                   {isDropdownOpen && (
                     <div
                       className="absolute right-0 mt-2 w-48 rounded-md bg-white py-2 shadow-lg dark:bg-gray-700"
                       style={{ zIndex: 1000 }}>
+                      <a
+                        href="/category/html-and-css"
+                        className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
+                        HTML & CSS
+                      </a>
+
                       <a
                         href="/category/login-forms"
                         className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
