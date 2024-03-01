@@ -71,6 +71,7 @@ export default function Navbar(props) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  
   return (
     <Transition.Root show={open} as={Fragment}>
       <div>
@@ -82,7 +83,7 @@ export default function Navbar(props) {
         <div
           ref={navigationRef}
           id="sideNav"
-          className={`fixed left-0 top-0 z-50 h-full w-full flex-shrink-0 transform flex-col bg-gray-50 py-6 pl-2 pr-4 text-gray-800 shadow-md transition-transform duration-500 dark:bg-gray-800 dark:text-slate-200 sm:w-1/2 ${
+          className={`fixed left-0 top-0 z-50 h-full w-3/4 flex-shrink-0 transform flex-col bg-gray-50 py-6 pl-2 pr-4 text-gray-800 shadow-md transition-transform duration-500 dark:bg-gray-800 dark:text-slate-200 sm:w-1/2 ${
             isNavOpen ? "translate-x-0" : "-translate-x-full"
           }`}>
           <div className="my-3 mr-5 block flex items-center justify-end">
