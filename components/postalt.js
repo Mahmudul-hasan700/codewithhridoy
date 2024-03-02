@@ -16,11 +16,12 @@ export default function PostAlt({ post }) {
 
   return (
     <div
-      className={`bg-white p-2 text-gray-800 dark:bg-gray-800 dark:text-slate-200`}>
+      className={`bg-transparent p-2`}>
       <div
         className={`flex grid cursor-default grid-cols-[150px,1fr] gap-2 md:flex md:flex-col md:gap-4 md:p-4 md:text-base`}>
         <div
           className={`h-[80px] w-[150px] overflow-hidden rounded-md md:h-[220px] md:w-full md:rounded-md`}>
+          <Link href={`/post/${post.slug.current}`}>
           {imageProps ? (
             <Image
               src={imageProps.src}
@@ -39,6 +40,7 @@ export default function PostAlt({ post }) {
               <PhotoIcon />
             </span>
           )}
+          </Link>
         </div>
         <div className="flex-1">
           <div className="mb-2 flex hidden items-center md:block">
