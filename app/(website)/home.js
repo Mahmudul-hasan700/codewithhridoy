@@ -1,7 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import Container from "@/components/container";
-import PostList from "@/components/postlist";
 import {
   ChevronLeftIcon,
   ChevronRightIcon
@@ -112,7 +110,7 @@ export default function HomePage({ posts }) {
 
   return (
     <>
-      <div>
+      <div className="mt-20">
         <div className="my-3 bg-transparent text-center">
           <ins
             className="adsbygoogle"
@@ -122,7 +120,7 @@ export default function HomePage({ posts }) {
             data-ad-format="auto"
             data-full-width-responsive="true"></ins>
         </div>
-        <div className="mt-5 grid gap-3 md:grid-cols-2 lg:gap-10">
+          <div className="md:mx-3 grid gap-3 md:grid-cols-2 lg:gap-10">
           {currentPosts.map(post => (
             <PostAlt key={post._id} post={post} />
           ))}
