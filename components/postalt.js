@@ -15,7 +15,7 @@ export default function PostAlt({ post }) {
   return (
     <div className="mx-auto md:mx-4 rounded-lg bg-transparent p-2 text-gray-800 dark:text-slate-200 md:shadow-md">
       <div className="grid cursor-pointer grid-cols-[150px,1fr] gap-2 md:flex md:flex-col md:p-3">
-        <div className="flex h-[80px] w-[150px] items-center justify-center overflow-hidden rounded-md bg-slate-100 dark:bg-gray-800 md:block md:h-[220px] md:w-full">
+        <div className="relative flex h-[80px] w-[150px] items-center justify-center overflow-hidden rounded-md bg-slate-100 dark:bg-gray-800 md:block md:h-[220px] md:w-full">
           <Link href={`/post/${post.slug?.current}`}>
             {imageProps ? (
               <Image
