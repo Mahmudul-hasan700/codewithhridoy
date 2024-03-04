@@ -39,6 +39,7 @@
     "dotenv": "^16.4.5",
     "framer-motion": "^11.0.5",
     "get-video-id": "^4.1.4",
+    "google-auth-library": "^9.6.3",
     "highlight.js": "^11.9.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.3",

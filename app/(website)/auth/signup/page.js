@@ -2,10 +2,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import {
-  useGoogleLogin,
-  GoogleLogin
-} from "@react-oauth/google";
+import { useGoogleLogin, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
 const Signup = () => {
@@ -212,17 +209,16 @@ const Signup = () => {
                   </button>
                 </div>
                 <div className="flex flex-col items-center justify-center gap-2">
-
                   <GoogleLogin
                     clientId="394811475866-24gg5m7tk15sljh9cat135vjk7m287qh.apps.googleusercontent.com"
                     buttonText="Login with Google"
-                    onSuccess={(credentialResponse) => {
+                    onSuccess={credentialResponse => {
                       console.log(credentialResponse);
                     }}
                     onError={() => {
-                      console.log('Login Failed');
+                      console.log("Login Failed");
                     }}
-                    cookiePolicy={'single_host_origin'}
+                    cookiePolicy={"single_host_origin"}
                   />
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
