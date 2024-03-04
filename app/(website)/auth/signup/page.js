@@ -2,7 +2,10 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useGoogleLogin } from "@react-oauth/google";
+import {
+  useGoogleLogin,
+  GoogleLogin
+} from "@react-oauth/google";
 import axios from "axios";
 
 const Signup = () => {
@@ -14,7 +17,7 @@ const Signup = () => {
   } = useForm();
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -60,33 +63,42 @@ const Signup = () => {
     }
   };
 
- const handleGoogleSignup = async (googleUserData) => {
-      try {
-        const { name, email, imageUrl } = googleUserData;
-        const requestData = { name, email, profileUrl: imageUrl };
-        const response = await axios.post("/api/googleSignup", requestData);
+  const handleGoogleSignup = async googleUserData => {
+    try {
+      const { name, email, imageUrl } = googleUserData;
+      const requestData = { name, email, profileUrl: imageUrl };
+      const response = await axios.post(
+        "/api/googleSignup",
+        requestData
+      );
 
-        if (response.data.success) {
-          setSuccessMessage("Google signup successful!");
-          setErrorMessage("");
-          console.log("User registered successfully:", response.data.message);
-        } else {
-          setErrorMessage("Google signup failed. Please try again.");
-          setSuccessMessage("");
-          console.error("Google signup error:", response.data.message);
-        }
-      } catch (error) {
-        setErrorMessage("An error occurred during Google signup. Please try again.");
+      if (response.data.success) {
+        setSuccessMessage("Google signup successful!");
+        setErrorMessage("");
+        console.log(
+          "User registered successfully:",
+          response.data.message
+        );
+      } else {
+        setErrorMessage("Google signup failed. Please try again.");
         setSuccessMessage("");
-        console.error("Google signup error:", error);
+        console.error("Google signup error:", response.data.message);
       }
-    };
+    } catch (error) {
+      setErrorMessage(
+        "An error occurred during Google signup. Please try again."
+      );
+      setSuccessMessage("");
+      console.error("Google signup error:", error);
+    }
+  };
 
-    const login = useGoogleLogin({
-      clientId: "394811475866-24gg5m7tk15sljh9cat135vjk7m287qh.apps.googleusercontent.com",
-      onSuccess: handleGoogleSignup,
-      onFailure: (error) => console.error("Google login failure:", error)
-    });
+  const login = useGoogleLogin({
+    clientId:
+      "394811475866-24gg5m7tk15sljh9cat135vjk7m287qh.apps.googleusercontent.com",
+    onSuccess: handleGoogleSignup,
+    onFailure: error => console.error("Google login failure:", error)
+  });
   return (
     <>
       {errorMessage && (
@@ -199,6 +211,20 @@ const Signup = () => {
                     Continue with Google
                   </button>
                 </div>
+                <div className="flex flex-col items-center justify-center gap-2">
+
+                  <GoogleLogin
+                    clientId="394811475866-24gg5m7tk15sljh9cat135vjk7m287qh.apps.googleusercontent.com"
+                    buttonText="Login with Google"
+                    onSuccess={(credentialResponse) => {
+                      console.log(credentialResponse);
+                    }}
+                    onError={() => {
+                      console.log('Login Failed');
+                    }}
+                    cookiePolicy={'single_host_origin'}
+                  />
+                </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="space-y-4">
                     <div className="mb-4">
@@ -213,9 +239,9 @@ const Signup = () => {
                         {...register("name", { required: true })}
                         placeholder="Enter your full name"
                         className={`block w-full rounded-lg border border-gray-300 border-gray-300 bg-gray-50 bg-white p-4 text-sm text-gray-800 text-gray-900 ${
-              errors.name
-                ? "border-red-500"
-                : "border-gray-300 dark:border-gray-600"
+                          errors.name
+                            ? "border-red-500"
+                            : "border-gray-300 dark:border-gray-600"
                         } outline-none focus:border-blue-500 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-slate-200 dark:focus:border-slate-300`}
                       />
                       {errors.name && (
@@ -239,7 +265,7 @@ const Signup = () => {
                           errors.email
                             ? "border-red-500"
                             : "border-gray-300 dark:border-gray-600"
-                                    } outline-none focus:border-blue-500 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-slate-200 dark:focus:border-slate-300`}
+                        } outline-none focus:border-blue-500 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-slate-200 dark:focus:border-slate-300`}
                       />
                       {errors.email && (
                         <p className="mt-1 text-red-500">
@@ -262,7 +288,7 @@ const Signup = () => {
                           errors.password
                             ? "border-red-500"
                             : "border-gray-300 dark:border-gray-600"
-                                    } outline-none focus:border-blue-500 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-slate-200 dark:focus:border-slate-300`}
+                        } outline-none focus:border-blue-500 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-slate-200 dark:focus:border-slate-300`}
                       />
                       {errors.password && (
                         <p className="mt-1 text-red-500">

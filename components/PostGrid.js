@@ -40,10 +40,17 @@ export default function PostGrid({ data, query }) {
                 )}
               </div>
               <div>
-                <a href={`post/${post.slug?.current}`}>
+                <a
+                  href={`/post/${post.slug?.current}`}
+                  className={`line-clamp-2 text-ellipsis text-lg font-semibold md:line-clamp-3 md:text-xl`}>
                   <span
-                    className="
-                    line-clamp-2 text-ellipsis hover:underline text-lg font-medium">
+                    className="bg-gradient-to-r from-black to-black bg-[length:0px_2px] bg-left-bottom
+                  bg-no-repeat
+                  transition-[background-size]
+                  duration-500
+                  hover:bg-[length:100%_2px]
+                  group-hover:bg-[length:100%_2px]
+                  dark:from-white dark:to-white">
                     {post.title}
                   </span>
                 </a>
@@ -74,7 +81,7 @@ export default function PostGrid({ data, query }) {
       })}
 
       {firstTenResults.length === 10 && (
-        <div className="my-5 flex items-center justify-center">
+        <div className="my-5 flex items-center justify-center mx-4">
           <a
             href={`/search?q=${query}`}
             className="w-full rounded-md bg-black py-2 text-center font-semibold text-white hover:opacity-75 dark:bg-white dark:text-black">
