@@ -2,7 +2,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import User from '@/models/User';
 import jwt from 'jsonwebtoken';
-import { OAuth2Client } from 'google-auth-library';
+import { JWT, TokenPayload } from 'google-auth-library';
 
 export default async function handler(
   req: NextApiRequest,
@@ -42,8 +42,12 @@ export default async function handler(
   }
 }
 
-async function verifyGoogleToken(tokenId) {
-  const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+async function verifyGoogleToken(tokenId: string): Promise<TokenPayload> {
+  const client = new JWT({
+    keyFile: '/blog-42cb9-dd19e6a0729b.json',
+    subject: process.env.SERVICE_ACCOUNT_EMAIL,
+    scopes: ['https://www.googleapis.com/auth/cloud-platform'], 
+  });
 
   try {
     const ticket = await client.verifyIdToken({

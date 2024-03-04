@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useGoogleLogin, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import GoogleIcon from "@/components/google";
 
-const Signup = () => {
+export default function Signup() {
   const {
     register,
     handleSubmit,
@@ -15,6 +16,7 @@ const Signup = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -31,6 +33,10 @@ const Signup = () => {
 
   const handleCloseSuccess = () => {
     setSuccessMessage("");
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const onSubmit = async data => {
@@ -188,10 +194,10 @@ const Signup = () => {
         className={`relative bg-white py-16 dark:bg-gray-900 dark:text-slate-200`}>
         <div className="container relative m-auto px-6 xl:px-40">
           <div
-            className={`m-auto text-gray-800 dark:bg-gray-900 dark:text-slate-200 lg:w-6/12 xl:w-6/12`}>
+            className={`text-gray-800 dark:bg-gray-900 dark:text-slate-200 lg:w-6/12 xl:w-6/12`}>
             <div
-              className={`rounded-xl bg-white text-gray-800 shadow-xl dark:bg-gray-800 dark:text-slate-200`}>
-              <div className="p-6 sm:p-16">
+              className={`mx-auto w-full rounded-xl bg-white text-gray-800 shadow-xl dark:bg-gray-800 dark:text-slate-200`}>
+              <div className="p-6 sm:p-16 md:p-20">
                 <div className="flex flex-col items-center justify-center">
                   <h1 className="fill-current text-center text-xl font-bold">
                     Sign up
@@ -208,20 +214,16 @@ const Signup = () => {
                     Continue with Google
                   </button>
                 </div>
-                <div className="flex flex-col items-center justify-center gap-2">
-                  <GoogleLogin
-                    clientId="394811475866-24gg5m7tk15sljh9cat135vjk7m287qh.apps.googleusercontent.com"
-                    buttonText="Login with Google"
-                    onSuccess={credentialResponse => {
-                      console.log(credentialResponse);
-                    }}
-                    onError={() => {
-                      console.log("Login Failed");
-                    }}
-                    cookiePolicy={"single_host_origin"}
-                  />
+                <div className="mb-3 flex items-center">
+                  <hr className="border-grey-500 h-0 grow border-b border-solid" />
+                  <p className="text-grey-600 mx-4">
+                    or use your email
+                  </p>
+                  <hr className="border-grey-500 h-0 grow border-b border-solid" />
                 </div>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="mx-auto">
                   <div className="space-y-4">
                     <div className="mb-4">
                       <label
@@ -270,13 +272,14 @@ const Signup = () => {
                       )}
                     </div>
                     <div className="mb-4">
+                      <div className="relative">
                       <label
                         htmlFor="password"
                         className="mb-2 block fill-current text-sm font-medium">
                         Choose a Password
                       </label>
                       <input
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         id="password"
                         {...register("password", { required: true })}
                         placeholder="Enter your password"
@@ -285,14 +288,55 @@ const Signup = () => {
                             ? "border-red-500"
                             : "border-gray-300 dark:border-gray-600"
                         } outline-none focus:border-blue-500 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-slate-200 dark:focus:border-slate-300`}
-                      />
+                      />                    
+                      <div className="absolute inset-y-0 right-0 top-6 flex items-center pr-3 text-sm leading-5">
+                        <button
+                          type="button"
+                          onClick={togglePasswordVisibility}>
+                          {showPassword ? (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="h-5 w-5">
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"
+                              />
+                            </svg>
+                          ) : (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="h-5 w-5">
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                              />
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                              />
+                            </svg>
+                          )}
+                        </button>
+                      </div>
+                    </div>
                       {errors.password && (
                         <p className="mt-1 text-red-500">
                           Password is required
                         </p>
                       )}
                     </div>
-                    <div className="mb-2 w-full">
+                    <div className="mb-2 mt-4 w-full">
                       <button
                         type="submit"
                         className="tracing-wide w-full rounded-md bg-black py-3 font-semibold text-white transition duration-300 dark:bg-white dark:text-black"
@@ -310,7 +354,7 @@ const Signup = () => {
                       Already have an acoount?
                       <Link
                         href="/auth/login"
-                        className={`ml-2 text-sm text-gray-800 hover:underline hover:underline dark:text-slate-200`}>
+                        className={`ml-2 text-gray-800 hover:underline hover:underline dark:text-slate-200`}>
                         {" "}
                         Login
                       </Link>
@@ -324,30 +368,4 @@ const Signup = () => {
       </div>
     </>
   );
-};
-
-const GoogleIcon = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      x="0px"
-      y="0px"
-      className="h-7 w-7"
-      viewBox="0 0 48 48">
-      <path
-        fill="#FFC107"
-        d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
-      <path
-        fill="#FF3D00"
-        d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
-      <path
-        fill="#4CAF50"
-        d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path>
-      <path
-        fill="#1976D2"
-        d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
-    </svg>
-  );
-};
-
-export default Signup;
+}
