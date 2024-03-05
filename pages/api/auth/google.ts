@@ -1,8 +1,9 @@
-// Server-side code (pages/api/auth/google.ts)
+// pages/api/auth/google.ts
+
 import { NextApiRequest, NextApiResponse } from 'next';
 import User from '@/models/User';
 import jwt from 'jsonwebtoken';
-import { JWT, TokenPayload } from 'google-auth-library';
+import { JWT } from 'google-auth-library';
 
 export default async function handler(
   req: NextApiRequest,
@@ -42,11 +43,11 @@ export default async function handler(
   }
 }
 
-async function verifyGoogleToken(tokenId: string): Promise<TokenPayload> {
+async function verifyGoogleToken(tokenId: string): Promise<any> {
   const client = new JWT({
-    keyFile: '/blog-42cb9-dd19e6a0729b.json',
-    subject: process.env.SERVICE_ACCOUNT_EMAIL,
-    scopes: ['https://www.googleapis.com/auth/cloud-platform'], 
+    email: process.env.SERVICE_ACCOUNT_EMAIL,
+    key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
+    scopes: ['https://www.googleapis.com/auth/cloud-platform'],
   });
 
   try {

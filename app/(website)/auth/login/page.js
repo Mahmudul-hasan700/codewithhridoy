@@ -61,9 +61,8 @@ export default function Login() {
 
   const handleGoogleLogin = async response => {
     try {
-      const { tokenId } = response;
       const { data } = await axios.post("/api/auth/google", {
-        tokenId: tokenId
+        tokenId: response.tokenId
       });
       console.log("Google login response:", data);
     } catch (error) {
@@ -296,7 +295,7 @@ export default function Login() {
                       Don't have an acoount?
                       <Link
                         href="/auth/signup"
-                        className={`ml-2 text-sm text-gray-800 hover:underline hover:underline dark:text-slate-200`}>
+                        className={`text-gray-800 hover:underline hover:underline dark:text-slate-200`}>
                         {" "}
                         Sign Up
                       </Link>
