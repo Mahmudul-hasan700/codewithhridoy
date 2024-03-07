@@ -193,11 +193,11 @@ export default function Signup() {
       )}
       <div
         className={`relative bg-white py-16 dark:bg-gray-900 dark:text-slate-200`}>
-        <div className="container relative m-auto px-6 xl:px-40">
+        <div className="container relative mx-auto px-6 xl:px-40">
           <div
-            className={`text-gray-800 dark:bg-gray-900 dark:text-slate-200 lg:w-6/12 xl:w-6/12`}>
+            className={`text-gray-800 dark:bg-gray-900 dark:text-slate-200`}>
             <div
-              className={`mx-auto w-full rounded-xl bg-white text-gray-800 shadow-xl dark:bg-gray-800 dark:text-slate-200`}>
+              className={`w-full rounded-xl bg-white text-gray-800 shadow-xl dark:bg-gray-800 dark:text-slate-200`}>
               <div className="p-6 sm:p-16 md:p-20">
                 <div className="flex flex-col items-center justify-center">
                   <h1 className="fill-current text-center text-xl font-bold">
@@ -207,15 +207,17 @@ export default function Signup() {
                     Start your journey with us
                   </span>
                 </div>
-                <div className="mx-auto my-4 max-w-sm">
+                <div className="mx-auto my-4 max-w-md">
                   <button
                     onClick={() => login()}
                     className="group flex h-12 w-full select-none items-center justify-center gap-2 rounded-lg border border-gray-300 border-gray-300 bg-white px-6 text-gray-800 transition duration-300 hover:border-blue-400 hover:bg-blue-50 focus:border-blue-500 focus:bg-blue-50 active:bg-blue-100 dark:border-slate-600 dark:bg-gray-800 dark:text-slate-200 dark:hover:border-blue-400 dark:focus:border-blue-400 dark:focus:bg-gray-700">
                     <GoogleIcon />
-                    Continue with Google
+                    <span className="text-sm font-semibold">
+                      Sign up with Google
+                    </span>
                   </button>
                 </div>
-                <div className="mb-3 flex items-center">
+                <div className="mx-auto mb-3 flex max-w-md items-center">
                   <hr className="border-grey-500 h-0 grow border-b border-solid" />
                   <p className="text-grey-600 mx-4">
                     or use your email
@@ -224,7 +226,7 @@ export default function Signup() {
                 </div>
                 <form
                   onSubmit={handleSubmit(onSubmit)}
-                  className="mx-auto">
+                  className="mx-auto max-w-md">
                   <div className="space-y-4">
                     <div className="mb-4">
                       <label
