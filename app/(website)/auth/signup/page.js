@@ -122,7 +122,7 @@ export default function Signup() {
             <span className="sr-only">Error icon</span>
           </div>
           <div className="ms-3 text-sm font-normal">
-            {errorMessage}
+            <span>{errorMessage}</span>
           </div>
           <button
             type="button"
@@ -151,7 +151,7 @@ export default function Signup() {
       {successMessage && (
         <div
           id="toast-success"
-          className="fixed right-5 top-5 z-50 mb-4 flex w-full max-w-xs items-center rounded-lg bg-white p-4 text-gray-500 shadow dark:bg-gray-800 dark:text-gray-400"
+          className="fixed right-5 top-5 z-50 mb-4 flex w-full max-w-xs items-center rounded-lg bg-white p-4 text-gray-500 shadow dark:bg-gray-800 dark:text-gray-400 md:whitespace-nowrap"
           role="alert">
           <div className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
             <svg
@@ -164,7 +164,7 @@ export default function Signup() {
             </svg>
             <span className="sr-only">Check icon</span>
           </div>
-          <div className="ms-3 text-sm font-normal">
+          <div className="ms-3 text-sm font-normal md:whitespace-nowrap">
             {successMessage}
           </div>
           <button

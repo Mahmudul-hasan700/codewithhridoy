@@ -185,6 +185,13 @@ export default function Login() {
                     </span>
                   </button>
                 </div>
+                <div className="mx-auto mb-3 flex max-w-md items-center">
+                  <hr className="border-grey-500 h-0 grow border-b border-solid dark:border-gray-700" />
+                  <p className="text-grey-600 mx-4">
+                    or use your email
+                  </p>
+                  <hr className="border-grey-500 h-0 grow border-b border-solid dark:border-gray-700" />
+                </div>
                 <form
                   onSubmit={handleSubmit(onSubmit)}
                   className="mx-auto max-w-md">
@@ -297,7 +304,7 @@ export default function Login() {
                       Don't have an acoount?
                       <Link
                         href="/auth/signup"
-                        className={`text-gray-800 hover:underline hover:underline dark:text-slate-200`}>
+                        className={`ml-2 text-gray-800 hover:underline hover:underline dark:text-slate-200`}>
                         {" "}
                         Sign Up
                       </Link>
