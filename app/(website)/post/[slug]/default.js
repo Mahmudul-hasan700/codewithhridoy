@@ -76,7 +76,16 @@ export default function Post(props) {
   const title = post?.title || "";
 
   if (!loading && !slug) {
-    notFound();
+    return (
+      <div className="flex h-screen flex-col items-center justify-center">
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
+          404
+        </h1>
+        <p className="text-lg font-medium text-gray-900 dark:text-gray-100">
+          Page not found
+        </p>
+      </div>
+    );
   }
   const imageProps = post?.mainImage
     ? urlForImage(post?.mainImage)
@@ -180,7 +189,7 @@ export default function Post(props) {
                 {renderedComments()}
               </div>
               <div className="mx-4">
-                <CommentForm postId={post._id} />
+                <CommentForm postId={post?._id} />
               </div>
             </div>
           </article>
@@ -201,7 +210,7 @@ export default function Post(props) {
             {renderedComments()}
           </div>
           <div className="mx-4">
-            <CommentForm postId={post._id} />
+            <CommentForm postId={post?._id} />
           </div>
         </div>
       </div>
