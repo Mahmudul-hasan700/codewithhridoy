@@ -75,18 +75,19 @@ export default function Post(props) {
   const slug = post?.slug;
   const title = post?.title || "";
 
-  if (!loading && !slug) {
+  if (loading || !post) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
         <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
-          404
+          Post not available
         </h1>
         <p className="text-lg font-medium text-gray-900 dark:text-gray-100">
-          Page not found
+          This post may have been deleted or does not exist.
         </p>
       </div>
     );
   }
+  
   const imageProps = post?.mainImage
     ? urlForImage(post?.mainImage)
     : null;

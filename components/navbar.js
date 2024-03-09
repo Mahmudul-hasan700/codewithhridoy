@@ -87,7 +87,7 @@ export default function Navbar(props) {
             isNavOpen ? "translate-x-0" : "-translate-x-full"
           }`}>
           <div className="my-3 mr-5 block flex items-center justify-end">
-            <button onClick={toggleNav}>
+            <button onClick={toggleNav} aria-label="Close menu">
               <XMarkIcon className="h-6 w-6 text-black dark:text-white" />
             </button>
           </div>
@@ -229,7 +229,7 @@ export default function Navbar(props) {
               className={`menu hamburger inline-flex items-center justify-center rounded-lg p-2 text-sm text-gray-800 focus:outline-none dark:text-slate-200 md:hidden ${
                 isNavOpen ? "active" : ""
               }`}
-              aria-label="Menu"
+              aria-label="Open Menu"
               onClick={toggleNav}>
               <div>
                 <svg

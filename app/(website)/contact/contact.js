@@ -53,7 +53,7 @@ export default function Contact({ settings }) {
         Contact
       </h1>
       <div className="text-center">
-        <p className="text-lg">We are a here to help.</p>
+        <p className="text-lg">We are here to help.</p>
       </div>
 
       <div className="grid my-10 md:grid-cols-2">
@@ -67,10 +67,6 @@ export default function Contact({ settings }) {
           </p>
 
           <div className="mt-5">
-            <div className="flex items-center mt-2 space-x-2 text-dark-600 dark:text-gray-400">
-              <MapPinIcon className="w-4 h-4" />
-              <span>1734 Sanfransico, CA 93063</span>
-            </div>
             {settings?.email && (
               <div className="flex items-center mt-2 space-x-2 text-dark-600 dark:text-gray-400">
                 <EnvelopeIcon className="w-4 h-4" />
