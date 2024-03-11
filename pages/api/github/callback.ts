@@ -1,9 +1,14 @@
+import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import qs from 'qs';
 import GitHubUser from '@/models/githubUserModel';
+import dbConnect from '@/utils/dbConnect';
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
+    // Connect to the MongoDB database
+    await dbConnect();
+
     const { code } = req.query;
 
     // Exchange code for access token
@@ -26,7 +31,7 @@ export default async function handler(req, res) {
     // Use the access token to fetch user data from GitHub API
     const userDataResponse = await axios.get('https://api.github.com/user', {
       headers: {
-        Authorization: `token ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     });
 

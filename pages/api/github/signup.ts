@@ -1,7 +1,6 @@
-import axios from 'axios';
-import { serialize } from 'cookie';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req, res) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     // Construct GitHub OAuth URL
     const githubOAuthUrl = 'https://github.com/login/oauth/authorize';
@@ -10,7 +9,8 @@ export default async function handler(req, res) {
     const scope = 'user:email'; // Specify the scope you need
     const url = `${githubOAuthUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
 
-    res.status(200).json({ redirectUrl: url });
+    // Redirect the user to GitHub's OAuth authorization page
+    res.redirect(url);
   } catch (error) {
     console.error('Error during GitHub signup:', error);
     res.status(500).json({ error: 'Internal server error' });
