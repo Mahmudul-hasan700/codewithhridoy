@@ -1,19 +1,18 @@
 // models/googleuser.ts
+import mongoose, { Schema, Document } from 'mongoose';
 
-import mongoose, { Document, Schema, Model } from 'mongoose';
-
-export interface GoogleUserDocument extends Document {
+export interface IGoogleUser extends Document {
   email: string;
-  username: string;
-  profile: string;
+  name: string;
+  profilePicture?: string;
 }
 
-const googleUserSchema: Schema<GoogleUserDocument> = new Schema({
-  email: { type: String, required: true, unique: true },
-  username: { type: String, required: true },
-  profile: { type: String },
+const GoogleUserSchema: Schema = new Schema({
+  email: { type: String, required: true },
+  name: { type: String, required: true },
+  profilePicture: { type: String },
 });
 
-const GoogleUser: Model<GoogleUserDocument> = mongoose.models.GoogleUser || mongoose.model<GoogleUserDocument>('GoogleUser', googleUserSchema);
+const GoogleUser = mongoose.model<IGoogleUser>('GoogleUser', GoogleUserSchema);
 
 export default GoogleUser;

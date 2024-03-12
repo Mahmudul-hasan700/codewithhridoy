@@ -6,8 +6,8 @@ import jwt from "jsonwebtoken";
 import { JWT } from "google-auth-library";
 
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
+  req,
+  res
 ) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });

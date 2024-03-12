@@ -2,8 +2,8 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import { useGoogleLogin } from "@react-oauth/google";
 import GoogleIcon from "@/components/google";
 import { EyeIcon } from "@heroicons/react/24/outline";
 
@@ -67,35 +67,26 @@ export default function Signup() {
     }
   };
 
-  const handleGoogleSignup = async googleUserData => {
-    try {
-      const { name, email, imageUrl } = googleUserData;
-      const requestData = { email, username: name, profile: imageUrl };
-      const response = await axios.post("/api/google/signup", requestData);
+  const handleGoogleSignup = async (tokenId) => {
+      try {
+          const response = await axios.post('/api/google/signup', { tokenId });
 
-      if (response.data.success) {
-        setSuccessMessage("Google signup successful!");
-        setErrorMessage("");
-        console.log("User registered successfully:", response.data.message);
-      } else {
-        setErrorMessage("Google signup failed. Please try again.");
-        setSuccessMessage("");
-        console.error("Google signup error:", response.data.message);
+          if (response.data.success) {
+              setSuccessMessage("Google signup successful!");
+              setErrorMessage("");
+              console.log("User registered successfully:", response.data.message);
+          } else {
+              setErrorMessage("Google signup failed. Please try again.");
+              setSuccessMessage("");
+              console.error("Google signup error:", response.data.message);
+          }
+      } catch (error) {
+          setErrorMessage("An error occurred during Google signup. Please try again.");
+          setSuccessMessage("");
+          console.error("Google signup error:", error);
       }
-    } catch (error) {
-      setErrorMessage("An error occurred during Google signup. Please try again.");
-      setSuccessMessage("");
-      console.error("Google signup error:", error);
-    }
   };
 
-  const login = useGoogleLogin({
-    clientId: "394811475866-24gg5m7tk15sljh9cat135vjk7m287qh.apps.googleusercontent.com",
-    onSuccess: handleGoogleSignup,
-    onFailure: error => console.error("Google login failure:", error)
-  });
-
-  
   const handleGithubSignup = async () => {
     try {
       const response = await axios.get("/api/github/signup");
@@ -105,6 +96,12 @@ export default function Signup() {
       // Handle error if necessary
     }
   };
+  const login = useGoogleLogin({
+    clientId:
+      "394811475866-24gg5m7tk15sljh9cat135vjk7m287qh.apps.googleusercontent.com",
+    onSuccess: handleGoogleSignup,
+    onFailure: error => console.error("Google login failure:", error)
+  });
 
   return (
     <>
