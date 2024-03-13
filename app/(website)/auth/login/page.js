@@ -302,12 +302,12 @@ export default function Login() {
                     </div>
                     <div className="mr-2 mt-2 flex items-center justify-center fill-current">
                       Don't have an acoount?
-                      <Link
+                      <a
                         href="/auth/signup"
                         className={`ml-2 text-gray-800 hover:underline hover:underline dark:text-slate-200`}>
                         {" "}
                         Sign Up
-                      </Link>
+                      </a>
                     </div>
                   </div>
                 </form>
