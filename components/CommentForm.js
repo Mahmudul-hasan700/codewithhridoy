@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { Checkbox } from "@/components/ui/checkbox"
+
 
 export default function CommentForm({ postId }) {
   const {
@@ -140,20 +142,21 @@ export default function CommentForm({ postId }) {
           <span className="text-red-500">Comment is required</span>
         )}
       </div>
-      <div className="mt-2 flex items-center">
-        <input
-          type="checkbox"
-          id="saveUserInfo"
+
+      <div className="items-center flex space-x-2">
+        <Checkbox
+          id="save"
           checked={saveUserInfo}
-          onChange={() => setSaveUserInfo(!saveUserInfo)}
-          className="mr-2 rounded border-gray-300 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
-        />
-        <label
-          htmlFor="saveUserInfo"
-          className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-          Save my name and email in this browser for the next time I
-          comment.
-        </label>
+          onChange={() => setSaveUserInfo(!saveUserInfo)} />
+        <div className="grid gap-1.5 leading-none">
+          <label
+            htmlFor="save"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed"
+          >
+            Save my name and email in this browser for the next time I
+            comment.
+          </label>
+        </div>
       </div>
       <div className="mt-6">
         <button
