@@ -11,6 +11,7 @@ import ShareButton from "@/components/ShareButton";
 import CommentForm from "@/components/CommentForm";
 import { Avatar, AvatarIcon } from "@nextui-org/react";
 import Breadcrumb from "@/components/Breadcrumb";
+import TagList from "@/components/TagList";
 
 export default function Post(props) {
   const { loading, post, categories, comments } = props;
@@ -178,6 +179,11 @@ export default function Post(props) {
             <div className="prose prose-lg mx-auto my-3 text-base dark:prose-invert prose-a:text-blue-500 md:text-xl">
               {post.body && <PortableText value={post.body} />}
             </div>
+            {post.tags && post.tags.length > 0 && (
+              <div className="mt-2 flex flex-wrap gap-2">
+                <TagList tags={post.tags} />
+              </div>
+            )}
 
             <div className="my-5 flex w-full flex-wrap items-center justify-center gap-[10px]">
               <ShareButton title={post.title} url={currentUrl} />

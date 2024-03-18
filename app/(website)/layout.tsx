@@ -3,7 +3,6 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import "@/styles/tailwind.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Providers } from "./providers";
 import { cx } from "@/utils/all";
 import { Inter, Lora } from "next/font/google";
 import { getSettings } from "@/lib/sanity/client";
@@ -22,29 +21,6 @@ const lora = Lora({
   subsets: ["latin"],
   variable: "--font-lora"
 });
-
-const websiteSchema = {
-  "@context": "http://schema.org",
-  "@type": "WebSite",
-  name: "Codewithhridoy",
-  url: "https://codewithhridoy.vercel.app/",
-  description: "Creative Coding Blog - HTML CSS & JavaScript.",
-  author: {
-    "@type": "Person",
-    name: "Hridoy"
-  },
-  publisher: {
-    "@type": "Organization",
-    name: "Codewithhridoy",
-    logo: {
-      "@type": "ImageObject",
-      url: "/favicon.ico",
-      width: 600,
-      height: 60
-    }
-  },
-  sameAs: ["https://twitter.com/Codewithhridoy"]
-};
 
 export async function sharedMetaData(params) {
   const settings = await getSettings();
@@ -114,44 +90,17 @@ export default async function Layout({ children, params }) {
       lang="en"
       suppressHydrationWarning
       className={cx(inter.variable, lora.variable, "scroll-smooth")}>
-        <Script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteSchema)
-          }}
-        />
 
-        <Script
-          id="adsbygoogle-init"
-          strategy="afterInteractive"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
-          crossOrigin="anonymous"
-          data-test="script"
-        />
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-          strategy="afterInteractive"
-          data-test="script"
-        />
-        <Script
-          data-ad-client="ca-pub-3227806848574176"
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-          crossOrigin="anonymous"
-          data-test="script"
-        />
+      <script src="https://apis.google.com/js/platform.js" async defer></script>
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
+     crossOrigin="anonymous"></script>
       <body className="mx-auto max-w-screen-lg bg-white text-gray-800 antialiased dark:bg-gray-900 dark:text-slate-300">
         <GoogleOAuthProvider clientId="394811475866-24gg5m7tk15sljh9cat135vjk7m287qh.apps.googleusercontent.com">
-        <Providers>
           <Navbar {...settings} />
-          <div className="mt-24">
-            {children}
-          </div>
+          <div className="mt-24">{children}</div>
           <Analytics />
           <SpeedInsights />
           <Footer {...settings} />
-        </Providers>
         </GoogleOAuthProvider>
       </body>
     </html>

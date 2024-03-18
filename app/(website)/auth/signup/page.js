@@ -67,31 +67,25 @@ export default function Signup() {
     }
   };
 
-  const handleGoogleSignup = async (tokenId) => {
-      try {
-          const response = await axios.post('/api/google/signup', { tokenId });
-
-          if (response.data.success) {
-              setSuccessMessage("Google signup successful!");
-              setErrorMessage("");
-              console.log("User registered successfully:", response.data.message);
-          } else {
-              setErrorMessage("Google signup failed. Please try again.");
-              setSuccessMessage("");
-              console.error("Google signup error:", response.data.message);
-          }
-      } catch (error) {
-          setErrorMessage("An error occurred during Google signup. Please try again.");
-          setSuccessMessage("");
-          console.error("Google signup error:", error);
-      }
-  };
-
   const login = useGoogleLogin({
-    clientId:
-      "394811475866-24gg5m7tk15sljh9cat135vjk7m287qh.apps.googleusercontent.com",
-    onSuccess: handleGoogleSignup,
-    onFailure: error => console.error("Google login failure:", error)
+    flow: "auth-code",
+    onSuccess: async (codeResponse) => {
+      console.log("Received code:", codeResponse.code); // Log the received code
+      try {
+        const response = await axios.post("/api/google/signup", {
+          code: codeResponse.code,
+        });
+        if (response.data.success) {
+            setSuccessMessage("Signup successful.");
+        } else {
+          setErrorMessage(response.data.message);
+        }
+      } catch (error) {
+        console.error("Google login error:", error);
+        setErrorMessage("An error occurred during Google signup. Please try again.");
+      }
+    },
+    onError: (errorResponse) => console.log(errorResponse),
   });
 
   return (
