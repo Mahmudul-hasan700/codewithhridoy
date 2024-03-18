@@ -4,12 +4,12 @@ import "@/styles/tailwind.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cx } from "@/utils/all";
+import {Providers} from "./providers"
 import { Inter, Lora } from "next/font/google";
 import { getSettings } from "@/lib/sanity/client";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { urlForImage } from "@/lib/sanity/image";
-import Head from "next/head";
 import Script from "next/script";
 
 const inter = Inter({
@@ -96,11 +96,13 @@ export default async function Layout({ children, params }) {
      crossOrigin="anonymous"></script>
       <body className="mx-auto max-w-screen-lg bg-white text-gray-800 antialiased dark:bg-gray-900 dark:text-slate-300">
         <GoogleOAuthProvider clientId="394811475866-24gg5m7tk15sljh9cat135vjk7m287qh.apps.googleusercontent.com">
+          <Providers>
           <Navbar {...settings} />
           <div className="mt-24">{children}</div>
           <Analytics />
           <SpeedInsights />
           <Footer {...settings} />
+            </Providers>
         </GoogleOAuthProvider>
       </body>
     </html>

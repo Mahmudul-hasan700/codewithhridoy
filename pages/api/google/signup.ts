@@ -1,20 +1,30 @@
-// pages/api/auth/google/signup.ts
-import { NextApiRequest, NextApiResponse } from "next";
-import dbConnect from "@/utils/dbConnect";
-import GoogleUser from "@/models/googleuser";
+// pages/api/google/signup.js
+import { OAuth2Client } from 'google-auth-library';
+import dbConnect from '@/utils/dbConnect';
+import GoogleUser from '@/models/googleuser';
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  console.log("Received request body:", req.body);
+const CLIENT_ID = '394811475866-24gg5m7tk15sljh9cat135vjk7m287qh.apps.googleusercontent.com'; // Replace with your Google Client ID
+const client = new OAuth2Client(CLIENT_ID);
+
+async function verify(token) {
+  const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
+  });
+  const payload = ticket.getPayload();
+  const userid = payload['sub'];
+  // If request specified a G Suite domain:
+  // const domain = payload['hd'];
+  return payload;
+}
+
+export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
       await dbConnect();
 
       const { code } = req.body;
-
-      const userInformation = decodeGoogleCode(code);
+      const userInformation = await verify(code);
 
       if (!userInformation) {
         return res
@@ -56,34 +66,5 @@ export default async function handler(
   } else {
     res.setHeader("Allow", ["POST"]);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
-}
-
-function decodeGoogleCode(code) {
-  console.log('Received code for decoding:', code); // Log the received code
-
-  try {
-    const parts = code.split(".");
-    console.log('Code parts:', parts); // Log the split parts
-
-    if (parts.length < 2) {
-      console.error('Error: Code does not contain expected parts');
-      return null;
-    }
-
-    const payloadBase64 = parts[1];
-    console.log('Payload Base64:', payloadBase64); // Log the Base64 part
-
-    const payloadString = Buffer.from(payloadBase64, "base64").toString("utf-8");
-    console.log('Payload string:', payloadString); // Log the decoded string
-
-    const payload = JSON.parse(payloadString);
-    console.log('Payload:', payload); // Log the parsed payload
-
-    const { email, name, picture } = payload;
-    return { email, name, picture };
-  } catch (error) {
-    console.error("Error decoding Google code:", error);
-    return null;
   }
 }

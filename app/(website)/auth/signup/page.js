@@ -5,7 +5,9 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useGoogleLogin } from "@react-oauth/google";
 import GoogleIcon from "@/components/google";
-import { EyeIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Checkbox } from "@/components/ui/checkbox"
+
 
 export default function Signup() {
   const {
@@ -67,27 +69,23 @@ export default function Signup() {
     }
   };
 
-  const login = useGoogleLogin({
-    flow: "auth-code",
-    onSuccess: async (codeResponse) => {
-      console.log("Received code:", codeResponse.code); // Log the received code
-      try {
-        const response = await axios.post("/api/google/signup", {
-          code: codeResponse.code,
-        });
-        if (response.data.success) {
-            setSuccessMessage("Signup successful.");
-        } else {
-          setErrorMessage(response.data.message);
-        }
-      } catch (error) {
-        console.error("Google login error:", error);
-        setErrorMessage("An error occurred during Google signup. Please try again.");
-      }
-    },
-    onError: (errorResponse) => console.log(errorResponse),
-  });
+  const handleLogin = async (googleData) => {
+    try {
+      const response = await axios.post('/api/google/signup', {
+        token: googleData.tokenId, 
+      });
 
+      if (response.data.success) {
+        setSuccessMessage('Signup successful.');
+      } else {
+        setErrorMessage(response.data.message); 
+      }
+    } catch (error) {
+      console.error('Google login error:', error); 
+      setErrorMessage('An error occurred during Google signup. Please try again.');
+    }
+  };
+  
   return (
     <>
       {errorMessage && (
@@ -96,14 +94,7 @@ export default function Signup() {
           className="fixed right-5 top-5 flex w-full max-w-xs items-center rounded-lg bg-white p-4 text-gray-500 shadow dark:bg-gray-800 dark:text-gray-400"
           role="alert">
           <div className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
-            <svg
-              className="h-5 w-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 20 20">
-              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z" />
-            </svg>
+            <XMarkIcon className="h-5 w-5" aria-hidden="true" />
             <span className="sr-only">Error icon</span>
           </div>
           <div className="ms-3 text-sm font-normal">
@@ -116,20 +107,7 @@ export default function Signup() {
             data-dismiss-target="#toast-danger"
             aria-label="Close">
             <span className="sr-only">Close</span>
-            <svg
-              className="h-3 w-3"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 14">
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-              />
-            </svg>
+            <XMarkIcon className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
       )}
@@ -194,7 +172,7 @@ export default function Signup() {
                 </div>
                 <div className="mx-auto my-4 max-w-md">
                   <button
-                    onClick={() => login()}
+                    onClick={handleLogin}
                     className="group flex h-12 w-full select-none items-center justify-center gap-2 rounded-lg border border-gray-300 border-gray-300 bg-white px-6 text-gray-800 transition duration-300 hover:border-blue-400 hover:bg-blue-50 focus:border-blue-500 focus:bg-blue-50 active:bg-blue-100 dark:border-slate-600 dark:bg-gray-800 dark:text-slate-200 dark:hover:border-blue-400 dark:focus:border-blue-400 dark:focus:bg-gray-700">
                     <GoogleIcon />
                     <span className="text-sm font-semibold">
@@ -310,6 +288,23 @@ export default function Signup() {
                           Password is required
                         </p>
                       )}
+                    </div>
+                    <div  className="w-full flex items-center justify-between">
+                      
+                    <div className="items-center flex space-x-2">
+                      <Checkbox id="terms1" />
+                      <div className="grid gap-1.5 leading-none">
+                        <label
+                          htmlFor="terms1"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          Remember me
+                        </label>
+                        
+                      </div>
+                    </div>
+                      <a href="#" className="text-sm font-medium text-blue-600">
+                      Forgot password?</a>
                     </div>
                     <div className="mb-2 mt-4 w-full">
                       <button
