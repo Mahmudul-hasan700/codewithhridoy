@@ -79,6 +79,34 @@ export async function sharedMetaData(params) {
   };
 }
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "codewithhridoy",
+  "url": "https://codewithhridoy.vercel.app",
+  "description": "A coding blog by Hridoy, covering topics such as programming tutorials, coding tips, and software development insights.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "CodeWithHridoy",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/icon.png"
+    }
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hridoy"
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": "/opengraph.jpeg",
+    "width": 1200,
+    "height": 630
+  },
+  "keywords": ["coding", "programming", "web development", "software engineering"],
+  "inLanguage": "en-US"
+}
+
 export async function generateMetadata({ params }) {
   return await sharedMetaData(params);
 }
@@ -94,6 +122,10 @@ export default async function Layout({ children, params }) {
       <script src="https://apis.google.com/js/platform.js" async defer></script>
       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
      crossOrigin="anonymous"></script>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <body className="mx-auto max-w-screen-lg bg-white text-gray-800 antialiased dark:bg-gray-900 dark:text-slate-300">
         <GoogleOAuthProvider clientId="394811475866-24gg5m7tk15sljh9cat135vjk7m287qh.apps.googleusercontent.com">
           <Providers>

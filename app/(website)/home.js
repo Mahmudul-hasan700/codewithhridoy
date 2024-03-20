@@ -30,9 +30,9 @@ export default function HomePage({ posts }) {
         key="prev"
         onClick={() => paginate(currentPage - 1)}
         disabled={currentPage === 1}
-        className="relative inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 disabled:pointer-events-none disabled:hidden disabled:select-none disabled:opacity-40 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300" aria-label="Previous">
+        className="relative inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 disabled:pointer-events-none disabled:select-none disabled:opacity-40 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300" aria-label="Previous">
         <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-        <span className="hidden md:block">Previous</span>
+        <span className="text-sm">Previous</span>
       </button>
     );
 
@@ -82,8 +82,8 @@ export default function HomePage({ posts }) {
         key="next"
         onClick={() => paginate(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="relative mx-1 inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 disabled:pointer-events-none disabled:hidden disabled:select-none disabled:opacity-40 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300" aria-label="Next">
-        <span className="hidden md:block">Next</span>
+        className="relative mx-1 inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 disabled:pointer-events-none disabled:select-none disabled:opacity-40 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300" aria-label="Next">
+        <span className="text-sm">Next</span>
         <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
       </button>
     );
