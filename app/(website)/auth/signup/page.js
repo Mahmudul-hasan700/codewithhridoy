@@ -1,14 +1,16 @@
 "use client";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { notFound, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useGoogleLogin } from "@react-oauth/google";
 import GoogleIcon from "@/components/google";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import { Checkbox } from "@/components/ui/checkbox";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Spinner } from "@nextui-org/react";
 
 export default function Signup() {
@@ -71,23 +73,10 @@ export default function Signup() {
     }
   };
 
-  const handleLogin = async (googleData) => {
-    try {
-      const response = await axios.post('/api/google/signup', {
-        token: googleData.tokenId, 
-      });
-
-      if (response.data.success) {
-        setSuccessMessage('Signup successful.');
-      } else {
-        setErrorMessage(response.data.message); 
-      }
-    } catch (error) {
-      console.error('Google login error:', error); 
-      setErrorMessage('An error occurred during Google signup. Please try again.');
-    }
+  const handleGoogleLogin = async () => {
+    await signIn("google");
   };
-  
+
   return (
     <>
       {errorMessage && (
@@ -165,7 +154,7 @@ export default function Signup() {
                     className="group flex h-12 w-full select-none items-center justify-center gap-2 rounded-lg border border-gray-300 border-gray-300 bg-white px-6 text-gray-800 transition duration-300 hover:border-blue-400 hover:bg-blue-50 focus:border-blue-500 focus:bg-blue-50 active:bg-blue-100 dark:border-slate-600 dark:bg-gray-800 dark:text-slate-200 dark:hover:border-blue-400 dark:focus:border-blue-400 dark:focus:bg-gray-700">
                     <GoogleIcon />
                     <span className="text-sm font-semibold">
-                      Sign up with Google
+                      Continue with Google
                     </span>
                   </button>
                 </div>
@@ -253,7 +242,7 @@ export default function Signup() {
                             className="absolute inset-y-0 right-0 top-6 flex items-center overflow-hidden rounded-md px-3 text-sm"
                             onClick={togglePasswordVisibility}>
                             {showPassword ? (
-                              <VisibilityOffIcon className="h-5 w-5" />                              
+                              <VisibilityOffIcon className="h-5 w-5" />
                             ) : (
                               <VisibilityIcon className="h-5 w-5" />
                             )}
@@ -266,22 +255,22 @@ export default function Signup() {
                         </p>
                       )}
                     </div>
-                    <div  className="w-full flex items-center justify-between">
-                      
-                    <div className="items-center flex space-x-2">
-                      <Checkbox id="remember" />
-                      <div className="grid gap-1.5 leading-none">
-                        <label
-                          htmlFor="remember"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Remember me
-                        </label>
-                        
+                    <div className="flex w-full items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="remember" />
+                        <div className="grid gap-1.5 leading-none">
+                          <label
+                            htmlFor="remember"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                            Remember me
+                          </label>
+                        </div>
                       </div>
-                    </div>
-                      <a href="#" className="text-sm font-medium text-blue-600 hover:underline">
-                      Forgot password?</a>
+                      <a
+                        href="#"
+                        className="text-sm font-medium text-blue-600 hover:underline">
+                        Forgot password?
+                      </a>
                     </div>
                     <div className="mb-2 mt-4 w-full">
                       <button
