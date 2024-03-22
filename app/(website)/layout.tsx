@@ -6,7 +6,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cx } from "@/utils/all";
 import {Providers} from "./providers"
 import { Inter, Lora } from "next/font/google";
-import { SessionProvider } from 'next-auth/react';
 import { getSettings } from "@/lib/sanity/client";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";

@@ -1,6 +1,6 @@
 // pages/api/google/signup.js
 import { OAuth2Client } from 'google-auth-library';
-import dbConnect from '@/utils/dbConnect';
+import connectToDatabase from '@/utils/dbConnect';
 import GoogleUser from '@/models/googleuser';
 
 const CLIENT_ID = '394811475866-24gg5m7tk15sljh9cat135vjk7m287qh.apps.googleusercontent.com'; // Replace with your Google Client ID
@@ -21,7 +21,7 @@ async function verify(token) {
 export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
-      await dbConnect();
+      await connectToDatabase();
 
       const { code } = req.body;
       const userInformation = await verify(code);
