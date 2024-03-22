@@ -26,7 +26,6 @@ const navigation = [
   { name: 'Sidebar Menu', href: '/category/sidebar-menu', current: false },
   { name: 'Navugation Bars', href: '/category/navigation-bars', current: false },
   { name: 'Card Designs', href: '/category/card-designs', current: false },
-
 ]
 
 export default function Navbar(props) {

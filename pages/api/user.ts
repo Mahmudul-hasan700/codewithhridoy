@@ -1,11 +1,11 @@
 // pages/api/user.ts
 import { NextApiRequest, NextApiResponse } from "next";
-import {connectToDatabase} from "@/utils/dbConnect";
+import dbConnect from "@/utils/dbconnect";
 import User from "@/models/User";
 import jwt from "jsonwebtoken";
 
 // Establish connection to MongoDB
-connectToDatabase();
+  dbConnect();
 
 export default async function handler(
   req: NextApiRequest,

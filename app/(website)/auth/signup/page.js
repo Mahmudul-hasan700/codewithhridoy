@@ -11,7 +11,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Checkbox } from "@/components/ui/checkbox";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { Spinner } from "@nextui-org/react";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 export default function Signup() {
   const {
@@ -20,118 +23,53 @@ export default function Signup() {
     formState: { errors },
     reset
   } = useForm();
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setErrorMessage("");
-      setSuccessMessage("");
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [errorMessage, successMessage]);
-
-  const handleCloseError = () => {
-    setErrorMessage("");
-  };
-
-  const handleCloseSuccess = () => {
-    setSuccessMessage("");
-  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const response = await axios.post("/api/register", data);
+      const response = await axios.post('/api/register', data);
       if (response.data.success) {
-        setSuccessMessage("Signup successful!");
-        setErrorMessage("");
+        toast.success('Signup successful!');
         reset();
       } else {
-        if (response.data.message === "User already exists.") {
-          setErrorMessage(
-            "User already exists. Please use a different email."
-          );
+        if (response.data.message === 'User already exists.') {
+          toast.error('User already exists. Please use a different email.');
         } else {
-          setErrorMessage(response.data.message);
+          toast.error(response.data.message);
         }
-        setSuccessMessage("");
       }
     } catch (error) {
-      console.error("Signup error:", error);
-      setErrorMessage("An error occurred. Please try again.");
-      setSuccessMessage("");
+      console.error('Signup error:', error);
+      toast.error('An error occurred. Please try again.');
     } finally {
       setLoading(false);
     }
   };
-
   const handleGoogleLogin = async () => {
     await signIn("google");
   };
 
   return (
     <>
-      {errorMessage && (
-        <div
-          id="toast-danger"
-          className="fixed right-5 top-5 flex w-full max-w-xs items-center rounded-lg bg-white p-4 text-gray-500 shadow dark:bg-gray-800 dark:text-gray-400"
-          role="alert">
-          <div className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
-            <CloseIcon className="h-5 w-5" aria-hidden="true" />
-            <span className="sr-only">Error icon</span>
-          </div>
-          <div className="ms-3 text-sm font-normal">
-            <span>{errorMessage}</span>
-          </div>
-          <button
-            type="button"
-            onClick={handleCloseError}
-            className="-mx-1.5 -my-1.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-white p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-900 focus:ring-2 focus:ring-gray-300 dark:bg-gray-800 dark:text-gray-500 dark:hover:bg-gray-700 dark:hover:text-white"
-            data-dismiss-target="#toast-danger"
-            aria-label="Close">
-            <span className="sr-only">Close</span>
-            <CloseIcon className="h-3 w-3" aria-hidden="true" />
-          </button>
-        </div>
-      )}
-      {successMessage && (
-        <div
-          id="toast-success"
-          className="fixed right-5 top-5 z-50 mb-4 flex w-full max-w-xs items-center rounded-lg bg-white p-4 text-gray-500 shadow dark:bg-gray-800 dark:text-gray-400 md:whitespace-nowrap"
-          role="alert">
-          <div className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
-            <svg
-              className="h-5 w-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 20 20">
-              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-            </svg>
-            <span className="sr-only">Check icon</span>
-          </div>
-          <div className="ms-3 text-sm font-normal md:whitespace-nowrap">
-            {successMessage}
-          </div>
-          <button
-            type="button"
-            onClick={handleCloseSuccess}
-            className="-mx-1.5 -my-1.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-white p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-900 focus:ring-2 focus:ring-gray-300 dark:bg-gray-800 dark:text-gray-500 dark:hover:bg-gray-700 dark:hover:text-white"
-            data-dismiss-target="#toast-success"
-            aria-label="Close">
-            <span className="sr-only">Close</span>
-            <CloseIcon className="h-3 w-3" aria-hidden="true" />
-          </button>
-        </div>
-      )}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        toastStyle={{ zIndex: 9999 }}
+      />
       <div
         className={`relative bg-white py-16 dark:bg-gray-900 dark:text-slate-200`}>
         <div className="container relative mx-auto px-6 xl:px-40">

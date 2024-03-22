@@ -1,156 +1,64 @@
 "use client";
-import { signIn, signOut, useSession } from 'next-auth/react';
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import axios from "axios";
-import GoogleIcon from "@/components/google";
+import { useSession, signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import GoogleIcon from '@/components/google';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function Login() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset
-  } = useForm();
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+      reset
+    } = useForm();
+    const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setErrorMessage("");
-      setSuccessMessage("");
-    }, 5000);
+    const togglePasswordVisibility = () => {
+      setShowPassword(!showPassword);
+    };
 
-    return () => clearTimeout(timer);
-  }, [errorMessage, successMessage]);
-
-  const handleCloseError = () => {
-    setErrorMessage("");
-  };
-
-  const handleCloseSuccess = () => {
-    setSuccessMessage("");
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const response = await axios.post("/api/login", data);
+      const response = await axios.post('/api/login', data);
       if (response.data.success) {
-        setSuccessMessage("Login successful!");
-        setErrorMessage("");
+        toast.success('Login successful!');
         reset();
       } else {
-        setErrorMessage(response.data.message);
-        setSuccessMessage("");
+        toast.error(response.data.message);
       }
     } catch (error) {
-      console.error("Login error:", error);
-      setErrorMessage("An error occurred. Please try again.");
-      setSuccessMessage("");
+      console.error('Login error:', error);
+      toast.error('An error occurred. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleGoogleLogin = async () => {
-    await signIn('google');
-  };
+    const handleGoogleLogin = async () => {
+      await signIn('google');
+    };
+
   return (
     <>
-      {errorMessage && (
-        <div
-          id="toast-danger"
-          className="fixed right-5 top-5 z-50 flex w-full max-w-xs items-center rounded-lg bg-white p-4 text-gray-500 shadow dark:bg-gray-800 dark:text-gray-400"
-          role="alert">
-          <div className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
-            <svg
-              className="h-5 w-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 20 20">
-              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z" />
-            </svg>
-            <span className="sr-only">Error icon</span>
-          </div>
-          <div className="ms-3 text-sm font-normal">
-            {errorMessage}
-          </div>
-          <button
-            type="button"
-            onClick={handleCloseError}
-            className="-mx-1.5 -my-1.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-white p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-900 focus:ring-2 focus:ring-gray-300 dark:bg-gray-800 dark:text-gray-500 dark:hover:bg-gray-700 dark:hover:text-white"
-            data-dismiss-target="#toast-danger"
-            aria-label="Close">
-            <span className="sr-only">Close</span>
-            <svg
-              className="h-3 w-3"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 14">
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-              />
-            </svg>
-          </button>
-        </div>
-      )}
-      {successMessage && (
-        <div
-          id="toast-success"
-          className="fixed right-5 top-5 z-50 mb-4 flex w-full max-w-xs items-center rounded-lg bg-white p-4 text-gray-500 shadow dark:bg-gray-800 dark:text-gray-400"
-          role="alert">
-          <div className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
-            <svg
-              className="h-5 w-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 20 20">
-              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-            </svg>
-            <span className="sr-only">Check icon</span>
-          </div>
-          <div className="ms-3 text-sm font-normal">
-            {successMessage}
-          </div>
-          <button
-            type="button"
-            onClick={handleCloseSuccess}
-            className="-mx-1.5 -my-1.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-white p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-900 focus:ring-2 focus:ring-gray-300 dark:bg-gray-800 dark:text-gray-500 dark:hover:bg-gray-700 dark:hover:text-white"
-            data-dismiss-target="#toast-success"
-            aria-label="Close">
-            <span className="sr-only">Close</span>
-            <svg
-              className="h-3 w-3"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 14">
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-              />
-            </svg>
-          </button>
-        </div>
-      )}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        toastStyle={{ zIndex: 9999 }}
+      />
       <div
         className={`relative bg-white py-16 dark:bg-gray-900 dark:text-slate-200`}>
         <div className="container relative m-auto px-6 xl:px-40">
@@ -173,7 +81,7 @@ export default function Login() {
                     className="group flex h-12 w-full select-none items-center justify-center gap-2 rounded-lg border border-gray-300 border-gray-300 bg-white px-6 text-gray-800 transition duration-300 hover:border-blue-400 hover:bg-blue-50 focus:border-blue-500 focus:bg-blue-50 active:bg-blue-100 dark:border-slate-600 dark:bg-gray-800 dark:text-slate-200 dark:hover:border-blue-400 dark:focus:border-blue-400 dark:focus:bg-gray-700">
                     <GoogleIcon />
                     <span className="font-semibold">
-                      Login with Google
+                      Continue with Google
                     </span>
                   </button>
                 </div>
@@ -285,7 +193,7 @@ export default function Login() {
                         disabled={loading}>
                         {loading ? (
                           <div className="flex items-center justify-center">
-                            <div className="h-6 w-6 animate-spin rounded-full border-4 border-solid border-blue-500  border-t-transparent"></div>
+                            <div className="h-5 w-5 animate-spin rounded-full border-4 border-solid border-blue-500  border-t-transparent"></div>
                           </div>
                         ) : (
                           "Login"
