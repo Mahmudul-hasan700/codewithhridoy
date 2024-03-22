@@ -18,6 +18,17 @@ import {
 } from "@heroicons/react/24/outline";
 import { Transition } from "@headlessui/react";
 
+const navigation = [
+  { name: 'HTML and CSS', href: '/category/html-and-css', current: false },
+  { name: 'Login form', href: '/category/login-forms', current: false },
+  { name: 'Tailwindcss', href: '/category/tailwindcss', current: false },
+  { name: 'Website Design', href: '/category/website-deesigns', current: false },
+  { name: 'Sidebar Menu', href: '/category/sidebar-menu', current: false },
+  { name: 'Navugation Bars', href: '/category/navigation-bars', current: false },
+  { name: 'Card Designs', href: '/category/card-designs', current: false },
+
+]
+
 export default function Navbar(props) {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -182,41 +193,16 @@ export default function Navbar(props) {
             </button>
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 rounded-md bg-white py-2 shadow-lg dark:bg-gray-700">
-                <a
-                  href="/category/html-and-css"
-                  className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
-                  HTML & CSS
-                </a>
-                <a
-                  href="/category/login-forms"
-                  className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
-                  Login Forms
-                </a>
-                <a
-                  href="/category/tailwindcss"
-                  className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
-                  Tailwindcss
-                </a>
-                <a
-                  href="/category/website-deesigns"
-                  className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
-                  Website Designs
-                </a>
-                <a
-                  href="/category/navigation-bars"
-                  className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
-                  Navigation Bars
-                </a>
-                <a
-                  href="/category/sidebar-menu"
-                  className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
-                  Sidebar Menu
-                </a>
-                <a
-                  href="/category/card-designs"
-                  className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
-                  Card Designs
-                </a>
+                {navigation.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700"
+                    
+                  >
+                    {item.name}
+                  </a>
+                ))}
               </div>
             )}
           </div>
@@ -390,42 +376,16 @@ export default function Navbar(props) {
                     <div
                       className="absolute right-0 mt-2 w-48 rounded-md bg-white py-2 shadow-lg dark:bg-gray-700"
                       style={{ zIndex: 1000 }}>
-                      <a
-                        href="/category/html-and-css"
-                        className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
-                        HTML & CSS
-                      </a>
-
-                      <a
-                        href="/category/login-forms"
-                        className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
-                        Login Forms
-                      </a>
-                      <a
-                        href="/category/tailwindcss"
-                        className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
-                        Tailwindcss
-                      </a>
-                      <a
-                        href="/category/website-deesigns"
-                        className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
-                        Website Designs
-                      </a>
-                      <a
-                        href="/category/navigation-bars"
-                        className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
-                        Navigation Bars
-                      </a>
-                      <a
-                        href="/category/sidebar-menu"
-                        className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
-                        Sidebar Menu
-                      </a>
-                      <a
-                        href="/category/card-designs"
-                        className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
-                        Card Designs
-                      </a>
+                      {navigation.map((item) => (
+                          <a
+                            key={item.name}
+                            href={item.href}
+                            className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700"
+                            
+                          >
+                            {item.name}
+                          </a>
+                        ))}   
                     </div>
                   )}
                 </div>

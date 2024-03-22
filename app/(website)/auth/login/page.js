@@ -1,4 +1,5 @@
 "use client";
+import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -59,18 +60,9 @@ export default function Login() {
     }
   };
 
-  const handleGoogleLogin = async response => {
-    try {
-      const { data } = await axios.post("/api/auth/google", {
-        tokenId: response.tokenId
-      });
-      console.log("Google login response:", data);
-    } catch (error) {
-      console.error("Google login error:", error);
-      setErrorMessage("An error occurred. Please try again.");
-    }
+  const handleGoogleLogin = async () => {
+    await signIn('google');
   };
-
   return (
     <>
       {errorMessage && (

@@ -122,7 +122,7 @@ export default async function Layout({ children, params }) {
       <script src="https://apis.google.com/js/platform.js" async defer></script>
       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
      crossOrigin="anonymous"></script>
-      <script
+      <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />

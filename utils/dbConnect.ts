@@ -1,20 +1,18 @@
-// utils/dbconnect.ts
-import mongoose from 'mongoose';
+import { MongoClient } from 'mongodb';
 
-const dbConnect = async () => {
-  try {
-    if (mongoose.connection.readyState >= 1) {
-      return;
-    }
-    await mongoose.connect(process.env.MONGODB_URI as string, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('MongoDB connected successfully');
-  } catch (error) {
-    console.error('MongoDB connection error:', error);
-    process.exit(1);
+let cachedDb = null;
+
+export async function connectToDatabase() {
+  if (cachedDb) {
+    return cachedDb;
   }
-};
 
-export default dbConnect;
+  const client = await MongoClient.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+
+  cachedDb = client.db();
+
+  return cachedDb;
+}
