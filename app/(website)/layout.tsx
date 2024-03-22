@@ -6,6 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cx } from "@/utils/all";
 import {Providers} from "./providers"
 import { Inter, Lora } from "next/font/google";
+import { SessionProvider } from 'next-auth/react';
 import { getSettings } from "@/lib/sanity/client";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
@@ -114,6 +115,7 @@ export async function generateMetadata({ params }) {
 export default async function Layout({ children, params }) {
   const settings = await getSettings();
   return (
+    
     <html
       lang="en"
       suppressHydrationWarning
@@ -128,6 +130,7 @@ export default async function Layout({ children, params }) {
       />
       <body className="mx-auto max-w-screen-lg bg-white text-gray-800 antialiased dark:bg-gray-900 dark:text-slate-300">
         <GoogleOAuthProvider clientId="394811475866-24gg5m7tk15sljh9cat135vjk7m287qh.apps.googleusercontent.com">
+          
           <Providers>
           <Navbar {...settings} />
           <div className="mt-24">{children}</div>
@@ -135,6 +138,7 @@ export default async function Layout({ children, params }) {
           <SpeedInsights />
           <Footer {...settings} />
             </Providers>
+          
         </GoogleOAuthProvider>
       </body>
     </html>

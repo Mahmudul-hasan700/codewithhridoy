@@ -1,6 +1,6 @@
 // pages/api/register.ts
 import { NextApiRequest, NextApiResponse } from "next";
-import dbConnect from "@/utils/dbConnect";
+import { connectToDatabase } from '@/utils/dbConnect';
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"; 
@@ -12,7 +12,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    await dbConnect();
+    await connectToDatabase();
     const { name, email, password } = req.body;
 
     try {

@@ -150,7 +150,7 @@ export default function Signup() {
                 </div>
                 <div className="mx-auto my-4 max-w-md">
                   <button
-                    onClick={handleLogin}
+                    onClick={handleGoogleLogin}
                     className="group flex h-12 w-full select-none items-center justify-center gap-2 rounded-lg border border-gray-300 border-gray-300 bg-white px-6 text-gray-800 transition duration-300 hover:border-blue-400 hover:bg-blue-50 focus:border-blue-500 focus:bg-blue-50 active:bg-blue-100 dark:border-slate-600 dark:bg-gray-800 dark:text-slate-200 dark:hover:border-blue-400 dark:focus:border-blue-400 dark:focus:bg-gray-700">
                     <GoogleIcon />
                     <span className="text-sm font-semibold">
