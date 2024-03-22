@@ -14,8 +14,6 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-
 export default function Signup() {
   const {
     register,
@@ -32,26 +30,28 @@ export default function Signup() {
   };
 
   const onSubmit = async (data) => {
-    setLoading(true);
-    try {
-      const response = await axios.post('/api/register', data);
-      if (response.data.success) {
-        toast.success('Signup successful!');
-        reset();
-      } else {
-        if (response.data.message === 'User already exists.') {
-          toast.error('User already exists. Please use a different email.');
-        } else {
-          toast.error(response.data.message);
-        }
+      setLoading(true);
+      try {
+          const response = await axios.post('/api/register', data);
+          if (response.data.success) {
+              toast.success('Signup successful!');
+              localStorage.setItem('token', response.data.token);
+              router.push('/dashboard');
+          } else {
+              if (response.data.message === 'User already exists.') {
+                  toast.error('User already exists. Please use a different email.');
+              } else {
+                  toast.error(response.data.message);
+              }
+          }
+      } catch (error) {
+          console.error('Signup error:', error);
+          toast.error('An error occurred. Please try again.');
+      } finally {
+          setLoading(false);
       }
-    } catch (error) {
-      console.error('Signup error:', error);
-      toast.error('An error occurred. Please try again.');
-    } finally {
-      setLoading(false);
-    }
   };
+  
   const handleGoogleLogin = async () => {
     await signIn("google");
   };

@@ -30,6 +30,12 @@ export default function Login() {
       if (response.data.success) {
         toast.success('Login successful!');
         reset();
+
+        // Store token in local storage
+        localStorage.setItem('token', response.data.token);
+
+        // Redirect to dashboard
+        router.push('/dashboard');
       } else {
         toast.error(response.data.message);
       }
