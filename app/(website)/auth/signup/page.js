@@ -1,7 +1,7 @@
 "use client";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
-import { notFound, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -11,49 +11,57 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Checkbox } from "@/components/ui/checkbox";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Signup() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset
   } = useForm();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit = async (data) => {
-      setLoading(true);
-      try {
-          const response = await axios.post('/api/register', data);
-          if (response.data.success) {
-              toast.success('Signup successful!');
-              localStorage.setItem('token', response.data.token);
-              router.push('/dashboard');
-          } else {
-              if (response.data.message === 'User already exists.') {
-                  toast.error('User already exists. Please use a different email.');
-              } else {
-                  toast.error(response.data.message);
-              }
-          }
-      } catch (error) {
-          console.error('Signup error:', error);
-          toast.error('An error occurred. Please try again.');
-      } finally {
-          setLoading(false);
-      }
-  };
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      router.push('/dashboard');
+    }
+  }, [router]);
   
+  const onSubmit = async data => {
+    setLoading(true);
+    try {
+      const response = await axios.post("/api/register", data);
+      if (response.data.success) {
+        toast.success("Signup successful!");
+        localStorage.setItem("token", response.data.token);
+        router.push("/dashboard");
+      } else {
+        if (response.data.message === "User already exists.") {
+          toast.error(
+            "User already exists. Please use a different email."
+          );
+        } else {
+          toast.error(response.data.message);
+        }
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      toast.error("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleGoogleLogin = async () => {
-    await signIn("google");
+    await signIn("google", { callbackUrl: "/dashboard" });
   };
 
   return (

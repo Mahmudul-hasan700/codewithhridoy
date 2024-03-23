@@ -17,15 +17,13 @@ export default function Dashboard() {
           }
         })
         .then(response => {
-          setUserData(response.data.user); // Accessing nested user data
+          setUserData(response.data.user); 
         })
         .catch(error => {
           console.error("Error fetching user data:", error);
-          // Handle error
         });
     } else {
-      console.error("Token not found in local storage. Redirecting to login...");
-      router.push("/auth/login"); // Redirect to login page
+      router.push("/auth/login");
     }
   }, []);
 
@@ -40,7 +38,9 @@ export default function Dashboard() {
           </div>
         </div>
       ) : (
-        <p>Loading...</p>
+      <div className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-white">
+        <div className="h-16 w-16 animate-spin rounded-full border-4 border-solid border-blue-500  border-t-transparent"></div>
+      </div>
       )}
     </div>
   );

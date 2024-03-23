@@ -14,14 +14,21 @@ export default function Login() {
       register,
       handleSubmit,
       formState: { errors },
-      reset
     } = useForm();
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-
+  const router = useRouter();
+  
     const togglePasswordVisibility = () => {
       setShowPassword(!showPassword);
     };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      router.push('/dashboard');
+    }
+  }, [router]);
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -29,12 +36,7 @@ export default function Login() {
       const response = await axios.post('/api/login', data);
       if (response.data.success) {
         toast.success('Login successful!');
-        reset();
-
-        // Store token in local storage
         localStorage.setItem('token', response.data.token);
-
-        // Redirect to dashboard
         router.push('/dashboard');
       } else {
         toast.error(response.data.message);
