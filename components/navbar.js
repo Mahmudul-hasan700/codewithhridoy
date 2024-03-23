@@ -24,7 +24,7 @@ const navigation = [
   { name: 'Tailwindcss', href: '/category/tailwindcss', current: false },
   { name: 'Website Design', href: '/category/website-deesigns', current: false },
   { name: 'Sidebar Menu', href: '/category/sidebar-menu', current: false },
-  { name: 'Navugation Bars', href: '/category/navigation-bars', current: false },
+  { name: 'Navigation Bars', href: '/category/navigation-bars', current: false },
   { name: 'Card Designs', href: '/category/card-designs', current: false },
 ]
 
