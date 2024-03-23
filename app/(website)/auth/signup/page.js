@@ -5,9 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useGoogleLogin } from "@react-oauth/google";
 import GoogleIcon from "@/components/google";
-import CloseIcon from "@mui/icons-material/Close";
 import { Checkbox } from "@/components/ui/checkbox";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -19,7 +17,7 @@ export default function Signup() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -29,12 +27,12 @@ export default function Signup() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
-      router.push('/dashboard');
+      router.push("/dashboard");
     }
   }, [router]);
-  
+
   const onSubmit = async data => {
     setLoading(true);
     try {
@@ -182,10 +180,10 @@ export default function Signup() {
                               : "border-gray-300 dark:border-gray-600"
                           } overflow-hidden outline-none focus:border-blue-500 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-slate-200 dark:focus:border-slate-300`}
                         />
-                        <div>
+                        <div className="flex items-center justify-center">
                           <button
                             type="button"
-                            className="absolute inset-y-0 right-0 top-6 flex items-center overflow-hidden rounded-md px-3 text-sm"
+                            className="absolute inset-y-0 right-0 top-6 overflow-hidden rounded-md px-3 text-sm"
                             onClick={togglePasswordVisibility}>
                             {showPassword ? (
                               <VisibilityOffIcon className="h-5 w-5" />
