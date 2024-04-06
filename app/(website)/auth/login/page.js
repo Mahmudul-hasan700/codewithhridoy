@@ -50,8 +50,8 @@ export default function Login() {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    await signIn("google");
+  const handleGoogleLogin = () => {
+    window.location.href = '/api/auth/google';
   };
 
   return (

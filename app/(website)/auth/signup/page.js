@@ -1,5 +1,5 @@
 "use client";
-import { signIn, signOut } from "next-auth/react";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -58,10 +58,10 @@ export default function Signup() {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    await signIn("google", { callbackUrl: "/dashboard" });
+  const handleGoogleLogin = () => {
+    window.location.href = '/api/auth/google';
   };
-
+  
   return (
     <>
       <ToastContainer
