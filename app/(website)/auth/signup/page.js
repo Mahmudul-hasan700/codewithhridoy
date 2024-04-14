@@ -59,7 +59,7 @@ export default function Signup() {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = '/api/auth/google';
+    router.push("/api/auth/google");
   };
   
   return (

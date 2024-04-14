@@ -10,7 +10,7 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     // Get token from headers
-    const token = req.headers.authorization?.replace("Bearer ", "");
+    const token: string | undefined = req.headers.authorization?.replace("Bearer ", "");
 
     if (!token) {
       return res
@@ -23,7 +23,16 @@ export default async function handler(
 
     try {
       // Verify token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const decoded: { userId: string } | null = jwt.verify(token, process.env.JWT_SECRET) as { userId: string } | null;
+
+      if (!decoded) {
+        return res
+          .status(401)
+          .json({
+            success: false,
+            message: "Unauthorized: Invalid token"
+          });
+      }
 
       // Fetch user data from MongoDB
       await dbConnect();

@@ -1,5 +1,5 @@
 "use client";
-import { useSession, signIn } from "next-auth/react";
+
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -53,7 +53,7 @@ export default function Login() {
   const handleGoogleLogin = () => {
     window.location.href = '/api/auth/google';
   };
-
+  
   return (
     <>
       <ToastContainer
