@@ -1,15 +1,11 @@
-// category/[category]/category.js 
+// pages/tags/[slug]/tag.js
+
 import Container from "@/components/container";
-import { PortableText } from "@/lib/sanity/plugins/portabletext";
-import { urlForImage } from "@/lib/sanity/image";
-import PostList from "@/components/postlist";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import Breadcrumb from "@/components/Breadcrumb";
+import PostList from "@/components/postlist";
 
-export default function Author(props) {
-  const { loading, posts, title } = props;
-
+export default function Tag({ loading, posts, title }) {
   if (!loading && !posts.length) {
     notFound();
   }
@@ -21,7 +17,9 @@ export default function Author(props) {
         <h1 className="text-3xl font-semibold tracking-tight lg:leading-tight text-brand-primary lg:text-5xl dark:text-white">
           {title}
         </h1>
-        <p className="mt-1 text-gray-600 dark:text-gray-300">{posts.length} Articles</p>
+        <p className="mt-1 text-gray-600 dark:text-gray-300">
+          {posts.length} Articles
+        </p>
       </div>
       <div className="grid gap-10 mt-20 lg:gap-10 md:grid-cols-2 xl:grid-cols-3 ">
         {posts.map(post => (
