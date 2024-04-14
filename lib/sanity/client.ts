@@ -1,4 +1,3 @@
-// lib/sanity/client.ts
 import { apiVersion, dataset, projectId, useCdn } from "./config";
 import {
   postquery,
