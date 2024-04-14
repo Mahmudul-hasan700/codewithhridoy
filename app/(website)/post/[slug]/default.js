@@ -180,7 +180,7 @@ export default function Post(props) {
               {post.body && <PortableText value={post.body} />}
             </div>
             {post.tags && post.tags.length > 0 && (
-              <div className="mt-2 flex flex-wrap gap-2">
+      <div className="mt-2 flex flex-wrap gap-2">
                 <TagList tags={post.tags} />
               </div>
             )}
