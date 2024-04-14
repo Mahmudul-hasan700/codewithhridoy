@@ -1,3 +1,4 @@
+// lib/sanity/client.ts
 import { apiVersion, dataset, projectId, useCdn } from "./config";
 import {
   postquery,
@@ -14,7 +15,8 @@ import {
   catquery,
   searchquery,
   commentsByPostIdQuery,
-  tagquery
+  tagquery, 
+  postsByTagQuery
 } from "./groq";
 import { createClient } from "next-sanity";
 
@@ -137,6 +139,13 @@ export async function getPaginatedPosts(limit) {
 export async function getAllTags() {
   if (client) {
     return (await client.fetch(tagquery)) || [];
+  }
+  return [];
+}
+
+export async function getPostsByTag(tagSlug) {
+  if (client) {
+    return await client.fetch(postsByTagQuery, { tagSlug });
   }
   return [];
 }
