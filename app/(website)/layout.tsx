@@ -3,7 +3,6 @@ import "@/styles/tailwind.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cx } from "@/utils/all";
-import { Providers } from "./providers";
 import { Inter, Lora } from "next/font/google";
 import { getSettings } from "@/lib/sanity/client";
 import Footer from "@/components/footer";
@@ -143,14 +142,14 @@ export default async function Layout({ children, params }) {
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange >
-          <Providers>
+          
             <Navbar {...settings} />
             <div className="mt-24">{children}</div>
             <Analytics />
             <SpeedInsights />
             <Toaster />
             <Footer {...settings} />
-          </Providers>
+          
         </ThemeProvider>
       </body>
     </html>

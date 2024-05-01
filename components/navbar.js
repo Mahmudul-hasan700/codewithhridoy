@@ -122,22 +122,23 @@ export default function Navbar(props) {
         <SheetContent side="left">
           <SheetHeader>
             <SheetDescription>
-              <ul className="flex flex-col gap-2 py-4">
-                {defaultNavigation.map(item => (
-                  <li key={item.href}>
-                    <Button
-                      asChild
-                      variant="outline"
-                      className={`w-full ${
-                        pathname === item.href
-                          ? "bg-indigo-500 text-white"
-                          : ""
-                      }`}>
-                      <Link href={item.href}>{item.name}</Link>
-                    </Button>
-                  </li>
-                ))}
-              </ul>
+              <div>
+                <ul className="py-4 flex flex-col gap-2" >
+                  {defaultNavigation.map(item => (
+                    <li key={item.href}>
+                      <Button
+                        asChild
+                        variant="outline"
+                        className={`w-full ${
+                          pathname === item.href ? "bg-indigo-500 text-white" : ""
+                        }`}
+                      >
+                        <Link href={item.href}>{item.name}</Link>
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </SheetDescription>
           </SheetHeader>
         </SheetContent>
