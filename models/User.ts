@@ -1,18 +1,29 @@
-// models/User.ts
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Schema, model, models } from "mongoose";
 
-interface User extends Document {
-  name: string;
-  email: string;
-  password: string;
-  profileUrl: string; 
-}
-
-const UserSchema: Schema = new Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String },
-  profileUrl: { type: String, default: '/R.png' },
+const userSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+  },
+  profileUrl: String,
+  provider: {
+    type: String,
+    required: true,
+    enum: ["email", "google", "github"],
+  },
+  githubProfile: {
+    type: String,
+  },
 });
 
-export default mongoose.models.User || mongoose.model<User>('User', UserSchema);
+const User = models.User || model("User", userSchema);
+
+export default User; 
