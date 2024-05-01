@@ -1,16 +1,17 @@
 import { Metadata } from "next";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 import "@/styles/tailwind.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cx } from "@/utils/all";
-import {Providers} from "./providers"
+import { Providers } from "./providers";
 import { Inter, Lora } from "next/font/google";
 import { getSettings } from "@/lib/sanity/client";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { urlForImage } from "@/lib/sanity/image";
 import Script from "next/script";
+import { Toaster } from "@/components/ui/toaster";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -82,30 +83,36 @@ export async function sharedMetaData(params) {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Blog",
-  "name": "codewithhridoy",
-  "url": "https://codewithhridoy.vercel.app",
-  "description": "A coding blog by Hridoy, covering topics such as programming tutorials, coding tips, and software development insights.",
-  "publisher": {
+  name: "codewithhridoy",
+  url: "https://codewithhridoy.vercel.app",
+  description:
+    "A coding blog by Hridoy, covering topics such as programming tutorials, coding tips, and software development insights.",
+  publisher: {
     "@type": "Organization",
-    "name": "CodeWithHridoy",
-    "logo": {
+    name: "CodeWithHridoy",
+    logo: {
       "@type": "ImageObject",
-      "url": "/icon.png"
+      url: "/icon.png"
     }
   },
-  "author": {
+  author: {
     "@type": "Person",
-    "name": "Hridoy"
+    name: "Hridoy"
   },
-  "image": {
+  image: {
     "@type": "ImageObject",
-    "url": "/opengraph.jpeg",
-    "width": 1200,
-    "height": 630
+    url: "/opengraph.jpeg",
+    width: 1200,
+    height: 630
   },
-  "keywords": ["coding", "programming", "web development", "software engineering"],
-  "inLanguage": "en-US"
-}
+  keywords: [
+    "coding",
+    "programming",
+    "web development",
+    "software engineering"
+  ],
+  inLanguage: "en-US"
+};
 
 export async function generateMetadata({ params }) {
   return await sharedMetaData(params);
@@ -114,31 +121,37 @@ export async function generateMetadata({ params }) {
 export default async function Layout({ children, params }) {
   const settings = await getSettings();
   return (
-    
     <html
       lang="en"
       suppressHydrationWarning
       className={cx(inter.variable, lora.variable, "scroll-smooth")}>
-
-      <script src="https://apis.google.com/js/platform.js" async defer></script>
-      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
-     crossOrigin="anonymous"></script>
+      <script
+        src="https://apis.google.com/js/platform.js"
+        async
+        defer></script>
+      <script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
+        crossOrigin="anonymous"></script>
       <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <body className="mx-auto max-w-screen-lg bg-white text-gray-800 antialiased dark:bg-gray-900 dark:text-slate-300">
-        <GoogleOAuthProvider clientId="394811475866-24gg5m7tk15sljh9cat135vjk7m287qh.apps.googleusercontent.com">
-          
+      <body className="bg-background mx-auto max-w-screen-lg overflow-x-hidden font-sans antialiased ">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange >
           <Providers>
-          <Navbar {...settings} />
-          <div className="mt-24">{children}</div>
-          <Analytics />
-          <SpeedInsights />
-          <Footer {...settings} />
-            </Providers>
-          
-        </GoogleOAuthProvider>
+            <Navbar {...settings} />
+            <div className="mt-24">{children}</div>
+            <Analytics />
+            <SpeedInsights />
+            <Toaster />
+            <Footer {...settings} />
+          </Providers>
+        </ThemeProvider>
       </body>
     </html>
   );

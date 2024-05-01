@@ -4,7 +4,7 @@ const GoogleIcon = () => {
       xmlns="http://www.w3.org/2000/svg"
       x="0px"
       y="0px"
-      className="h-7 w-7"
+      className="h-5 w-5"
       viewBox="0 0 48 48">
       <path
         fill="#FFC107"
@@ -21,4 +21,4 @@ const GoogleIcon = () => {
     </svg>
   );
 };
-export default GoogleIcon
+export default GoogleIcon;

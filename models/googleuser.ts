@@ -1,4 +1,4 @@
-// models/User.js
+// models/googleuser.js
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({

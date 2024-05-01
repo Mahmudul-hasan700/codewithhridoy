@@ -1,6 +1,7 @@
 // components/Navbar.js
 
 "use client";
+import Link from "next/link";
 import { Fragment, useState, useRef, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import useSWR from "swr";
@@ -9,27 +10,80 @@ import { fetcher } from "@/lib/sanity/client";
 import PostGrid from "./PostGrid";
 import Image from "next/image";
 import { urlForImage } from "@/lib/sanity/image";
-import {
-  InformationCircleIcon,
-  HomeIcon,
-  MagnifyingGlassIcon,
-  ChevronDownIcon,
-  XMarkIcon
-} from "@heroicons/react/24/outline";
 import { Transition } from "@headlessui/react";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger
+} from "@/components/ui/sheet";
+import { AlignJustify, Search, X, ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const navigation = [
-  { name: 'HTML and CSS', href: '/category/html-and-css', current: false },
-  { name: 'Login form', href: '/category/login-forms', current: false },
-  { name: 'Tailwindcss', href: '/category/tailwindcss', current: false },
-  { name: 'Website Design', href: '/category/website-deesigns', current: false },
-  { name: 'Sidebar Menu', href: '/category/sidebar-menu', current: false },
-  { name: 'Navigation Bars', href: '/category/navigation-bars', current: false },
-  { name: 'Card Designs', href: '/category/card-designs', current: false },
-]
+  {
+    name: "HTML and CSS",
+    href: "/category/html-and-css",
+    current: false
+  },
+  {
+    name: "Login form",
+    href: "/category/login-forms",
+    current: false
+  },
+  {
+    name: "Tailwindcss",
+    href: "/category/tailwindcss",
+    current: false
+  },
+  {
+    name: "Website Design",
+    href: "/category/website-deesigns",
+    current: false
+  },
+  {
+    name: "Sidebar Menu",
+    href: "/category/sidebar-menu",
+    current: false
+  },
+  {
+    name: "Navigation Bars",
+    href: "/category/navigation-bars",
+    current: false
+  },
+  {
+    name: "Card Designs",
+    href: "/category/card-designs",
+    current: false
+  }
+];
+
+const defaultNavigation = [
+  {
+    name: "Home",
+    href: "/",
+    current: true
+  },
+  {
+    name: "About",
+    href: "/about",
+    current: false
+  },
+  {
+    name: "Contact",
+    href: "/contact",
+    current: false
+  },
+  {
+    name: "Signup",
+    href: "/auth/signup",
+    current: false
+  }
+];
 
 export default function Navbar(props) {
-  const [isNavOpen, setIsNavOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
   const [open, setOpen] = useState(true);
@@ -41,12 +95,8 @@ export default function Navbar(props) {
   );
   const isLoading = !data && !error;
   const router = useRouter();
-  const currentPath = usePathname();
+  const pathname = usePathname();
   const navigationRef = useRef(null);
-
-  const toggleNav = () => {
-    setIsNavOpen(!isNavOpen);
-  };
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -66,167 +116,37 @@ export default function Navbar(props) {
     setIsRightSidebarOpen(!isRightSidebarOpen);
   };
 
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (
-        navigationRef.current &&
-        !navigationRef.current.contains(event.target)
-      ) {
-        setIsNavOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   return (
-    <Transition.Root show={open} as={Fragment}>
-      <div>
-        {isNavOpen && (
-          <div
-            className="fixed inset-0 z-50 w-full bg-black opacity-75"
-            onClick={toggleNav}></div>
-        )}
-        <div
-          ref={navigationRef}
-          id="sideNav"
-          className={`fixed left-0 top-0 z-50 h-full w-3/4 flex-shrink-0 transform flex-col bg-gray-50 py-6 pl-2 pr-4 text-gray-800 shadow-md transition-transform duration-500 dark:bg-gray-800 dark:text-slate-200 sm:w-1/2 ${
-            isNavOpen ? "translate-x-0" : "-translate-x-full"
-          }`}>
-          <div className="my-3 mr-5 block flex items-center justify-end">
-            <button onClick={toggleNav} aria-label="Close menu">
-              <XMarkIcon className="h-6 w-6 text-black dark:text-white" />
-            </button>
-          </div>
-          <ul className="mt-4">
-            <li>
-              <a
-                href="/"
-                className={`mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${
-                  currentPath === "/"
-                    ? "bg-slate-300 pl-2 dark:bg-slate-700"
-                    : "duration-300 hover:bg-slate-200 hover:pl-3 dark:hover:bg-slate-700"
-                }`}>
-                <HomeIcon className="h-6 w-6" />
-                Home
-              </a>
-            </li>
-
-            <li>
-              <a
-                href="/about"
-                className={`mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black duration-300 hover:pl-2 dark:text-white ${
-                  currentPath === "/about"
-                    ? "bg-slate-300 pl-2 dark:bg-slate-700"
-                    : "duration-300 hover:bg-slate-200 hover:pl-3 dark:hover:bg-slate-700"
-                }`}>
-                <InformationCircleIcon className="h-6 w-6" />
-                About
-              </a>
-            </li>
-
-            <li>
-              <a
-                href="/contact"
-                className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${
-                  currentPath === "/contact"
-                    ? "bg-slate-300 pl-2 dark:bg-slate-700"
-                    : "duration-300 hover:bg-slate-200 hover:pl-3 dark:hover:bg-slate-700"
-                }`}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="h-5 w-5">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
-                  />
-                </svg>
-                Contact
-              </a>
-            </li>
-            <li>
-              <a
-                href="/auth/signup"
-                className={`nav-item mt-2 flex items-center gap-2 rounded-md px-2 py-2 font-semibold text-black dark:text-white ${
-                  currentPath === "/auth/signup"
-                    ? "bg-slate-300 pl-2 dark:bg-slate-700"
-                    : "duration-300 hover:bg-slate-200 hover:pl-3 dark:hover:bg-slate-700"
-                }`}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="h-5 w-5">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-                  />
-                </svg>
-                Signup
-              </a>
-            </li>
-          </ul>
-          <div className="relative">
-            <button
-              onClick={toggleDropdown}
-              className="flex w-full items-center justify-between rounded-md bg-transparent py-2 pl-5 font-semibold text-black text-gray-800 duration-500 dark:text-white">
-              <span>Category</span>
-              <ChevronDownIcon
-                className={`h-6 w-6 transition-transform ${
-                  isDropdownOpen
-                    ? "rotate-0 transform"
-                    : "rotate-[-90deg] transform"
-                }`}
-              />
-            </button>
-            {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 rounded-md bg-white py-2 shadow-lg dark:bg-gray-700">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700"
-                    
-                  >
-                    {item.name}
-                  </a>
+    <div>
+      <Sheet>
+        <SheetContent side="left">
+          <SheetHeader>
+            <SheetDescription>
+              <ul className="flex flex-col gap-2 py-4">
+                {defaultNavigation.map(item => (
+                  <li key={item.href}>
+                    <Button
+                      asChild
+                      variant="outline"
+                      className={`w-full ${
+                        pathname === item.href
+                          ? "bg-indigo-500 text-white"
+                          : ""
+                      }`}>
+                      <Link href={item.href}>{item.name}</Link>
+                    </Button>
+                  </li>
                 ))}
-              </div>
-            )}
-          </div>
-        </div>
+              </ul>
+            </SheetDescription>
+          </SheetHeader>
+        </SheetContent>
 
-        <div className="fixed top-0 z-40 w-full bg-white shadow-sm dark:bg-gray-800">
-          <header className="flex h-20 items-center justify-between bg-white p-4 dark:bg-gray-900">
-            <button
-              id="menuToggle"
-              className={`menu hamburger inline-flex items-center justify-center rounded-lg p-2 text-sm text-gray-800 focus:outline-none dark:text-slate-200 md:hidden ${
-                isNavOpen ? "active" : ""
-              }`}
-              aria-label="Open Menu"
-              onClick={toggleNav}>
-              <div>
-                <svg
-                  className="h-5 w-5 fill-current"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24">
-                  <rect y="4" width="24" height="2" rx="1" />
-                  <rect y="11" width="24" height="2" rx="1" />
-                  <rect y="18" width="24" height="2" rx="1" />
-                </svg>
-              </div>
-            </button>
+        <div className="text-forground fixed top-0 z-40 w-full bg-background shadow-sm">
+          <header className="text-forground flex h-20 items-center justify-between bg-background p-4">
+            <SheetTrigger>
+              <AlignJustify />
+            </SheetTrigger>
             <div className="flex items-center justify-center">
               <a href="/" className="ml-2 w-28 dark:hidden">
                 {props.logo ? (
@@ -261,7 +181,7 @@ export default function Navbar(props) {
                 id="toggleRightSidebar"
                 onClick={toggleRightSidebar}
                 aria-label="Search">
-                <MagnifyingGlassIcon className="h-6 w-6 text-gray-800 dark:text-slate-200" />
+                <Search />
               </button>
             </div>
             <Transition
@@ -278,7 +198,7 @@ export default function Navbar(props) {
                   <button
                     className="text-gray-500 dark:text-gray-400"
                     onClick={toggleRightSidebar}>
-                    <XMarkIcon className="h-6 w-6" />
+                    <X />
                   </button>
                 </div>
                 <>
@@ -335,7 +255,7 @@ export default function Navbar(props) {
                   <a
                     href="/"
                     className={`tracing-wide p-0 font-semibold ${
-                      currentPath === "/"
+                      pathname === "/"
                         ? "text-blue-700"
                         : "text-black dark:text-slate-200"
                     } hover:bg-transparent dark:hover:bg-transparent dark:hover:text-blue-500`}>
@@ -346,7 +266,7 @@ export default function Navbar(props) {
                   <a
                     href="/about"
                     className={`font-semibold hover:bg-gray-100 md:p-0 ${
-                      currentPath === "/about"
+                      pathname === "/about"
                         ? "text-blue-700"
                         : "text-black dark:text-slate-200"
                     } md:hover:bg-transparent md:dark:hover:bg-transparent md:dark:hover:text-blue-500`}>
@@ -357,7 +277,7 @@ export default function Navbar(props) {
                   <a
                     href="/contact"
                     className={`font-semibold hover:bg-gray-100 md:p-0 ${
-                      currentPath === "/contact"
+                      pathname === "/contact"
                         ? "text-blue-700"
                         : "text-black dark:text-slate-200"
                     } md:hover:bg-transparent md:dark:hover:bg-transparent md:dark:hover:text-blue-500`}>
@@ -369,22 +289,20 @@ export default function Navbar(props) {
                     onClick={toggleDropdown}
                     className="flex items-center gap-2 rounded-md bg-transparent px-2 py-2 pl-2 font-semibold text-black dark:text-gray-200">
                     <span>Category</span>
-                    <ChevronDownIcon className="h-6 w-6" />
+                    <ChevronDown />
                   </button>
                   {isDropdownOpen && (
                     <div
                       className="absolute right-0 mt-2 w-48 rounded-md bg-white py-2 shadow-lg dark:bg-gray-700"
                       style={{ zIndex: 1000 }}>
-                      {navigation.map((item) => (
-                          <a
-                            key={item.name}
-                            href={item.href}
-                            className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700"
-                            
-                          >
-                            {item.name}
-                          </a>
-                        ))}   
+                      {navigation.map(item => (
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
+                          {item.name}
+                        </a>
+                      ))}
                     </div>
                   )}
                 </div>
@@ -393,13 +311,13 @@ export default function Navbar(props) {
                   id="search"
                   aria-label="Search"
                   onClick={handleSearchClick}>
-                  <MagnifyingGlassIcon className="h-6 w-6 text-gray-800 dark:text-slate-200" />
+                  <Search />
                 </button>
               </ul>
             </div>
           </header>
         </div>
-      </div>
-    </Transition.Root>
+      </Sheet>
+    </div>
   );
 }
