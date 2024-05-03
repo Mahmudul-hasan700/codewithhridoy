@@ -7,13 +7,13 @@ const sendEmail = async ({ to, subject, text }) => {
       // See https://nodemailer.com/smtp/ for examples
       service: 'gmail',
       auth: {
-        user: "<try.mahmudulhasan@gmail.com>",
-        pass: "try.mahmudulhasan@{7610706}.m-sender-sib.com",
+        user: "mhhridoy6289@gmail.com",
+        pass: "password@6289",
       },
     });
 
     await transporter.sendMail({
-      from: "<try.mahmudulhasan@gmail.com>",
+      from: "try.mahmudulhasan@gmail.com",
       to,
       subject,
       text,

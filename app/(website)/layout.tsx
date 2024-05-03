@@ -9,7 +9,7 @@ import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { urlForImage } from "@/lib/sanity/image";
 import Script from "next/script";
-import { Toaster } from 'sonner'
+import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({
@@ -136,20 +136,23 @@ export default async function Layout({ children, params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <body className="bg-background mx-auto max-w-screen-lg overflow-x-hidden font-sans antialiased ">
+      <body className="mx-auto max-w-screen-lg overflow-x-hidden bg-background font-sans antialiased ">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
-          disableTransitionOnChange >
-          
-            <Navbar {...settings} />
-            <div className="mt-24">{children}</div>
-            <Analytics />
-            <SpeedInsights />
-          <Toaster richColors position="top-center" />
-            <Footer {...settings} />
-          
+          disableTransitionOnChange>
+          <Navbar {...settings} />
+          <div className="mt-24">{children}</div>
+          <Analytics />
+          <SpeedInsights />
+          <Toaster
+            richColors
+            position="top-center"
+            closeButton
+            expand={false}
+          />
+          <Footer {...settings} />
         </ThemeProvider>
       </body>
     </html>

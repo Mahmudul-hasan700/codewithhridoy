@@ -44,8 +44,17 @@ export default function Signup() {
         }
       }
     } catch (error) {
-      console.error("Signup error:", error);
-      toast.error("An error occurred. Please try again.");
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message === "User already exists."
+      ) {
+        toast.error(
+          "User already exists. Please use a different email or login."
+        );
+      } else {
+        toast.error("An error occurred. Please try again.");
+      }
     } finally {
       setLoading(false);
     }

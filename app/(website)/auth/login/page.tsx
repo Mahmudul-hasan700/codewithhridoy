@@ -7,49 +7,61 @@ import GoogleIcon from "@/components/google";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 
 export default function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-const [email, setEmail] = useState('');
-const [password, setPassword] = useState(''); 
-  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit = async (event) => {
+  const onSubmit = async event => {
     event.preventDefault();
     setLoading(true);
 
     try {
-      const response = await axios.post('/api/login', { email, password });
+      const response = await axios.post("/api/login", {
+        email,
+        password
+      });
 
       if (response.data.success) {
-        toast.success('Login successful!');
-        localStorage.setItem('token', response.data.token);
-        router.push('/dashboard');
+        toast.success("Login successful!");
+        localStorage.setItem("token", response.data.token);
+        router.push("/dashboard");
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.error('Login error:', error);
-      toast.error('An error occurred. Please try again.');
+      if (
+        error.response &&
+        error.response.status === 404 &&
+        error.response.data.message === "User not found."
+      ) {
+        toast.error("User not found. Please signup first.");
+      } else {
+        toast.error("An error occurred. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
   };
-  
+
   const handleGoogleLogin = async () => {
     setIsGoogleLoading(true);
     try {
       await router.push("/api/auth/google");
     } catch (error) {
       console.error("Google login error:", error);
-      toast.error("An error occurred during Google login. Please try again.");
+      toast.error(
+        "An error occurred during Google login. Please try again."
+      );
     } finally {
       setIsGoogleLoading(false);
     }
@@ -57,13 +69,10 @@ const [password, setPassword] = useState('');
 
   return (
     <>
-      <div
-        className="relative py-16">
+      <div className="relative py-16">
         <div className="container relative m-auto px-6 xl:px-40">
-          <div
-            className="m-auto lg:w-6/12 xl:w-6/12">
-            <div
-              className="rounded-xl shadow-xl">
+          <div className="m-auto lg:w-6/12 xl:w-6/12">
+            <div className="rounded-xl shadow-xl">
               <div className="p-6 sm:p-16">
                 <div className="flex flex-col items-center justify-center">
                   <h1 className="fill-current text-center text-xl font-bold">
@@ -79,13 +88,14 @@ const [password, setPassword] = useState('');
                     onClick={handleGoogleLogin}
                     disabled={isGoogleLoading}
                     variant="outline"
-                    className="flex w-full select-none items-center justify-center gap-2"
-                  >
+                    className="flex w-full select-none items-center justify-center gap-2">
                     <GoogleIcon />
                     {isGoogleLoading ? (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : (
-                      <span className="font-semibold">Continue with Google</span>
+                      <span className="font-semibold">
+                        Continue with Google
+                      </span>
                     )}
                   </Button>
                 </div>
@@ -113,10 +123,10 @@ const [password, setPassword] = useState('');
                         id="email"
                         required
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={e => setEmail(e.target.value)}
                         placeholder="Enter your email"
                         className="block w-full p-4"
-                      />                     
+                      />
                     </div>
 
                     <div className="mb-4">
@@ -131,7 +141,9 @@ const [password, setPassword] = useState('');
                             type={showPassword ? "text" : "password"}
                             id="password"
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={e =>
+                              setPassword(e.target.value)
+                            }
                             required
                             placeholder="Enter your password"
                             className="block w-full p-4"
@@ -140,16 +152,15 @@ const [password, setPassword] = useState('');
                             type="button"
                             variant="ghost"
                             onClick={togglePasswordVisibility}
-                            className="absolute inset-y-0 right-0 px-3 flex items-center focus:outline-none"
-                          >
+                            className="absolute inset-y-0 right-0 flex items-center px-3 focus:outline-none">
                             {showPassword ? (
                               <Eye className="h-4 w-4" />
                             ) : (
                               <EyeOff className="h-4 w-4" />
                             )}
                           </Button>
+                        </div>
                       </div>
-                    </div>
                     </div>
                     <div className="mb-2 mt-4 w-full">
                       <Button
