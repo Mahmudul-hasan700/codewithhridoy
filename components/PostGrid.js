@@ -8,7 +8,7 @@ export default function PostGrid({ data, query }) {
   const firstTenResults = data.slice(0, 10);
 
   return (
-    <div className="relative inset-0 mt-10 grid w-full grid-cols-1 gap-4 md:max-w-[600px]">
+    <div>
       {firstTenResults.map(post => {
         const imageProps = post.mainImage
           ? urlForImage(post.mainImage)
@@ -16,9 +16,8 @@ export default function PostGrid({ data, query }) {
 
         return (
           <div
-            key={post._id}
-            className="mx-auto block w-full bg-transparent p-2 text-gray-800 dark:text-slate-200">
-            <div className="grid cursor-pointer grid-cols-[150px,1fr] gap-2">
+            key={post._id}>
+            <div className="grid cursor-pointer grid-cols-[150px,1fr] gap-2 overflow-x-hidden flex-shrink-0">
               <div className="flex h-[90px] w-[150px] items-center justify-center overflow-hidden">
                 {imageProps ? (
                   <Image
@@ -30,8 +29,8 @@ export default function PostGrid({ data, query }) {
                     alt={post.mainImage?.alt || "Thumbnail"}
                     className="h-auto w-full object-cover transition-all"
                     layout="responsive"
-                    width={150}
-                    height={150}
+                    width={80}
+                    height={80}
                   />
                 ) : (
                   <span className="absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 text-gray-200">
@@ -42,7 +41,7 @@ export default function PostGrid({ data, query }) {
               <div>
                 <a
                   href={`/post/${post.slug?.current}`}
-                  className={`line-clamp-2 text-ellipsis text-lg font-semibold md:line-clamp-3 md:text-xl`}>
+                  className={`line-clamp-2 text-ellipsis md:line-clamp-3 md:text-xl`}>
                   <span
                     className="bg-gradient-to-r from-black to-black bg-[length:0px_2px] bg-left-bottom
                   bg-no-repeat

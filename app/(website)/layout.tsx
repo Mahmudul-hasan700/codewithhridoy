@@ -9,7 +9,7 @@ import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { urlForImage } from "@/lib/sanity/image";
 import Script from "next/script";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from 'sonner'
 import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({
@@ -147,7 +147,7 @@ export default async function Layout({ children, params }) {
             <div className="mt-24">{children}</div>
             <Analytics />
             <SpeedInsights />
-            <Toaster />
+          <Toaster richColors position="top-center" />
             <Footer {...settings} />
           
         </ThemeProvider>

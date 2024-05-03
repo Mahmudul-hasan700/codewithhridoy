@@ -9,31 +9,36 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "sonner";
 
 export default function Signup() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit = async (event) => {
+  const onSubmit = async event => {
     event.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post("/api/register",  { name, email, password });
+      const response = await axios.post("/api/register", {
+        name,
+        email,
+        password
+      });
       if (response.data.success) {
         toast.success("Signup successful!");
       } else {
         if (response.data.message === "User already exists.") {
-          toast.error("User already exists. Please use a different email.");
+          toast.error(
+            "User already exists. Please use a different email."
+          );
         } else {
           toast.error(response.data.message);
         }
@@ -52,25 +57,10 @@ export default function Signup() {
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        toastStyle={{ zIndex: 9999 }}
-      />
-      <div
-        className="relative bg-white py-16 dark:bg-gray-900 dark:text-slate-200">
+      <div className="relative py-16">
         <div className="container relative mx-auto px-6 xl:px-40">
-          <div
-            className="text-gray-800 dark:bg-gray-900 dark:text-slate-200">
-            <div
-              className="w-full rounded-xl bg-white text-gray-800 shadow-xl dark:bg-gray-800 dark:text-slate-200">
+          <div>
+            <div className="w-full rounded-xl shadow-xl">
               <div className="p-6 sm:p-16 md:p-20">
                 <div className="flex flex-col items-center justify-center">
                   <h1 className="fill-current text-center text-xl font-bold">
@@ -83,7 +73,8 @@ export default function Signup() {
                 <div className="mx-auto my-4 max-w-md">
                   <Button
                     onClick={handleGoogleLogin}
-                    className="group flex h-12 w-full select-none items-center justify-center gap-2 rounded-lg border border-gray-300 border-gray-300 bg-white px-6 text-gray-800 transition duration-300 hover:border-blue-400 hover:bg-blue-50 focus:border-blue-500 focus:bg-blue-50 active:bg-blue-100 dark:border-slate-600 dark:bg-gray-800 dark:text-slate-200 dark:hover:border-blue-400 dark:focus:border-blue-400 dark:focus:bg-gray-700">
+                    variant="outline"
+                    className="flex h-10 w-full select-none items-center justify-center gap-2">
                     <GoogleIcon />
                     <span className="text-sm font-semibold">
                       Continue with Google
@@ -112,10 +103,10 @@ export default function Signup() {
                         type="text"
                         id="name"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={e => setName(e.target.value)}
                         required
                         placeholder="Enter your full name"
-                        className="block w-full dark:bg-gray-900 p-4"
+                        className="block w-full p-4"
                       />
                     </div>
                     <div className="mb-4">
@@ -127,12 +118,12 @@ export default function Signup() {
                       <Input
                         type="email"
                         id="email"
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
                         required
                         placeholder="Enter your email"
-                        className="block w-full dark:bg-gray-900 p-4"
+                        className="block w-full p-4"
                       />
-                      
                     </div>
                     <div className="mb-4">
                       <div>
@@ -145,17 +136,19 @@ export default function Signup() {
                           <Input
                             type={showPassword ? "text" : "password"}
                             id="password"
-                            onChange={(e) => setPassword(e.target.value)}
+                            value={password}
+                            onChange={e =>
+                              setPassword(e.target.value)
+                            }
                             required
                             placeholder="Enter your password"
-                            className="block w-full dark:bg-gray-900 p-4"
+                            className="block w-full p-4"
                           />
                           <Button
                             type="button"
                             variant="ghost"
                             onClick={togglePasswordVisibility}
-                            className="absolute inset-y-0 right-0 px-3 flex items-center focus:outline-none"
-                          >
+                            className="absolute inset-y-0 right-0 flex items-center px-3 focus:outline-none">
                             {showPassword ? (
                               <Eye className="h-4 w-4" />
                             ) : (
@@ -163,7 +156,7 @@ export default function Signup() {
                             )}
                           </Button>
                         </div>
-                      </div> 
+                      </div>
                     </div>
                     <div className="flex w-full items-center justify-between">
                       <div className="flex items-center space-x-2">
@@ -177,7 +170,7 @@ export default function Signup() {
                         </div>
                       </div>
                       <a
-                        href="#"
+                        href="/forgot-password"
                         className="text-sm font-medium text-blue-600 hover:underline">
                         Forgot password?
                       </a>
@@ -198,7 +191,7 @@ export default function Signup() {
                       Already have an acoount?
                       <a
                         href="/auth/login"
-                        className={`ml-2 text-gray-800 hover:underline dark:text-slate-200`}>
+                        className="ml-2 text-gray-800 hover:underline">
                         {" "}
                         Login
                       </a>

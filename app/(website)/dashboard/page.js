@@ -1,46 +1,70 @@
-"use client";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useRouter } from "next/navigation";
+// app/dashboard/page.jsx
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 export default function Dashboard() {
   const [userData, setUserData] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      axios
-        .get("/api/user", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-        .then(response => {
-          setUserData(response.data.user); 
-        })
-        .catch(error => {
-          console.error("Error fetching user data:", error);
-        });
-    } else {
-      console.error("Token not found in local storage. Redirecting to login...");
-      router.push("/auth/login");
-    }
-  }, []);
+    
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+
+        if (token) {
+          const response = await axios.get('/api/user', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          setUserData(response.data);
+        } else {
+          router.push('/login');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        router.push('/login');
+      }
+    };
+
+    fetchUserData();
+  }, [router]);
+
+  const handleSignOut = () => {
+    localStorage.removeItem('token');
+    router.push('/login');
+  };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       {userData ? (
-        <div className="max-w-md bg-white shadow-md rounded-lg overflow-hidden">
-          <div className="p-6">
-            <h1 className="text-3xl font-semibold mb-2">Welcome, {userData.name}</h1>
-            <p className="text-gray-600">Email: {userData.email}</p>
-            <img src={userData.profileUrl} alt="Profile Picture" className="mt-4 w-full rounded-lg" />
+        <div className="bg-white rounded-lg shadow-lg p-8 max-w-md">
+          <div className="flex justify-center mb-4">
+            <img
+              src={userData.profileUrl}
+              alt="Profile"
+              className="rounded-full w-24 h-24"
+            />
           </div>
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold">{userData.name}</h2>
+            <p className="text-gray-600">{userData.email}</p>
+          </div>
+          <button
+            onClick={handleSignOut}
+            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+          >
+            Sign Out
+          </button>
         </div>
       ) : (
         <p>Loading...</p>
       )}
     </div>
   );
-}
+} 

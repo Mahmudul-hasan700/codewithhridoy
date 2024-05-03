@@ -1,10 +1,11 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { Checkbox } from "@/components/ui/checkbox"
-
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function CommentForm({ postId }) {
   const {
@@ -84,89 +85,53 @@ export default function CommentForm({ postId }) {
       )}
       <div className="mx-auto grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div className="mb-4">
-          <label
-            htmlFor="name"
-            className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Name:
-          </label>
-          <input
+          <Input
             type="text"
             id="name"
             {...register("name", { required: true })}
-            className={`mb-2 block w-full rounded-md border ${
-              errors.name
-                ? "border-red-500"
-                : "border-gray-300 dark:border-gray-600"
-            } px-4 py-2 focus:border-blue-500 focus:outline-none focus:invalid:border-red-500 dark:bg-gray-800 dark:text-white`}
+            error={errors.name && "Name is required"}
           />
-          {errors.name && (
-            <span className="text-red-500">Name is required</span>
-          )}
         </div>
         <div className="mb-4">
-          <label
-            htmlFor="email"
-            className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Email:
-          </label>
-          <input
+          <Input
             type="email"
             id="email"
             {...register("email", { required: true })}
-            className={`mb-2 block w-full rounded-md border ${
-              errors.email
-                ? "border-red-500"
-                : "border-gray-300 dark:border-gray-600"
-            } px-4 py-2 focus:border-blue-500 focus:outline-none focus:invalid:border-red-500 dark:bg-gray-800 dark:text-white`}
+            error={errors.email && "Email is required"}
           />
-          {errors.email && (
-            <span className="text-red-500">Email is required</span>
-          )}
         </div>
       </div>
       <div className="mb-4">
-        <label
-          htmlFor="comment"
-          className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Comment:
-        </label>
-        <textarea
+        <Textarea
           id="comment"
           {...register("comment", { required: true })}
-          className={`mb-4 block w-full rounded-md border ${
-            errors.comment
-              ? "border-red-500"
-              : "border-gray-300 dark:border-gray-600"
-          } px-4 py-2 focus:border-blue-500 focus:outline-none focus:invalid:border-red-500 dark:bg-gray-800 dark:text-white`}></textarea>
-        {errors.comment && (
-          <span className="text-red-500">Comment is required</span>
-        )}
+          error={errors.comment && "Comment is required"}
+          className="w-full"
+        />
       </div>
 
-      <div className="items-center flex space-x-2">
+      <div className="flex items-center space-x-2">
         <Checkbox
           id="save"
           checked={saveUserInfo}
-          onChange={() => setSaveUserInfo(!saveUserInfo)} />
+          onCheckedChange={checked => setSaveUserInfo(checked)}
+        />
         <div className="grid gap-1.5 leading-none">
           <label
             htmlFor="save"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed"
-          >
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed">
             Save my name and email in this browser for the next time I
             comment.
           </label>
         </div>
       </div>
       <div className="mt-6">
-        <button
+        <Button
           type="submit"
-          className={`block w-full rounded-md bg-black py-4 font-medium text-white focus:outline-none dark:bg-white dark:text-black ${
-            submitting ? "cursor-not-allowed opacity-50" : ""
-          }`}
+          className={`w-full ${submitting ? "cursor-not-allowed opacity-50" : ""}`}
           disabled={submitting}>
           {submitting ? "Submitting..." : "Submit"}
-        </button>
+        </Button>
       </div>
     </form>
   );

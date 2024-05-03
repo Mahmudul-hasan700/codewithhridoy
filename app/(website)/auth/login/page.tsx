@@ -7,12 +7,12 @@ import GoogleIcon from "@/components/google";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from 'sonner';
 
 export default function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 const [email, setEmail] = useState('');
 const [password, setPassword] = useState(''); 
@@ -43,32 +43,27 @@ const [password, setPassword] = useState('');
     }
   };
   
-  const handleGoogleLogin = () => {
-    router.push("/api/auth/google");
+  const handleGoogleLogin = async () => {
+    setIsGoogleLoading(true);
+    try {
+      await router.push("/api/auth/google");
+    } catch (error) {
+      console.error("Google login error:", error);
+      toast.error("An error occurred during Google login. Please try again.");
+    } finally {
+      setIsGoogleLoading(false);
+    }
   };
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        toastStyle={{ zIndex: 9999 }}
-      />
-
       <div
-        className={`relative bg-white py-16 dark:bg-gray-900 dark:text-slate-200`}>
+        className="relative py-16">
         <div className="container relative m-auto px-6 xl:px-40">
           <div
-            className={`m-auto text-gray-800 dark:bg-gray-900 dark:text-slate-200 lg:w-6/12 xl:w-6/12`}>
+            className="m-auto lg:w-6/12 xl:w-6/12">
             <div
-              className={`rounded-xl bg-white text-gray-800 shadow-xl dark:bg-gray-800 dark:text-slate-200`}>
+              className="rounded-xl shadow-xl">
               <div className="p-6 sm:p-16">
                 <div className="flex flex-col items-center justify-center">
                   <h1 className="fill-current text-center text-xl font-bold">
@@ -80,14 +75,19 @@ const [password, setPassword] = useState('');
                 </div>
 
                 <div className="mx-auto my-4 max-w-md">
-                  <button
+                  <Button
                     onClick={handleGoogleLogin}
-                    className="group flex h-12 w-full select-none items-center justify-center gap-2 rounded-lg border border-gray-300 border-gray-300 bg-white px-6 text-gray-800 transition duration-300 hover:border-blue-400 hover:bg-blue-50 focus:border-blue-500 focus:bg-blue-50 active:bg-blue-100 dark:border-slate-600 dark:bg-gray-800 dark:text-slate-200 dark:hover:border-blue-400 dark:focus:border-blue-400 dark:focus:bg-gray-700">
+                    disabled={isGoogleLoading}
+                    variant="outline"
+                    className="flex w-full select-none items-center justify-center gap-2"
+                  >
                     <GoogleIcon />
-                    <span className="font-semibold">
-                      Continue with Google
-                    </span>
-                  </button>
+                    {isGoogleLoading ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <span className="font-semibold">Continue with Google</span>
+                    )}
+                  </Button>
                 </div>
 
                 <div className="mx-auto mb-3 flex max-w-md items-center">
@@ -112,6 +112,7 @@ const [password, setPassword] = useState('');
                         type="email"
                         id="email"
                         required
+                        value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Enter your email"
                         className="block w-full dark:bg-gray-900 p-4"
@@ -129,6 +130,7 @@ const [password, setPassword] = useState('');
                           <Input
                             type={showPassword ? "text" : "password"}
                             id="password"
+                            value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
                             placeholder="Enter your password"
@@ -157,7 +159,7 @@ const [password, setPassword] = useState('');
                         {loading ? (
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         ) : (
-                          "Sign up"
+                          "Login"
                         )}
                       </Button>
                     </div>
@@ -165,7 +167,7 @@ const [password, setPassword] = useState('');
                       Don't have an acoount?
                       <a
                         href="/auth/signup"
-                        className={`ml-2 text-gray-800 hover:underline hover:underline dark:text-slate-200`}>
+                        className="ml-2 text-gray-800 hover:underline hover:underline dark:text-slate-200">
                         {" "}
                         Sign Up
                       </a>

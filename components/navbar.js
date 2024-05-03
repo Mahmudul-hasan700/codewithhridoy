@@ -17,10 +17,19 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
+  SheetClose
 } from "@/components/ui/sheet";
-import { AlignJustify, Search, X, ChevronDown } from "lucide-react";
+import { AlignJustify, Search, X, ChevronDown, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const navigation = [
   {
@@ -86,7 +95,7 @@ const defaultNavigation = [
 export default function Navbar(props) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [query, setQuery] = useState("");
   const { data, error } = useSWR(
@@ -97,6 +106,7 @@ export default function Navbar(props) {
   const router = useRouter();
   const pathname = usePathname();
   const navigationRef = useRef(null);
+  const handleCloseSheet = () => setOpen(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -118,35 +128,54 @@ export default function Navbar(props) {
 
   return (
     <div>
-      <Sheet>
+      <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent side="left">
           <SheetHeader>
-            <SheetDescription>
-              <div>
-                <ul className="py-4 flex flex-col gap-2" >
-                  {defaultNavigation.map(item => (
-                    <li key={item.href}>
-                      <Button
-                        asChild
-                        variant="outline"
-                        className={`w-full ${
-                          pathname === item.href ? "bg-indigo-500 text-white" : ""
-                        }`}
-                      >
-                        <Link href={item.href}>{item.name}</Link>
-                      </Button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </SheetDescription>
+            <h2 className="mb-4 text-center text-lg font-semibold">
+              Site Navigation
+            </h2>
           </SheetHeader>
+          <div>
+            <ul className="flex flex-col gap-2 py-4">
+              {defaultNavigation.map(item => (
+                <li key={item.href}>
+                  <Button
+                    variant={
+                      pathname === item.href ? "default" : "outline"
+                    }
+                    asChild>
+                    <Link
+                      href={item.href}
+                      className="w-full"
+                      onClick={handleCloseSheet}>
+                      {item.name}
+                    </Link>
+                  </Button>
+                </li>
+              ))}
+            </ul>
+            <DropdownMenu>
+            <DropdownMenuTrigger className="w-full flex items-center justify-center">
+              Categories <ChevronRight className="ml-auto h-4 w-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Categories</DropdownMenuLabel>
+              {navigation.map((item) => (
+                <DropdownMenuItem key={item.href} asChild>
+                  <a href={item.href}>{item.name}</a>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu> 
+           </div>
         </SheetContent>
 
-        <div className="text-forground fixed top-0 z-40 w-full bg-background shadow-sm">
+        <div className="fixed top-0 z-40 w-full bg-background text-foreground shadow-sm">
           <header className="text-forground flex h-20 items-center justify-between bg-background p-4">
-            <SheetTrigger>
-              <AlignJustify />
+            <SheetTrigger asChild className="md:hidden">
+              <Button variant="outline" size="icon">
+                <AlignJustify />
+              </Button>
             </SheetTrigger>
             <div className="flex items-center justify-center">
               <a href="/" className="ml-2 w-28 dark:hidden">
@@ -185,106 +214,80 @@ export default function Navbar(props) {
                 <Search />
               </button>
             </div>
-            <Transition
-              show={isRightSidebarOpen}
-              as={Fragment}
-              enter="transform transition ease-in-out duration-500 sm:duration-700"
-              enterFrom="translate-x-full"
-              enterTo="translate-x-0"
-              leave="transform transition ease-in-out duration-500 sm:duration-700"
-              leaveFrom="translate-x-0"
-              leaveTo="translate-x-full">
-              <div className="rightsideNav fixed right-0 top-0 z-50 h-screen w-screen flex-shrink-0 flex-col overflow-y-auto bg-gray-50 py-6 text-gray-800 shadow-md dark:bg-gray-800 dark:text-slate-200">
-                <div className="mr-5 block flex items-center justify-end">
-                  <button
-                    className="text-gray-500 dark:text-gray-400"
-                    onClick={toggleRightSidebar}>
-                    <X />
-                  </button>
-                </div>
-                <>
-                  <div className="my-5 block">
-                    <div className="flex items-center justify-center p-4">
-                      <h1 className="text-center text-lg font-semibold dark:text-white lg:text-3xl lg:leading-tight">
-                        Search
-                      </h1>
-                    </div>
+            {/* Right Sidebar Sheet */}
+            <Sheet
+              open={isRightSidebarOpen}
+              onOpenChange={setIsRightSidebarOpen}>
+              <SheetContent
+                side="right"
+                className="w-screen overflow-y-auto">
+                <div className="flex-shrink-0">
+                  <>
+                    <div className="mx-auto my-5">
+                      <div className="flex items-center justify-center p-4">
+                        <h1 className="text-center text-lg font-semibold dark:text-white lg:text-3xl lg:leading-tight">
+                          Search
+                        </h1>
+                      </div>
 
-                    <div className="mx-4 my-5">
-                      <div className="relative flex items-center justify-center">
-                        <div className="relative w-full md:max-w-[600px]">
-                          <input
-                            type="text"
-                            value={query}
-                            onChange={handleSearch}
-                            placeholder="Search..."
-                            id="search"
-                            className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500"
-                          />
+                      <div className="mx-4 my-5">
+                        <div className="relative flex items-center justify-center">
+                          <div className="relative w-full md:max-w-[600px]">
+                            <input
+                              type="text"
+                              value={query}
+                              onChange={handleSearch}
+                              placeholder="Search..."
+                              id="search"
+                              className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div>
-                    {isSearching && isLoading && (
-                      <div className="mt-8 flex items-center justify-center">
-                        <div className="h-16 w-16 animate-spin rounded-full border-4 border-solid border-blue-500  border-t-transparent"></div>
-                      </div>
-                    )}
-                    {error && (
-                      <div className="flex h-40 items-center justify-center">
-                        <span className="text-lg text-gray-500">
-                          Error fetching data. Please try again.
-                        </span>
-                      </div>
-                    )}
-                    {data && data.length === 0 && isSearching && (
-                      <div className="flex h-40 items-center justify-center">
-                        <span className="text-lg text-gray-500">
-                          No results found.
-                        </span>
-                      </div>
-                    )}
-                    {data && <PostGrid data={data} query={query} />}
-                  </div>
-                </>
-              </div>
-            </Transition>
+                    <div>
+                      {isSearching && isLoading && (
+                        <div className="mt-8 flex items-center justify-center">
+                          <div className="h-16 w-16 animate-spin rounded-full border-4 border-solid border-blue-500  border-t-transparent"></div>
+                        </div>
+                      )}
+                      {error && (
+                        <div className="flex h-40 items-center justify-center">
+                          <span className="text-lg text-gray-500">
+                            Error fetching data. Please try again.
+                          </span>
+                        </div>
+                      )}
+                      {data && data.length === 0 && isSearching && (
+                        <div className="flex h-40 items-center justify-center">
+                          <span className="text-lg text-gray-500">
+                            No results found.
+                          </span>
+                        </div>
+                      )}
+                      <div className="w-full">
+                        {data && <PostGrid data={data} query={query} />}
+                      </div>  
+                    </div>
+                  </>
+                </div>
+              </SheetContent>
+            </Sheet>
             <div className="flex hidden max-w-lg items-center justify-between gap-2 pr-3 md:ml-auto md:block lg:mx-auto">
-              <ul className="mt-0 flex items-center space-x-8 border-0 bg-white p-0 dark:bg-gray-900">
-                <li>
-                  <a
-                    href="/"
-                    className={`tracing-wide p-0 font-semibold ${
-                      pathname === "/"
-                        ? "text-blue-700"
-                        : "text-black dark:text-slate-200"
-                    } hover:bg-transparent dark:hover:bg-transparent dark:hover:text-blue-500`}>
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/about"
-                    className={`font-semibold hover:bg-gray-100 md:p-0 ${
-                      pathname === "/about"
-                        ? "text-blue-700"
-                        : "text-black dark:text-slate-200"
-                    } md:hover:bg-transparent md:dark:hover:bg-transparent md:dark:hover:text-blue-500`}>
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/contact"
-                    className={`font-semibold hover:bg-gray-100 md:p-0 ${
-                      pathname === "/contact"
-                        ? "text-blue-700"
-                        : "text-black dark:text-slate-200"
-                    } md:hover:bg-transparent md:dark:hover:bg-transparent md:dark:hover:text-blue-500`}>
-                    Contact
-                  </a>
-                </li>
+              <ul className="mt-0 flex items-center space-x-8 border-0 p-0">
+                {defaultNavigation.map((item, index) => (
+                  <li key={index}>
+                    <a
+                      href={item.href}
+                      className={`font-semibold hover:bg-gray-100 md:p-0 ${
+                        pathname === item.href
+                          ? "text-blue-700"
+                          : "text-black dark:text-slate-200"
+                      } md:hover:bg-transparent md:dark:hover:bg-transparent md:dark:hover:text-blue-500`}>
+                      {item.name}
+                    </a>
+                  </li>
+                ))}
                 <div className="relative">
                   <button
                     onClick={toggleDropdown}

@@ -9,24 +9,19 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    console.log("Request received:", req.body); // Log the request body
     await dbConnect();
     const { name, email, password } = req.body;
-
-    console.log("Received data:", { name, email, password }); // Log received data
 
     try {
       const existingUser = await User.findOne({ email });
 
       if (existingUser) {
-        console.log("User already exists:", existingUser);
         return res
           .status(400)
           .json({ success: false, message: "User already exists." });
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      console.log("Hashed password:", hashedPassword); // Log the hashed password
       const newUser = new User({
         name,
         email,
@@ -34,8 +29,6 @@ export default async function handler(
       });
       await newUser.save();
       const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET);
-
-      console.log("User registered successfully:", newUser); // Log the newly registered user
       return res
         .status(201)
         .json({
