@@ -191,7 +191,7 @@ export default function Signup() {
                       Already have an acoount?
                       <a
                         href="/auth/login"
-                        className="ml-2 text-gray-800 hover:underline">
+                        className="ml-2 hover:underline">
                         {" "}
                         Login
                       </a>

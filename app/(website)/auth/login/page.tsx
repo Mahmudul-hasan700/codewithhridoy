@@ -115,7 +115,7 @@ const [password, setPassword] = useState('');
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Enter your email"
-                        className="block w-full dark:bg-gray-900 p-4"
+                        className="block w-full p-4"
                       />                     
                     </div>
 
@@ -134,7 +134,7 @@ const [password, setPassword] = useState('');
                             onChange={(e) => setPassword(e.target.value)}
                             required
                             placeholder="Enter your password"
-                            className="block w-full dark:bg-gray-900 p-4"
+                            className="block w-full p-4"
                           />
                           <Button
                             type="button"
@@ -167,7 +167,7 @@ const [password, setPassword] = useState('');
                       Don't have an acoount?
                       <a
                         href="/auth/signup"
-                        className="ml-2 text-gray-800 hover:underline hover:underline dark:text-slate-200">
+                        className="ml-2 hover:underline">
                         {" "}
                         Sign Up
                       </a>
