@@ -7,6 +7,8 @@ interface User extends Document {
   profileUrl: string;
   resetPasswordToken: string | undefined;
   resetPasswordExpires: Date | undefined;
+  emailVerificationToken: string | undefined;
+  isEmailVerified: boolean;
 }
 
 const UserSchema: Schema = new Schema({
@@ -16,6 +18,8 @@ const UserSchema: Schema = new Schema({
   profileUrl: { type: String, default: '/R.png' },
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date },
+  emailVerificationToken: { type: String },
+  isEmailVerified: { type: Boolean, default: false },
 });
 
 export default mongoose.models.User || mongoose.model<User>('User', UserSchema);

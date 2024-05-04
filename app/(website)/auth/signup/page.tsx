@@ -33,8 +33,9 @@ export default function Signup() {
         password
       });
       if (response.data.success) {
-        toast.success("Signup successful!");
-        router.push("/auth/login");
+        toast.success(
+          "Signup successful!. Please verify your email."
+        );
       } else {
         if (response.data.message === "User already exists.") {
           toast.error(
