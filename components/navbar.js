@@ -20,7 +20,13 @@ import {
   SheetTrigger,
   SheetClose
 } from "@/components/ui/sheet";
-import { AlignJustify, Search, X, ChevronDown, ChevronRight } from "lucide-react";
+import {
+  AlignJustify,
+  Search,
+  X,
+  ChevronDown,
+  ChevronRight
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -28,7 +34,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
 const navigation = [
@@ -155,19 +161,22 @@ export default function Navbar(props) {
               ))}
             </ul>
             <DropdownMenu>
-            <DropdownMenuTrigger className="w-full flex items-center justify-center">
-              Categories <ChevronRight className="ml-auto h-4 w-4" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>Categories</DropdownMenuLabel>
-              {navigation.map((item) => (
-                <DropdownMenuItem key={item.href} asChild>
-                  <a href={item.href}>{item.name}</a>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu> 
-           </div>
+              <DropdownMenuTrigger className="flex w-full items-center justify-center">
+                Categories{" "}
+                <ChevronRight className="ml-auto h-4 w-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Categories</DropdownMenuLabel>
+                {navigation.map(item => (
+                  <DropdownMenuItem key={item.href} asChild>
+                    <Link href={item.href} onClick={handleCloseSheet}>
+                      {item.name}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </SheetContent>
 
         <div className="fixed top-0 z-40 w-full bg-background text-foreground shadow-sm">
@@ -178,7 +187,7 @@ export default function Navbar(props) {
               </Button>
             </SheetTrigger>
             <div className="flex items-center justify-center">
-              <a href="/" className="ml-2 w-28 dark:hidden">
+              <Link href="/" className="ml-2 w-28 dark:hidden">
                 {props.logo ? (
                   <Image
                     {...urlForImage(props.logo)}
@@ -189,8 +198,8 @@ export default function Navbar(props) {
                 ) : (
                   <span className="block text-center">Stablo</span>
                 )}
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/"
                 className="ml-2 hidden w-28 dark:block md:w-36">
                 {props.logoalt ? (
@@ -203,7 +212,7 @@ export default function Navbar(props) {
                 ) : (
                   <span className="block text-center">Stablo</span>
                 )}
-              </a>
+              </Link>
             </div>
             <div className="gap-3 md:hidden">
               <button
@@ -266,8 +275,10 @@ export default function Navbar(props) {
                         </div>
                       )}
                       <div className="w-full">
-                        {data && <PostGrid data={data} query={query} />}
-                      </div>  
+                        {data && (
+                          <PostGrid data={data} query={query} />
+                        )}
+                      </div>
                     </div>
                   </>
                 </div>
@@ -277,7 +288,7 @@ export default function Navbar(props) {
               <ul className="mt-0 flex items-center space-x-8 border-0 p-0">
                 {defaultNavigation.map((item, index) => (
                   <li key={index}>
-                    <a
+                    <Link
                       href={item.href}
                       className={`font-semibold hover:bg-gray-100 md:p-0 ${
                         pathname === item.href
@@ -285,30 +296,25 @@ export default function Navbar(props) {
                           : "text-black dark:text-slate-200"
                       } md:hover:bg-transparent md:dark:hover:bg-transparent md:dark:hover:text-blue-500`}>
                       {item.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
                 <div className="relative">
-                  <button
-                    onClick={toggleDropdown}
-                    className="flex items-center gap-2 rounded-md bg-transparent px-2 py-2 pl-2 font-semibold text-black dark:text-gray-200">
-                    <span>Category</span>
-                    <ChevronDown />
-                  </button>
-                  {isDropdownOpen && (
-                    <div
-                      className="absolute right-0 mt-2 w-48 rounded-md bg-white py-2 shadow-lg dark:bg-gray-700"
-                      style={{ zIndex: 1000 }}>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      Categories
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuLabel>
+                        Categories
+                      </DropdownMenuLabel>
                       {navigation.map(item => (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 hover:text-blue-500 dark:text-gray-200 dark:hover:bg-gray-700">
-                          {item.name}
-                        </a>
+                        <DropdownMenuItem key={item.href} asChild>
+                          <Link href={item.href}>{item.name}</Link>
+                        </DropdownMenuItem>
                       ))}
-                    </div>
-                  )}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
                 <button
                   className="mr-[3px] inline-flex items-center justify-center rounded-lg p-2 p-2 text-sm font-semibold text-gray-800 focus:outline-none dark:text-slate-200"

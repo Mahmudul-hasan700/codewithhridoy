@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "sonner";
 
 export default function CommentForm({ postId }) {
   const {
@@ -15,8 +16,6 @@ export default function CommentForm({ postId }) {
     setValue
   } = useForm();
   const [submitting, setSubmitting] = useState(false);
-  const [submissionError, setSubmissionError] = useState(null);
-  const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [saveUserInfo, setSaveUserInfo] = useState(false);
 
   useEffect(() => {
@@ -31,8 +30,6 @@ export default function CommentForm({ postId }) {
 
   const onSubmitHandler = async data => {
     setSubmitting(true);
-    setSubmissionError(null);
-    setSubmissionSuccess(false);
 
     try {
       const response = await axios.post(
@@ -58,13 +55,11 @@ export default function CommentForm({ postId }) {
       }
 
       setSubmitting(false);
-      setSubmissionSuccess(true);
+      toast.success("Comment submitted successfully!");
       console.log(response.data);
     } catch (error) {
       setSubmitting(false);
-      setSubmissionError(
-        "Error submitting comment. Please try again."
-      );
+      toast.error("Error submitting comment. Please try again.");
       console.error("Error submitting comment:", error);
     }
   };
@@ -73,17 +68,7 @@ export default function CommentForm({ postId }) {
     <form
       onSubmit={handleSubmit(onSubmitHandler)}
       className="mx-auto mt-8 w-full">
-      {submissionError && (
-        <div className="mb-2 text-center text-red-500">
-          {submissionError}
-        </div>
-      )}
-      {submissionSuccess && (
-        <div className="mb-2 text-center text-green-500">
-          Comment submitted successfully!
-        </div>
-      )}
-      <div className="mx-auto grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <div className="mx-auto grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="mb-4">
           <Input
             type="text"
