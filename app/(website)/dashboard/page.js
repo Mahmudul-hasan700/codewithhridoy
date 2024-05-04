@@ -35,12 +35,12 @@ export default function Dashboard() {
   }; 
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
+    <div className="min-h-screen flex flex-col items-center justify-center">
       {userData ? (
-        <div className="max-w-md bg-white shadow-md rounded-lg overflow-hidden">
+        <div className="max-w-md shadow-md rounded-lg overflow-hidden">
           <div className="p-6">
             <h1 className="text-3xl font-semibold mb-2">Welcome, {userData.name}</h1>
-            <p className="text-gray-600">Email: {userData.email}</p>
+            <p>Email: {userData.email}</p>
             <img src={userData.profileUrl} alt="Profile Picture" className="mt-4 w-full rounded-lg" />
             <button
             onClick={handleSignOut}

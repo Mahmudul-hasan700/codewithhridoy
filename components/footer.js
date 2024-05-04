@@ -3,7 +3,7 @@ import ThemeSwitch from "@/components/themeSwitch";
 
 export default function Footer(props) {
   return (
-    <footer className="bg-white dark:bg-slate-900 mt-10">
+    <footer className="mt-10">
       <div className="mx-auto w-full max-w-screen-xl p-4 md:py-8">
         <div className="flex flex-col items-center justify-center">
           <div className="text-center text-sm">

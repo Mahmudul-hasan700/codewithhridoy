@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import axios from "axios";
-import Label from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -36,7 +35,7 @@ const ForgotPassword = () => {
         </div>
         <form className="space-y-4" onSubmit={handleSubmit} >
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <label htmlFor="email">Email</label>
             <Input id="email" placeholder="m@example.com" required type="email" value={email}
               onChange={(e) => setEmail(e.target.value)}  />
           </div>

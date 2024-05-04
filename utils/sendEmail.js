@@ -3,17 +3,15 @@ import nodemailer from 'nodemailer';
 const sendEmail = async ({ to, subject, text }) => {
   try {
     const transporter = nodemailer.createTransport({
-      // Configure your email transport options (e.g., SMTP, SendGrid, Mailgun)
-      // See https://nodemailer.com/smtp/ for examples
       service: 'gmail',
       auth: {
-        user: "mhhridoy6289@gmail.com",
-        pass: "password@6289",
+        user: "mhhridoy7462@gmail.com",
+        pass: "vtct vfyg xpum xztm",
       },
     });
 
     await transporter.sendMail({
-      from: "try.mahmudulhasan@gmail.com",
+      from: "mhhridoy7462@gmail.com",
       to,
       subject,
       text,
