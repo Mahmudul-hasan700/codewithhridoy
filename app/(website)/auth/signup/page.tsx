@@ -34,6 +34,7 @@ export default function Signup() {
       });
       if (response.data.success) {
         toast.success("Signup successful!");
+        router.push("/login");
       } else {
         if (response.data.message === "User already exists.") {
           toast.error(
@@ -178,11 +179,6 @@ export default function Signup() {
                           </label>
                         </div>
                       </div>
-                      <a
-                        href="/forgot-password"
-                        className="text-sm font-medium text-blue-600 hover:underline">
-                        Forgot password?
-                      </a>
                     </div>
                     <div className="mb-2 mt-4 w-full">
                       <Button

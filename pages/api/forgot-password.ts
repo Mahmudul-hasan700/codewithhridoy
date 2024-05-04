@@ -1,4 +1,4 @@
-import dbConnect  from '@/utils/dbconnect';
+import dbConnect from '@/utils/dbconnect';
 import User from '@/models/User';
 import sendEmail from '@/utils/sendEmail';
 import crypto from 'crypto';

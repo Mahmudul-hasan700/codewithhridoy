@@ -1,3 +1,5 @@
+// pages/api/reset-password.js
+
 import dbConnect from '@/utils/dbconnect';
 import User from '@/models/User';
 import bcrypt from 'bcryptjs';
@@ -16,14 +18,22 @@ export default async (req, res) => {
       return res.status(400).json({ message: 'Invalid or expired reset token' });
     }
 
+    // Find the user's original password before updating
+    const originalUser = await User.findById(user._id);
+
+    // Hash the new password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
 
+    // Update the user's password and remove the reset token
     user.password = hashedPassword;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpires = undefined;
 
-    await user.save();
+    // Replace the updated password with the original password
+    originalUser.password = user.password;
+
+    await originalUser.save();
 
     res.status(200).json({ message: 'Password reset successful' });
   } catch (err) {

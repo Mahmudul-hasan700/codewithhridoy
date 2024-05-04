@@ -1,5 +1,5 @@
 "use client";
-
+import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -130,36 +130,39 @@ export default function Login() {
                     </div>
 
                     <div className="mb-4">
-                      <div>
+                      <div className="flex items-center justify-between">
                         <label
                           htmlFor="password"
                           className="mb-2 block fill-current text-sm font-medium">
                           Choose a Password
                         </label>
-                        <div className="relative">
-                          <Input
-                            type={showPassword ? "text" : "password"}
-                            id="password"
-                            value={password}
-                            onChange={e =>
-                              setPassword(e.target.value)
-                            }
-                            required
-                            placeholder="Enter your password"
-                            className="block w-full p-4"
-                          />
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            onClick={togglePasswordVisibility}
-                            className="absolute inset-y-0 right-0 flex items-center px-3 focus:outline-none">
-                            {showPassword ? (
-                              <Eye className="h-4 w-4" />
-                            ) : (
-                              <EyeOff className="h-4 w-4" />
-                            )}
-                          </Button>
-                        </div>
+                        <Link
+                          href="/forgot-password"
+                          className="text-sm font-medium text-blue-600 hover:underline">
+                          Forgot password?
+                        </Link>
+                      </div>
+                      <div className="relative">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          id="password"
+                          value={password}
+                          onChange={e => setPassword(e.target.value)}
+                          required
+                          placeholder="Enter your password"
+                          className="block w-full p-4"
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          onClick={togglePasswordVisibility}
+                          className="absolute inset-y-0 right-0 flex items-center px-3 focus:outline-none">
+                          {showPassword ? (
+                            <Eye className="h-4 w-4" />
+                          ) : (
+                            <EyeOff className="h-4 w-4" />
+                          )}
+                        </Button>
                       </div>
                     </div>
                     <div className="mb-2 mt-4 w-full">

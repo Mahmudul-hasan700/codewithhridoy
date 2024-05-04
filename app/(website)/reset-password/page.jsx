@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -14,7 +14,7 @@ const ResetPassword = () => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setLoading(true);
 
@@ -25,7 +25,9 @@ const ResetPassword = () => {
     }
 
     try {
-      const token = new URLSearchParams(window.location.search).get("token");
+      const token = new URLSearchParams(window.location.search).get(
+        "token"
+      );
       await axios.post("/api/reset-password", { token, newPassword });
       toast.success("Password reset successful");
     } catch (err) {
@@ -35,7 +37,7 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="mx-auto max-w-md space-y-6 py-12">
+    <div className="mx-5 md:mx-auto max-w-md space-y-6 py-12">
       <div className="space-y-2 text-center">
         <h1 className="text-3xl font-bold">Update Password</h1>
         <p className="text-gray-500 dark:text-gray-400">
@@ -44,35 +46,51 @@ const ResetPassword = () => {
       </div>
       <Card>
         <CardContent className="space-y-4">
-          <form onSubmit={handleSubmit}> 
+          <form onSubmit={handleSubmit}>
             <div className="space-y-2">
               <label htmlFor="newPassword">New Password</label>
-              <Input id="newPassword" placeholder="Enter your new password" type="password" value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
+              <Input
+                id="newPassword"
+                placeholder="Enter your new password"
+                type="password"
+                value={newPassword}
+                onChange={e => setNewPassword(e.target.value)}
                 className="w-full"
                 disabled={loading}
-                required/>
+                required
+              />
             </div>
             <div className="space-y-2">
-              <label htmlFor="confirmPassword">Confirm New Password</label>
-              <Input id="confirmPassword" placeholder="Confirm your new password" type="password" value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+              <label htmlFor="confirmPassword">
+                Confirm New Password
+              </label>
+              <Input
+                id="confirmPassword"
+                placeholder="Confirm your new password"
+                type="password"
+                value={confirmPassword}
+                onChange={e => setConfirmPassword(e.target.value)}
                 className="w-full"
-                disabled={loading} 
-                required/>
+                disabled={loading}
+                required
+              />
             </div>
-<div className="space-y-2 mt-4" >
-  <Button type="submit" className="w-full" disabled={loading}>
-    {loading ? (
-      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-    ) : "Update Password"}           
-  </Button> 
-</div>
-            
+            <div className="mt-4 space-y-2">
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={loading}>
+                {loading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  "Update Password"
+                )}
+              </Button>
+            </div>
           </form>
         </CardContent>
       </Card>
-    </div> 
+    </div>
   );
 };
 
