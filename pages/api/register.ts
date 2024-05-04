@@ -1,10 +1,10 @@
+// pages/api/register.ts
 import { NextApiRequest, NextApiResponse } from "next";
-import dbConnect from "@/utils/dbconnect";
+import dbConnect from '@/utils/dbconnect';
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import crypto from "crypto";
-import sendEmail from "@/utils/sendEmail";
+import crypto from 'crypto';
+import sendEmail from '@/utils/sendEmail';
 
 export default async function handler(
   req: NextApiRequest,
@@ -24,43 +24,44 @@ export default async function handler(
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      const emailVerificationToken = crypto
-        .randomBytes(20)
-        .toString("hex");
+      const emailVerificationToken = crypto.randomBytes(20).toString('hex');
+      
 
       const newUser = new User({
         name,
         email,
         password: hashedPassword,
-        emailVerificationToken
+        emailVerificationToken,
       });
       await newUser.save();
 
-      const verificationUrl = `${req.headers.origin}/api/verify-email?token=${emailVerificationToken}`;
+      // Send the verification email with the redirect URL
+      const verificationUrl = `${req.headers.origin}/auth/confirm?token=${emailVerificationToken}`;
       await sendEmail({
         to: email,
-        subject: "Verify Your Email Address",
+        subject: 'Verify Your Email Address',
         html: `
-  <div style="font-family: Arial, sans-serif; color: #333; background-color: #f5f5f5; padding: 20px;">
-    <div style="background-color: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-      <h2 style="color: #333;">Hello ${name},</h2>
-      <p style="margin-bottom: 20px;">Thank you for signing up with us!</p>
-      <p style="margin-bottom: 20px;">To get started, please verify your email by clicking the button below:</p>
-      <div style="text-align: center;">
-        <a href="${verificationUrl}" style="display: inline-block; background-color: #007bff; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Verify Email</a>
-      </div>
-      <p style="margin-top: 20px;">If you didn't sign up for an account, you can ignore this email.</p>
-      <p style="margin-top: 20px;">Thanks,<br/>Codewithhridoy</p>
-    </div>
-  </div>
-`
+          <div style="font-family: Arial, sans-serif; color: #333; background-color: #f5f5f5; padding: 20px;">
+            <div style="background-color: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+              <h2 style="color: #333;">Hello ${name},</h2>
+              <p style="margin-bottom: 20px;">Thank you for signing up with us!</p>
+              <p style="margin-bottom: 20px;">To get started, please verify your email by clicking the button below:</p>
+              <div style="text-align: center;">
+                <a href="${verificationUrl}" style="display: inline-block; background-color: #007bff; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Verify Email</a>
+              </div>
+              <p style="margin-top: 20px;">If you didn't sign up for an account, you can ignore this email.</p>
+              <p style="margin-top: 20px;">Thanks,<br/>Codewithhridoy</p>
+            </div>
+          </div>
+        `,
       });
 
-      return res.status(201).json({
-        success: true,
-        message:
-          "User registered successfully. Please check your email to verify your account."
-      });
+      return res
+        .status(201)
+        .json({
+          success: true,
+          message: "User registered successfully. Please check your email to verify your account.",
+        });
     } catch (error) {
       console.error("Registration error:", error);
       return res

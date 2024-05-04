@@ -8,7 +8,7 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     await dbConnect();
-    const { token } = req.query;
+    const { token, redirectUrl } = req.query;
 
     try {
       const user = await User.findOne({ emailVerificationToken: token });
@@ -21,9 +21,9 @@ export default async function handler(
       user.isEmailVerified = true;
       await user.save();
 
-      // Redirect to the desired URL after successful verification
-      const redirectUrl = `${req.headers.origin}/verified-success`;
-      return res.status(200).json({ success: true, message: "Email verified successfully.", redirectUrl });
+      // Redirect to the specified URL after successful verification
+      const decodedRedirectUrl = decodeURIComponent(redirectUrl as string);
+      return res.status(200).json({ success: true, message: "Email verified successfully.", redirectUrl: decodedRedirectUrl });
     } catch (error) {
       console.error("Email verification error:", error);
       return res.status(500).json({ success: false, message: "Internal server error." });

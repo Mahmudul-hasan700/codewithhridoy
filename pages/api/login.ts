@@ -22,10 +22,7 @@ export default async function handler(
           .json({ success: false, message: "User not found." });
       }
 
-      const isPasswordValid = await bcrypt.compare(
-        password,
-        user.password
-      );
+      const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
         return res
@@ -39,9 +36,12 @@ export default async function handler(
         { expiresIn: "1h" }
       );
 
-      return res
-        .status(200)
-        .json({ success: true, message: "Login successful.", token });
+      return res.status(200).json({
+        success: true,
+        message: "Login successful.",
+        token,
+        isEmailVerified: user.isEmailVerified,
+      });
     } catch (error) {
       console.error("Login error:", error);
       return res
@@ -53,4 +53,4 @@ export default async function handler(
       .status(405)
       .json({ success: false, message: "Method Not Allowed" });
   }
-}
+} 

@@ -20,20 +20,26 @@ export default function Login() {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit = async event => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
 
     try {
       const response = await axios.post("/api/login", {
         email,
-        password
+        password,
       });
 
       if (response.data.success) {
-        toast.success("Login successful!");
-        localStorage.setItem("token", response.data.token);
-        router.push("/dashboard");
+        if (response.data.isEmailVerified) {
+          toast.success("Login successful!");
+          localStorage.setItem("token", response.data.token);
+          router.push("/dashboard");
+        } else {
+          toast.error(
+            "Please verify your email before logging in. Check your inbox for the verification link."
+          );
+        }
       } else {
         toast.error(response.data.message);
       }
@@ -57,7 +63,7 @@ export default function Login() {
       setLoading(false);
     }
   };
-
+  
   const handleGoogleLogin = () => {
     router.push("/api/auth/google");
   };
