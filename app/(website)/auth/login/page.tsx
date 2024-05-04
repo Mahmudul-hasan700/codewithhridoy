@@ -12,7 +12,6 @@ import { toast } from "sonner";
 export default function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,10 +40,16 @@ export default function Login() {
     } catch (error) {
       if (
         error.response &&
+        error.response.status === 401 &&
+        error.response.data.message === "Invalid password."
+      ) {
+        toast.error("Password incorrect. Please try again.");
+      } else if (
+        error.response &&
         error.response.status === 404 &&
         error.response.data.message === "User not found."
       ) {
-        toast.error("User not found. Please signup first.");
+        toast.error("User not found. Please sign up first.");
       } else {
         toast.error("An error occurred. Please try again.");
       }
@@ -53,18 +58,8 @@ export default function Login() {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    setIsGoogleLoading(true);
-    try {
-      await router.push("/api/auth/google");
-    } catch (error) {
-      console.error("Google login error:", error);
-      toast.error(
-        "An error occurred during Google login. Please try again."
-      );
-    } finally {
-      setIsGoogleLoading(false);
-    }
+  const handleGoogleLogin = () => {
+    router.push("/api/auth/google");
   };
 
   return (
