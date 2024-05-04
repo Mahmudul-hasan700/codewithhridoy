@@ -5,8 +5,16 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { toast } from "sonner";
+import { Label } from "@/components/ui/labels";
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -38,17 +46,19 @@ const ResetPassword = () => {
 
   return (
     <div className="mx-5 md:mx-auto max-w-md space-y-6 py-12">
-      <div className="space-y-2 text-center">
-        <h1 className="text-3xl font-bold">Update Password</h1>
-        <p className="text-gray-500 dark:text-gray-400">
-          Enter new password below to update your account password.
-        </p>
-      </div>
       <Card>
+        <CardHeader>
+        <CardTitle>
+          Update Password
+        </CardTitle>
+          <CardDescription>
+            Enter new password below to update your account password.
+          </CardDescription>
+        </CardHeader>
         <CardContent className="space-y-4">
           <form onSubmit={handleSubmit}>
             <div className="space-y-2">
-              <label htmlFor="newPassword">New Password</label>
+              <Label htmlFor="newPassword">New Password</Label>
               <Input
                 id="newPassword"
                 placeholder="Enter your new password"
@@ -60,10 +70,10 @@ const ResetPassword = () => {
                 required
               />
             </div>
-            <div className="space-y-2">
-              <label htmlFor="confirmPassword">
+            <div className="space-y-2 mt-3">
+              <Label htmlFor="confirmPassword">
                 Confirm New Password
-              </label>
+              </Label>
               <Input
                 id="confirmPassword"
                 placeholder="Confirm your new password"

@@ -181,8 +181,8 @@ export default function Login() {
                       Don't have an acoount?
                       <a
                         href="/auth/signup"
-                        className="ml-2 hover:underline">
-                        {" "}
+                        className="font-medium underline underline-offset-2">
+                        {"  "}
                         Sign Up
                       </a>
                     </div>

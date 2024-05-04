@@ -34,7 +34,7 @@ export default function Signup() {
       });
       if (response.data.success) {
         toast.success("Signup successful!");
-        router.push("/login");
+        router.push("/auth/login");
       } else {
         if (response.data.message === "User already exists.") {
           toast.error(
@@ -192,14 +192,14 @@ export default function Signup() {
                         )}
                       </Button>
                     </div>
-                    <div className="mr-2 mt-2 flex items-center justify-center fill-current">
+                    <div className="mt-2 flex items-center justify-center fill-current">
                       Already have an acoount?
-                      <a
+                      <Link
                         href="/auth/login"
-                        className="ml-2 hover:underline">
-                        {" "}
+                        className="font-medium underline underline-offset-2">
+                        {"  "}
                         Login
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </form>

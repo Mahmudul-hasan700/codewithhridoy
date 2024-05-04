@@ -28,7 +28,10 @@ export default async function handler(
         password: hashedPassword
       });
       await newUser.save();
-      const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET);
+      const token = jwt.sign(
+  { userId: newUser._id, email: newUser.email, name: newUser.name },
+  process.env.JWT_SECRET
+); 
       return res
         .status(201)
         .json({
@@ -43,7 +46,6 @@ export default async function handler(
         .json({ success: false, message: "Internal server error." });
     }
   } else {
-    console.log("Invalid request method:", req.method); // Log invalid request method
     return res
       .status(405)
       .json({ success: false, message: "Method Not Allowed" });
