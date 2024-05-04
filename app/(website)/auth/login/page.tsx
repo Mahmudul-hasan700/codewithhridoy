@@ -80,18 +80,14 @@ export default function Login() {
 
                 <div className="mx-auto my-4 max-w-md">
                   <Button
-                    onClick={handleGoogleLogin}
-                    disabled={isGoogleLoading}
                     variant="outline"
                     className="flex w-full select-none items-center justify-center gap-2">
                     <GoogleIcon />
-                    {isGoogleLoading ? (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    ) : (
+                    
                       <span className="font-semibold">
                         Continue with Google
                       </span>
-                    )}
+                
                   </Button>
                 </div>
 

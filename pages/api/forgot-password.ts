@@ -24,12 +24,22 @@ export default async (req, res) => {
 
     await user.save();
 
-    // Send the reset email
+    // Create the email template
     const resetUrl = `${req.headers.origin}/reset-password?token=${resetToken}`;
+    const emailContent = `
+      <p>Hello ${user.name},</p>
+      <p>We received a request to reset your password.</p>
+      <p>To reset your password, please click the following link:</p>
+      <a href="${resetUrl}" style="background-color:#4CAF50;border:none;color:white;padding:15px 32px;text-align:center;text-decoration:none;display:inline-block;font-size:16px;margin:4px 2px;cursor:pointer;border-radius:10px;">Reset Password</a>
+      <p>If you didn't request this, you can safely ignore this email.</p>
+      <p>Thanks,<br/>Codewithhridoy</p>
+    `;
+
+    // Send the reset email
     await sendEmail({
       to: user.email,
       subject: 'Password Reset Request',
-      text: `Please click the following link to reset your password: ${resetUrl}`,
+      html: emailContent,
     });
 
     res.status(200).json({ message: 'Password reset email sent' });
