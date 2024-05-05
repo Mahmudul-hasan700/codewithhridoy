@@ -6,7 +6,7 @@ import googleUser from "@/models/googleuser";
 const CLIENT_ID =
   "394811475866-24gg5m7tk15sljh9cat135vjk7m287qh.apps.googleusercontent.com";
 const CLIENT_SECRET = "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";
-const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/google/callback`;
+const REDIRECT_URI = `${req.headers.origin}/api/auth/google/callback`;
 
 const OAuth2Client = new google.auth.OAuth2(
   CLIENT_ID,
