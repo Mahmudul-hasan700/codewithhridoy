@@ -15,7 +15,7 @@ const UserSchema: Schema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String },
-  profileUrl: { type: String, default: '/R.png' },
+  profileUrl: { type: String, default: 'https://i.ibb.co/sCR821K/jwoc1.jpg' },
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date },
   emailVerificationToken: { type: String },
