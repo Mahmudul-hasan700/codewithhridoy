@@ -6,7 +6,7 @@ import { cx } from "@/utils/all";
 import { Inter, Lora } from "next/font/google";
 import { getSettings } from "@/lib/sanity/client";
 import Footer from "@/components/footer";
-import Navbar from "@/components/navbar";
+import GetNavbar from "@/components/getnavbar";
 import { urlForImage } from "@/lib/sanity/image";
 import Script from "next/script";
 import { Toaster } from "sonner";
@@ -142,7 +142,7 @@ export default async function Layout({ children, params }) {
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange>
-          <Navbar {...settings} />
+          <GetNavbar {...settings} />
           <div className="mt-24">{children}</div>
           <Analytics />
           <SpeedInsights />
