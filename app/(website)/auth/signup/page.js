@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import GoogleIcon from "@/components/google";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -19,12 +20,18 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.push("/dashboard");
+    }
+  }, []);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit = async event => {
-    event.preventDefault();
+  const onSubmit = async e => {
+    e.preventDefault();
     setLoading(true);
     try {
       const response = await axios.post("/api/register", {
@@ -62,8 +69,37 @@ export default function Signup() {
     }
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
     router.push("/api/auth/google");
+  };
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const success = url.searchParams.get("success");
+    const message = url.searchParams.get("message");
+    const token = url.searchParams.get("token");
+
+    const handleRedirect = () => {
+      if (token) {
+        localStorage.setItem("token", token);
+
+        if (success) {
+          toast.success("Sign-Up successful!");
+        }
+
+        router.push("/dashboard");
+      }
+    };
+
+    handleRedirect();
+  }, []);
+
+  const handleGitHubLogin = () => {
+    const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/github/callback`;
+    const clientId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
+    const scope = "user:email";
+    const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
+    window.location.href = authUrl;
   };
 
   return (
@@ -81,15 +117,20 @@ export default function Signup() {
                     Start your journey with us
                   </span>
                 </div>
-                <div className="mx-auto my-4 max-w-md">
+                <div className="mx-auto my-4 max-w-md space-y-2">
                   <Button
-                    onClick={handleGoogleLogin}
                     variant="outline"
-                    className="flex h-10 w-full select-none items-center justify-center gap-2">
-                    <GoogleIcon />
-                    <span className="text-sm font-semibold">
-                      Continue with Google
-                    </span>
+                    className="flex w-full items-center justify-center gap-2 font-medium"
+                    onClick={handleGoogleLogin}>
+                    <FcGoogle size={24} />
+                    Continue with Google
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="flex w-full items-center justify-center gap-2 font-medium"
+                    onClick={handleGitHubLogin}>
+                    <FaGithub size={24} />
+                    Continue with GitHub
                   </Button>
                 </div>
 

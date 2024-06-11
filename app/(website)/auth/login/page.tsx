@@ -16,18 +16,25 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.push("/dashboard");
+    }
+  }, []);
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit = async (event) => {
+  const onSubmit = async event => {
     event.preventDefault();
     setLoading(true);
 
     try {
       const response = await axios.post("/api/login", {
         email,
-        password,
+        password
       });
 
       if (response.data.success) {
@@ -63,7 +70,7 @@ export default function Login() {
       setLoading(false);
     }
   };
-  
+
   const handleGoogleLogin = () => {
     router.push("/api/auth/google");
   };
@@ -87,13 +94,13 @@ export default function Login() {
                 <div className="mx-auto my-4 max-w-md">
                   <Button
                     variant="outline"
+                    onClick={handleGoogleLogin}
                     className="flex w-full select-none items-center justify-center gap-2">
                     <GoogleIcon />
-                    
-                      <span className="font-semibold">
-                        Continue with Google
-                      </span>
-                
+
+                    <span className="font-semibold">
+                      Continue with Google
+                    </span>
                   </Button>
                 </div>
 

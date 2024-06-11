@@ -136,7 +136,7 @@ export default async function Layout({ children, params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <body className="mx-auto max-w-screen-lg overflow-x-hidden bg-background font-sans antialiased ">
+      <body className="mx-auto max-w-screen-lg overflow-x-hidden bg-background font-sans antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

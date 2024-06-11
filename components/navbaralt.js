@@ -133,7 +133,6 @@ export default function NavbarAlt(props) {
       console.error(
         "Token not found in local storage. Redirecting to login..."
       );
-      router.push("/auth/login");
     }
   }, []);
 
@@ -236,7 +235,7 @@ export default function NavbarAlt(props) {
                         alt="Avatar"
                         className="rounded-full"
                         height="32"
-                        src={userData.profileUrl}
+                        src={userData.profileUrl || "/R.png"}
                         style={{
                           aspectRatio: "32/32",
                           objectFit: "cover"
@@ -252,10 +251,10 @@ export default function NavbarAlt(props) {
                     <DropdownMenuLabel>
                       <div className="flex flex-col">
                         <span className="text-sm font-medium">
-                          {userData.name}
+                          {userData.name || 'username'}
                         </span>
                         <span className="text-xs text-gray-500 dark:text-gray-400">
-                          {userData.email}
+                          {userData.email || "email"}
                         </span>
                       </div>
                     </DropdownMenuLabel>

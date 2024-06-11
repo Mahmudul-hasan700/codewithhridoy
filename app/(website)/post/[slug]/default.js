@@ -76,19 +76,10 @@ export default function Post(props) {
   const slug = post?.slug;
   const title = post?.title || "";
 
-  if (loading || !post) {
-    return (
-      <div className="flex h-screen flex-col items-center justify-center">
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
-          Post not available
-        </h1>
-        <p className="text-lg font-medium text-gray-900 dark:text-gray-100">
-          This post may have been deleted or does not exist.
-        </p>
-      </div>
-    );
+  if (!loading && !slug) {
+    notFound();
   }
-  
+
   const imageProps = post?.mainImage
     ? urlForImage(post?.mainImage)
     : null;
@@ -180,7 +171,7 @@ export default function Post(props) {
               {post.body && <PortableText value={post.body} />}
             </div>
             {post.tags && post.tags.length > 0 && (
-      <div className="mt-2 flex flex-wrap gap-2">
+              <div className="mt-2 flex flex-wrap gap-2">
                 <TagList tags={post.tags} />
               </div>
             )}

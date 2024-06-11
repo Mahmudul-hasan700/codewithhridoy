@@ -1,51 +1,35 @@
-// pages/api/user.ts
-import { NextApiRequest, NextApiResponse } from "next";
-import jwt from "jsonwebtoken";
-import dbConnect from "@/utils/dbconnect";
-import User from "@/models/User";
+import jwt from 'jsonwebtoken';
+import dbConnect from '@/utils/dbconnect';
+import User from '@/models/User';
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method === "GET") {
-    // Get token from headers
-    const token = req.headers.authorization?.replace("Bearer ", "");
+export default async function handler(req, res) {
+  await dbConnect();
 
-    if (!token) {
-      return res
-        .status(401)
-        .json({
-          success: false,
-          message: "Unauthorized: No token provided"
-        });
-    }
-
+  if (req.method === 'GET') {
     try {
-      // Verify token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const token = req.headers.authorization?.split(' ')[1];
 
-      // Fetch user data from MongoDB
-      await dbConnect();
-      const user = await User.findById(decoded.userId);
-
-      if (!user) {
-        return res
-          .status(404)
-          .json({ success: false, message: "User not found" });
+      if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' });
       }
 
-      // Return user data
-      return res.status(200).json({ success: true, user });
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const userId = decoded.userId;
+
+      const user = await User.findById(userId);
+
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      const { name, email, avatar_url } = user;
+      res.status(200).json({ name, email, avatar_url });
     } catch (error) {
-      console.error("Error fetching user data:", error);
-      return res
-        .status(500)
-        .json({ success: false, message: "Internal server error" });
+      console.error('Error fetching user data:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
   } else {
-    return res
-      .status(405)
-      .json({ success: false, message: "Method Not Allowed" });
+    res.setHeader('Allow', ['GET']);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }

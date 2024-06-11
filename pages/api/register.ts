@@ -1,10 +1,10 @@
 // pages/api/register.ts
 import { NextApiRequest, NextApiResponse } from "next";
-import dbConnect from '@/utils/dbconnect';
+import dbConnect from "@/utils/dbconnect";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
-import crypto from 'crypto';
-import sendEmail from '@/utils/sendEmail';
+import crypto from "crypto";
+import sendEmail from "@/utils/sendEmail";
 
 export default async function handler(
   req: NextApiRequest,
@@ -24,14 +24,15 @@ export default async function handler(
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      const emailVerificationToken = crypto.randomBytes(20).toString('hex');
-      
+      const emailVerificationToken = crypto
+        .randomBytes(20)
+        .toString("hex");
 
       const newUser = new User({
         name,
         email,
         password: hashedPassword,
-        emailVerificationToken,
+        emailVerificationToken
       });
       await newUser.save();
 
@@ -39,7 +40,7 @@ export default async function handler(
       const verificationUrl = `${req.headers.origin}/auth/confirm?token=${emailVerificationToken}`;
       await sendEmail({
         to: email,
-        subject: 'Verify Your Email Address',
+        subject: "Verify Your Email Address",
         html: `
           <div style="font-family: Arial, sans-serif; color: #333; background-color: #f5f5f5; padding: 20px;">
             <div style="background-color: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
@@ -53,15 +54,14 @@ export default async function handler(
               <p style="margin-top: 20px;">Thanks,<br/>Codewithhridoy</p>
             </div>
           </div>
-        `,
+        `
       });
 
-      return res
-        .status(201)
-        .json({
-          success: true,
-          message: "User registered successfully. Please check your email to verify your account.",
-        });
+      return res.status(201).json({
+        success: true,
+        message:
+          "User registered successfully. Please check your email to verify your account."
+      });
     } catch (error) {
       console.error("Registration error:", error);
       return res
