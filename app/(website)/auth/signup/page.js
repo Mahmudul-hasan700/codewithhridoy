@@ -26,7 +26,7 @@ export default function Signup() {
       router.push("/dashboard");
     }
   }, []);
-  
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -81,16 +81,14 @@ export default function Signup() {
     const token = url.searchParams.get("token");
 
     const handleRedirect = () => {
-      if (token) {
-        localStorage.setItem("token", token);
-
-        if (success) {
-          toast.success("Sign-Up successful!");
-        } else if (message === "emailexist") {
-          toast.error("Email already exists. Please login.");
+      if (success) {
+        toast.success("Sign-Up successful!");
+        if (token) {
+          localStorage.setItem("token", token);
         }
-
         router.push("/dashboard");
+      } else if (message === "emailexist") {
+        toast.error("Email already exists. Please login.");
       }
     };
 
