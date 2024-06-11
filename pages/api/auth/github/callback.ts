@@ -91,11 +91,8 @@ export default async function handler(req, res) {
             `/auth/signup?token=${token}&success=true`
           );
         } else {
-          return res
-            .status(400)
-            .json({
-              error: "Email already exists with a different provider."
-            });
+          return res.redirect(
+            `/auth/signup?message=emailexist`
         }
       } else {
         // Create a new user

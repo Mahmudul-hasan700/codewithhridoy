@@ -26,6 +26,7 @@ export default function Signup() {
       router.push("/dashboard");
     }
   }, []);
+  
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -85,6 +86,8 @@ export default function Signup() {
 
         if (success) {
           toast.success("Sign-Up successful!");
+        } else if (message === "emailexist") {
+          toast.error("Email already exists. Please login.");
         }
 
         router.push("/dashboard");
