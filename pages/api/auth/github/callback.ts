@@ -93,7 +93,7 @@ export default async function handler(req, res) {
         } else {
           return res.redirect(
             `/auth/signup?message=emailexist`
-       );
+       )}
       } else {
         // Create a new user
         const newUser = new User({
