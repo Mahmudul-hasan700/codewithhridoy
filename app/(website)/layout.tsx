@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { GoogleTagManager } from "@next/third-parties/google";
 import "@/styles/tailwind.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -53,7 +54,7 @@ export async function sharedMetaData(params) {
       "Webdeveloping",
       "codewithhridoy"
     ],
-    authors: [{ name: "Hridoy" }],
+    authors: [{ name: "Codewithhridoy" }],
     canonical: settings?.url,
     openGraph: {
       images: [
@@ -124,10 +125,12 @@ export default async function Layout({ children, params }) {
       lang="en"
       suppressHydrationWarning
       className={cx(inter.variable, lora.variable, "scroll-smooth")}>
-      <script
-        src="https://apis.google.com/js/platform.js"
+      <Script
         async
-        defer></script>
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+        strategy="afterInteractive"
+      />
+
       <script
         async
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
@@ -136,6 +139,7 @@ export default async function Layout({ children, params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <GoogleTagManager gtmId="GTM-W7DG9FQ8" />
       <body className="mx-auto max-w-screen-lg overflow-x-hidden bg-background font-sans antialiased">
         <ThemeProvider
           attribute="class"
@@ -159,4 +163,4 @@ export default async function Layout({ children, params }) {
   );
 }
 
-export const revalidate = 86400;
+export const revalidate = 60;

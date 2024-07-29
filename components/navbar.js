@@ -91,11 +91,6 @@ const defaultNavigation = [
     href: "/contact",
     current: false
   },
-  {
-    name: "Signup",
-    href: "/auth/signup",
-    current: false
-  }
 ];
 
 export default function Navbar(props) {
