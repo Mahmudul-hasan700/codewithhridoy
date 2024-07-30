@@ -80,39 +80,44 @@ export async function sharedMetaData(params) {
   };
 }
 
-const jsonLd = {
+const generateJsonLd = settings => ({
   "@context": "https://schema.org",
   "@type": "Blog",
-  name: "codewithhridoy",
-  url: "https://codewithhridoy.vercel.app",
+  name: settings?.title || "codewithhridoy",
+  url: settings?.url || "https://codewithhridoy.vercel.app",
   description:
+    settings?.description ||
     "A coding blog by Hridoy, covering topics such as programming tutorials, coding tips, and software development insights.",
   publisher: {
     "@type": "Organization",
-    name: "CodeWithHridoy",
+    name: settings?.title || "CodeWithHridoy",
     logo: {
       "@type": "ImageObject",
-      url: "/icon.png"
+      url: settings?.logo
+        ? urlForImage(settings.logo)?.src
+        : "/logo.png"
     }
   },
   author: {
     "@type": "Person",
-    name: "Hridoy"
+    name: settings?.author || "Codewithhridoy"
   },
   image: {
     "@type": "ImageObject",
-    url: "/opengraph.jpeg",
+    url: settings?.openGraphImage
+      ? urlForImage(settings.openGraphImage)?.src
+      : "/opengraph.jpeg",
     width: 1200,
     height: 630
   },
-  keywords: [
+  keywords:  [
     "coding",
     "programming",
     "web development",
     "software engineering"
   ],
   inLanguage: "en-US"
-};
+});
 
 export async function generateMetadata({ params }) {
   return await sharedMetaData(params);
@@ -120,26 +125,29 @@ export async function generateMetadata({ params }) {
 
 export default async function Layout({ children, params }) {
   const settings = await getSettings();
+  const jsonLd = generateJsonLd(settings);
+
   return (
     <html
       lang="en"
       suppressHydrationWarning
       className={cx(inter.variable, lora.variable, "scroll-smooth")}>
-      <Script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-        strategy="afterInteractive"
-      />
-
-      <script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
-        crossOrigin="anonymous"></script>
-      <Script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <GoogleTagManager gtmId="GTM-W7DG9FQ8" />
+      <head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+          strategy="afterInteractive"
+        />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
+          crossOrigin="anonymous"></script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <GoogleTagManager gtmId="GTM-W7DG9FQ8" />
+      </head>
       <body className="mx-auto max-w-screen-lg overflow-x-hidden bg-background font-sans antialiased">
         <ThemeProvider
           attribute="class"

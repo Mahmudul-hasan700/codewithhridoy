@@ -7,31 +7,61 @@ import {
 } from "@/lib/sanity/client";
 import { urlForImage } from "@/lib/sanity/image";
 import { notFound } from "next/navigation";
+
 export async function generateStaticParams() {
   return await getAllPostsSlugs();
 }
 
-export async function generateMetadata({ params }) {
-  const post = await getPostBySlug(params.slug);
+function generateJsonLd(post, url) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt || generateExcerpt(post.body),
+    image: post.mainImage ? urlForImage(post.mainImage).src : null,
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt || post.publishedAt,
+    author: {
+      "@type": "Person",
+      name: post.author?.name || "Anonymous"
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Codewithhridoy",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://codewithhridoy.vercel.app/logo.png"
+      }
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url
+    },
+    keywords: post.tags ? post.tags.join(", ") : ""
+  };
+}
 
-  // Generate a brief excerpt from the post body
-  const excerpt = post?.body
-    ? post.body
+function generateExcerpt(body) {
+  return body
+    ? body
         .find(block => block._type === "block")
         ?.children.find(child => child._type === "span")
         ?.text?.slice(0, 155) + "..."
     : "";
+}
 
-  // Generate keywords from post tags
+export async function generateMetadata({ params }) {
+  const post = await getPostBySlug(params.slug);
+  const excerpt = generateExcerpt(post?.body);
   const keywords = post?.tags ? post.tags.join(", ") : "";
-
-  // Get the URL for the main image
   const ogImage = post?.mainImage
     ? urlForImage(post.mainImage)
     : null;
-
   const title = post?.title;
   const description = post?.excerpt || excerpt;
+  const url = `https://codewithhridoy.vercel.app/post/${params.slug}`;
+
+  const jsonLd = generateJsonLd(post, url);
 
   return {
     title: title,
@@ -40,6 +70,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: title,
       description: description,
+      url: url,
       images: ogImage
         ? [
             {
@@ -56,6 +87,9 @@ export async function generateMetadata({ params }) {
       title: title,
       description: description,
       images: ogImage ? [ogImage.src] : []
+    },
+    alternates: {
+      canonical: url
     }
   };
 }
@@ -64,17 +98,25 @@ export default async function PostDefault({ params }) {
   const post = await getPostBySlug(params.slug);
   const categories = await getTopCategories();
   const comments = await getCommentsByPostId(post?._id);
-
   if (!post) {
     notFound();
   }
 
+  const url = `https://codewithhridoy.vercel.app/post/${params.slug}`; 
+  const jsonLd = generateJsonLd(post, url);
+
   return (
-    <PostPage
-      post={post}
-      categories={categories}
-      comments={comments}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <PostPage
+        post={post}
+        categories={categories}
+        comments={comments}
+      />
+    </>
   );
 }
 
