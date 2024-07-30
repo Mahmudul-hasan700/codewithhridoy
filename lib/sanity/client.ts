@@ -18,7 +18,7 @@ import {
   postsByTagQuery
 } from "./groq";
 import { createClient } from "next-sanity";
-
+import {groq} from "next-sanity";
 if (!projectId) {
   console.error(
     "The Sanity Project ID is not set. Check your environment variables."
