@@ -90,7 +90,7 @@ const defaultNavigation = [
     name: "Contact",
     href: "/contact",
     current: false
-  },
+  }
 ];
 
 export default function Navbar(props) {
@@ -132,9 +132,9 @@ export default function Navbar(props) {
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent side="left">
           <SheetHeader>
-            <h2 className="mb-4 text-center text-lg font-semibold">
+            <SheetTitle className="mb-4 text-center text-lg font-semibold">
               Site Navigation
-            </h2>
+            </SheetTitle>
           </SheetHeader>
           <div>
             <ul className="flex flex-col gap-2 py-4">
@@ -229,9 +229,9 @@ export default function Navbar(props) {
                   <>
                     <div className="mx-auto my-5">
                       <div className="flex items-center justify-center p-4">
-                        <h1 className="text-center text-lg font-semibold dark:text-white lg:text-3xl lg:leading-tight">
+                        <SheetTitle className="text-center text-lg font-semibold dark:text-white lg:text-3xl lg:leading-tight">
                           Search
-                        </h1>
+                        </SheetTitle>
                       </div>
 
                       <div className="mx-4 my-5">

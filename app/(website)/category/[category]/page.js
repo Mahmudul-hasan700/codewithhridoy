@@ -1,6 +1,5 @@
 // /category/[category]/page.js 
 import Category from "./category";
-
 import {
   getAllCategories,
   getPostsByCategory

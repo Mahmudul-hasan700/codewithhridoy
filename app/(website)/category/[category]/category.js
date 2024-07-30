@@ -1,9 +1,6 @@
 // category/[category]/category.js 
 import Container from "@/components/container";
-import { PortableText } from "@/lib/sanity/plugins/portabletext";
-import { urlForImage } from "@/lib/sanity/image";
 import PostList from "@/components/postlist";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import Breadcrumb from "@/components/Breadcrumb";
 
