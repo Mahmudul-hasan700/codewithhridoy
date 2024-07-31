@@ -23,7 +23,7 @@ function generateJsonLd(post, url) {
     dateModified: post.updatedAt || post.publishedAt,
     author: {
       "@type": "Person",
-      name: post.author?.name || "Anonymous"
+      name: post.author?.name || "Codewithhridoy"
     },
     publisher: {
       "@type": "Organization",

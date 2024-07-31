@@ -110,7 +110,7 @@ const generateJsonLd = settings => ({
     width: 1200,
     height: 630
   },
-  keywords:  [
+  keywords: [
     "coding",
     "programming",
     "web development",
@@ -133,6 +133,10 @@ export default async function Layout({ children, params }) {
       suppressHydrationWarning
       className={cx(inter.variable, lora.variable, "scroll-smooth")}>
       <head>
+        <meta
+          name="google-adsense-account"
+          content="ca-pub-3227806848574176"
+        />
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
