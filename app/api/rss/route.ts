@@ -18,7 +18,7 @@ async function generateRssFeed() {
     copyright: `All rights reserved ${new Date().getFullYear()}, ${siteConfig.title}`,
     updated: new Date(),
     feedLinks: {
-      rss2: `${siteConfig.url}/rss.xml`
+      rss2: `${siteConfig.url}/rss/rss.xml`
     },
     author: {
       name: siteConfig.author,
@@ -29,8 +29,8 @@ async function generateRssFeed() {
   posts.forEach(post => {
     feed.addItem({
       title: post.title,
-      id: `${siteConfig.url}/blog/${post.slug}`,
-      link: `${siteConfig.url}/blog/${post.slug}`,
+      id: `${siteConfig.url}/post/${post.slug.current}`,
+      link: `${siteConfig.url}/post/${post.slug.current}`,
       description: post.excerpt,
       content: post.content,
       author: [

@@ -150,7 +150,7 @@ export default async function Layout({ children, params }) {
           rel="alternate"
           type="application/rss+xml"
           title="RSS feed for blog posts"
-          href="/rss.xml"
+          href="/rss/rss.xml"
         />
         <script
           type="application/ld+json"

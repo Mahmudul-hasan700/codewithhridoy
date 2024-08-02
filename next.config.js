@@ -18,7 +18,7 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/rss.xml",
+        source: "/rss/rss.xml",
         destination: "/api/rss"
       }
     ];
