@@ -23,8 +23,6 @@ import {
 import {
   AlignJustify,
   Search,
-  X,
-  ChevronDown,
   ChevronRight
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -33,7 +31,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
@@ -176,7 +173,7 @@ export default function Navbar(props) {
 
         <div className="fixed top-0 z-40 w-full bg-background text-foreground shadow-sm">
           <header className="text-forground flex h-20 items-center justify-between bg-background p-4">
-            <SheetTrigger asChild className="md:hidden">
+            <SheetTrigger asChild className="md:hidden" aria-label="Open menu">
               <Button variant="outline" size="icon">
                 <AlignJustify />
               </Button>
@@ -316,7 +313,7 @@ export default function Navbar(props) {
                   id="search"
                   aria-label="Search"
                   onClick={handleSearchClick}>
-                  <Search />
+                  <Search aria-hidden="true"/>
                 </button>
               </ul>
             </div>

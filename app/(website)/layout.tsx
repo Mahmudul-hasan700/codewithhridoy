@@ -146,6 +146,12 @@ export default async function Layout({ children, params }) {
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3227806848574176"
           crossOrigin="anonymous"></script>
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="RSS feed for blog posts"
+          href="/rss.xml"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
