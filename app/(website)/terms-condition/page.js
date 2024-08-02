@@ -1,6 +1,6 @@
 // pages/terms.js
 
-import Head from "next/head";
+import Ads from "@/components/ads";
 import Breadcrumb from "@/components/Breadcrumb";
 
 export default function Terms() {
@@ -103,7 +103,7 @@ export default function Terms() {
         and we do not accept liability for any loss or damage
         resulting from it.
       </p>
-
+      <Ads />
       <p className="mb-4">
         By accessing and using CodingNepal, you acknowledge and accept
         these terms and conditions. If you have any questions or

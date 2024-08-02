@@ -1,13 +1,14 @@
+"use client";
 import React from "react";
 import { Adsense } from "@ctrl/react-adsense";
 
-function Ads() {
+export default function Ads() {
   return (
-    <div className="text-center adsbygoogle my-3">
+    <div className="adsbygoogle my-3 text-center">
       <Adsense
         client="ca-pub-3227806848574176"
-        slot="use-your-slot-id-here"
-        style={{ display: "block" }}
+        slot="5134181954"
+        style={{ display: "block", texAlign: "center" }}
         layout="in-article"
         format="fluid"
       />

@@ -30,7 +30,7 @@ export async function sharedMetaData(params) {
     title: {
       default:
         settings?.title ||
-        "Codewithhridoy | Creative Coding Blog - HTML CSS & JavaScript."
+        "Creative Coding Blog - HTML CSS & JavaScript. | Codewithhridoy"
     },
     description:
       settings?.description ||

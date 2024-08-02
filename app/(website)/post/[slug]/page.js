@@ -64,7 +64,7 @@ export async function generateMetadata({ params }) {
   const jsonLd = generateJsonLd(post, url);
 
   return {
-    title: title,
+    title: `${title} | Codewithhridoy`,
     description: description,
     keywords: keywords,
     openGraph: {
