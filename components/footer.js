@@ -1,4 +1,6 @@
 import React from "react";
+import Link from "next/link";
+import ThemeSwitch from "@/components/themeSwitch";
 import { Github, Twitter, Linkedin, Mail, Rss } from "lucide-react";
 
 const Footer = () => {
@@ -7,8 +9,8 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           <div>
-            <h3 className="mb-4 text-xl font-bold">Code Blog</h3>
-            <p className="text-gray-400">
+            <h3 className="mb-4 text-xl font-bold">Codewithhridoy</h3>
+            <p className="text-gray-700 dark:text-gray-400">
               Empowering developers with insightful articles and
               tutorials.
             </p>
@@ -17,23 +19,29 @@ const Footer = () => {
           <div>
             <h4 className="mb-4 text-lg font-semibold">Follow Us</h4>
             <div className="flex space-x-4">
-              <a
-                href="#"
+              <Link
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="transition-colors hover:text-blue-400">
                 <Github size={24} />
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="transition-colors hover:text-blue-400">
                 <Twitter size={24} />
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="transition-colors hover:text-blue-400">
                 <Linkedin size={24} />
-              </a>
+              </Link>
               <a
-                href="/rss.xml"
+                href="/rss/rss.xml"
                 target="_blank"
                 rel="noopener referrer"
                 className="transition-colors hover:text-blue-400">
@@ -47,7 +55,7 @@ const Footer = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="rounded bg-gray-800 px-4 py-2 text-white"
+                className="rounded border border-gray-500 bg-white px-4 py-2 text-black outline-black dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:outline-white"
               />
               <button
                 type="submit"
@@ -57,11 +65,37 @@ const Footer = () => {
             </form>
           </div>
         </div>
-        <div className="mt-8 border-t border-gray-800 pt-8 text-center text-gray-400">
-          <p>
-            &copy; {new Date().getFullYear()} Code Blog. All rights
+        <div className="mt-8 border-t border-gray-300 pt-8 text-center text-gray-400 dark:border-gray-800">
+          <div className="text-center text-sm">
+            © {new Date().getFullYear()} Codewithhridoy. All rights
             reserved.
-          </p>
+          </div>
+          <ul className="mb-6 mt-4 flex items-center justify-center text-sm font-medium">
+            <li>
+              <Link
+                href="/privacy-policy"
+                className="me-4 text-gray-700 hover:underline dark:text-gray-400 md:me-6">
+                Privacy Policy
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/terms-condition"
+                className="me-4 text-gray-700 hover:underline dark:text-gray-400 md:me-6">
+                Terms & Conditions
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/contact"
+                className="text-gray-700 hover:underline dark:text-gray-400">
+                Contact
+              </Link>
+            </li>
+          </ul>
+          <div className="my-5 flex items-center justify-center">
+            <ThemeSwitch />
+          </div>
         </div>
       </div>
     </footer>

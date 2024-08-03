@@ -20,11 +20,7 @@ import {
   SheetTrigger,
   SheetClose
 } from "@/components/ui/sheet";
-import {
-  AlignJustify,
-  Search,
-  ChevronRight
-} from "lucide-react";
+import { AlignJustify, Search, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -133,7 +129,7 @@ export default function Navbar(props) {
               Site Navigation
             </SheetTitle>
           </SheetHeader>
-          <div>
+          <nav aria-label="Mobile navigation">
             <ul className="flex flex-col gap-2 py-4">
               {defaultNavigation.map(item => (
                 <li key={item.href}>
@@ -145,7 +141,10 @@ export default function Navbar(props) {
                     <Link
                       href={item.href}
                       className="w-full"
-                      onClick={handleCloseSheet}>
+                      onClick={handleCloseSheet}
+                      aria-current={
+                        pathname === item.href ? "page" : undefined
+                      }>
                       {item.name}
                     </Link>
                   </Button>
@@ -155,7 +154,10 @@ export default function Navbar(props) {
             <DropdownMenu>
               <DropdownMenuTrigger className="flex w-full items-center justify-center">
                 Categories{" "}
-                <ChevronRight className="ml-auto h-4 w-4" />
+                <ChevronRight
+                  className="ml-auto h-4 w-4"
+                  aria-hidden="true"
+                />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuLabel>Categories</DropdownMenuLabel>
@@ -168,18 +170,24 @@ export default function Navbar(props) {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-          </div>
+          </nav>
         </SheetContent>
 
-        <div className="fixed top-0 z-40 w-full bg-background text-foreground shadow-sm">
-          <header className="text-forground flex h-20 items-center justify-between bg-background p-4">
-            <SheetTrigger asChild className="md:hidden" aria-label="Open menu">
-              <Button variant="outline" size="icon">
-                <AlignJustify />
+        <header className="fixed top-0 z-40 w-full bg-background text-foreground shadow-sm">
+          <div className="flex h-20 items-center justify-between p-4">
+            <SheetTrigger asChild className="md:hidden">
+              <Button
+                variant="outline"
+                size="icon"
+                aria-label="Open menu">
+                <AlignJustify aria-hidden="true" />
               </Button>
             </SheetTrigger>
             <div className="flex items-center justify-center">
-              <Link href="/" className="ml-2 w-28 dark:hidden">
+              <Link
+                href="/"
+                className="ml-2 w-28 dark:hidden"
+                aria-label="Home">
                 {props.logo ? (
                   <Image
                     {...urlForImage(props.logo)}
@@ -193,7 +201,8 @@ export default function Navbar(props) {
               </Link>
               <Link
                 href="/"
-                className="ml-2 hidden w-28 dark:block md:w-36">
+                className="ml-2 hidden w-28 dark:block md:w-36"
+                aria-label="Home">
                 {props.logoalt ? (
                   <Image
                     {...urlForImage(props.logoalt)}
@@ -208,11 +217,10 @@ export default function Navbar(props) {
             </div>
             <div className="gap-3 md:hidden">
               <button
-                className="mr-[3px] inline-flex items-center justify-center rounded-lg p-2 p-2 text-sm text-gray-800 focus:outline-none dark:text-slate-200"
-                id="toggleRightSidebar"
+                className="mr-[3px] inline-flex items-center justify-center rounded-lg p-2 text-sm text-gray-800 focus:outline-none dark:text-slate-200"
                 onClick={toggleRightSidebar}
-                aria-label="Search">
-                <Search />
+                aria-label="Open search">
+                <Search aria-hidden="true" />
               </button>
             </div>
             {/* Right Sidebar Sheet */}
@@ -223,60 +231,69 @@ export default function Navbar(props) {
                 side="right"
                 className="w-screen overflow-y-auto">
                 <div className="flex-shrink-0">
-                  <>
-                    <div className="mx-auto my-5">
-                      <div className="flex items-center justify-center p-4">
-                        <SheetTitle className="text-center text-lg font-semibold dark:text-white lg:text-3xl lg:leading-tight">
-                          Search
-                        </SheetTitle>
-                      </div>
+                  <div className="mx-auto my-5">
+                    <div className="flex items-center justify-center p-4">
+                      <SheetTitle className="text-center text-lg font-semibold dark:text-white lg:text-3xl lg:leading-tight">
+                        Search
+                      </SheetTitle>
+                    </div>
 
-                      <div className="mx-4 my-5">
-                        <div className="relative flex items-center justify-center">
-                          <div className="relative w-full md:max-w-[600px]">
-                            <input
-                              type="text"
-                              value={query}
-                              onChange={handleSearch}
-                              placeholder="Search..."
-                              id="search"
-                              className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500"
-                            />
-                          </div>
+                    <div className="mx-4 my-5">
+                      <div className="relative flex items-center justify-center">
+                        <div className="relative w-full md:max-w-[600px]">
+                          <label htmlFor="search" className="sr-only">
+                            Search
+                          </label>
+                          <input
+                            type="text"
+                            value={query}
+                            onChange={handleSearch}
+                            placeholder="Search..."
+                            id="search"
+                            className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500"
+                          />
                         </div>
                       </div>
                     </div>
-                    <div>
-                      {isSearching && isLoading && (
-                        <div className="mt-8 flex items-center justify-center">
-                          <div className="h-16 w-16 animate-spin rounded-full border-4 border-solid border-blue-500  border-t-transparent"></div>
-                        </div>
-                      )}
-                      {error && (
-                        <div className="flex h-40 items-center justify-center">
-                          <span className="text-lg text-gray-500">
-                            Error fetching data. Please try again.
-                          </span>
-                        </div>
-                      )}
-                      {data && data.length === 0 && isSearching && (
-                        <div className="flex h-40 items-center justify-center">
-                          <span className="text-lg text-gray-500">
-                            No results found.
-                          </span>
-                        </div>
-                      )}
-                      <div className="w-full">
-                        {data && (
-                          <PostGrid data={data} query={query} />
-                        )}
+                  </div>
+                  <div>
+                    {isSearching && isLoading && (
+                      <div
+                        className="mt-8 flex items-center justify-center"
+                        aria-live="polite"
+                        aria-busy="true">
+                        <div className="h-16 w-16 animate-spin rounded-full border-4 border-solid border-blue-500 border-t-transparent"></div>
+                        <span className="sr-only">Loading...</span>
                       </div>
+                    )}
+                    {error && (
+                      <div
+                        className="flex h-40 items-center justify-center"
+                        aria-live="assertive">
+                        <span className="text-lg text-gray-500">
+                          Error fetching data. Please try again.
+                        </span>
+                      </div>
+                    )}
+                    {data && data.length === 0 && isSearching && (
+                      <div
+                        className="flex h-40 items-center justify-center"
+                        aria-live="polite">
+                        <span className="text-lg text-gray-500">
+                          No results found.
+                        </span>
+                      </div>
+                    )}
+                    <div className="w-full">
+                      {data && <PostGrid data={data} query={query} />}
                     </div>
-                  </>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
-            <div className="flex hidden max-w-lg items-center justify-between gap-2 pr-3 md:ml-auto md:block lg:mx-auto">
+            <nav
+              className="hidden max-w-lg items-center justify-between gap-2 pr-3 md:ml-auto md:block lg:mx-auto"
+              aria-label="Main navigation">
               <ul className="mt-0 flex items-center space-x-8 border-0 p-0">
                 {defaultNavigation.map((item, index) => (
                   <li key={index}>
@@ -286,14 +303,17 @@ export default function Navbar(props) {
                         pathname === item.href
                           ? "text-blue-700"
                           : "text-black dark:text-slate-200"
-                      } md:hover:bg-transparent md:dark:hover:bg-transparent md:dark:hover:text-blue-500`}>
+                      } md:hover:bg-transparent md:dark:hover:bg-transparent md:dark:hover:text-blue-500`}
+                      aria-current={
+                        pathname === item.href ? "page" : undefined
+                      }>
                       {item.name}
                     </Link>
                   </li>
                 ))}
-                <div className="relative">
+                <li>
                   <DropdownMenu>
-                    <DropdownMenuTrigger>
+                    <DropdownMenuTrigger aria-label="Open categories menu">
                       Categories
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
@@ -307,18 +327,19 @@ export default function Navbar(props) {
                       ))}
                     </DropdownMenuContent>
                   </DropdownMenu>
-                </div>
-                <button
-                  className="mr-[3px] inline-flex items-center justify-center rounded-lg p-2 p-2 text-sm font-semibold text-gray-800 focus:outline-none dark:text-slate-200"
-                  id="search"
-                  aria-label="Search"
-                  onClick={handleSearchClick}>
-                  <Search aria-hidden="true"/>
-                </button>
+                </li>
+                <li>
+                  <button
+                    className="mr-[3px] inline-flex items-center justify-center rounded-lg p-2 text-sm font-semibold text-gray-800 focus:outline-none dark:text-slate-200"
+                    onClick={handleSearchClick}
+                    aria-label="Open search">
+                    <Search aria-hidden="true" />
+                  </button>
+                </li>
               </ul>
-            </div>
-          </header>
-        </div>
+            </nav>
+          </div>
+        </header>
       </Sheet>
     </div>
   );

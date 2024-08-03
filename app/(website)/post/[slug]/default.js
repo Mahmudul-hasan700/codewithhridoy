@@ -19,6 +19,7 @@ export default function Post(props) {
   const router = useRouter();
   const currentUrl =
     typeof window !== "undefined" ? window.location.href : null;
+  console.log(currentUrl);
 
   const renderedComments = () => {
     const approvedComments = comments.filter(
